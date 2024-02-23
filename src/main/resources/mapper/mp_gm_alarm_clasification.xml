@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_alarm_clasification">
+
+    <select id="selectClaAlarma" parameterType="com.grupomovil.entity.EBGm_alarm_clasification"
+            resultType="com.grupomovil.entity.EBGm_alarm_clasification">
+        SELECT * FROM gm_alarm_clasification;
+    </select>
+    
+    <!-- Trae el nombre de la clasificación de la alarma dado su id -->
+    <select id="selectClaAlarmaNameById" parameterType="int"
+            resultType="String">
+        SELECT gm_ala_cla_nam FROM gm_alarm_clasification WHERE gm_ala_cla_id = #{gm_ala_cla_id};     
+    </select>
+    
+    <insert id="createClaAlarma" useGeneratedKeys="true" keyProperty="gm_ala_cla_id" keyColumn="gm_ala_cla_id"
+               parameterType="com.grupomovil.entity.EBGm_alarm_clasification">
+        INSERT INTO gm_alarm_clasification
+        gm_ala_cla_id, gm_ala_cla_dat, gm_ala_cla_nam, gm_ala_cla_des, usu_cre)
+        VALUES
+        (#{gm_ala_cla_id}, #{gm_ala_cla_dat}, #{gm_ala_cla_nam}, #{gm_ala_cla_des}, #{usu_cre})
+    </insert>
+    
+    <update id="editClaAlarma" parameterType="com.grupomovil.entity.EBGm_alarm_clasification">
+        UPDATE gm_alarm_clasification SET 
+         gm_ala_cla_dat = #{gm_ala_cla_dat}, 
+         gm_ala_cla_nam = #{gm_ala_cla_nam},
+         gm_ala_cla_des = #{gm_ala_cla_des},
+         usu_mod = #{usu_mod}
+        WHERE gm_ala_cla_id = #{gm_ala_cla_id}  
+    </update>
+    
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.mp_gm_ema_tmp">
+
+    <select id="selectTemplate" parameterType="com.grupomovil.entity.EBGm_ema_tmp"
+            resultType="com.grupomovil.entity.EBGm_ema_tmp">
+        SELECT * FROM gm_ema_tmp;
+    </select> 
+    
+    <select id="selectTemplateById" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_ema_tmp">
+        SELECT * FROM gm_ema_tmp WHERE ema_tmp_id = #{ema_tmp_id} 
+    </select> 
+   
+    <select id="selectDataTemplates" parameterType="com.grupomovil.entity.DataTemplates"
+            resultType="com.grupomovil.entity.DataTemplates">
+        SELECT * FROM selectDataTemplates;
+    </select>
+    
+    <select id="selectDataTemplatesByIdCol" parameterType="String"
+            resultType="com.grupomovil.entity.DataTemplates">
+        SELECT col_ide as userName, YEAR(col_bir) as passw, CURRENT_TIMESTAMP as currentDate, 
+                CONCAT(col_nam, ' ', col_sur) fullName, col_ema as email
+        FROM gm_col WHERE col_ide = #{col_ide};
+    </select>
+    
+    <insert id="createTemplate" useGeneratedKeys="true" keyProperty="ema_tmp_id" 
+            keyColumn="ema_tmp_id" parameterType="com.grupomovil.entity.DataTemplates">
+        insert into gm_ema_tmp
+        (usu_cre, ema_tmp_id, ema_tmp_nam, ema_tmp_fto)
+        values
+        (#{usu_cre},#{ ema_tmp_id},#{ema_tmp_nam},#{ema_tmp_fto})
+    </insert>
+    
+    <update id="editTemplate" parameterType="com.grupomovil.entity.EBGm_ema_tmp">
+        UPDATE gm_ema_tmp SET  
+        ema_tmp_nam = #{ema_tmp_nam},
+        ema_tmp_fto = #{ema_tmp_fto} 
+        WHERE ema_tmp_id = #{ema_tmp_id}  
+    </update>
+    
+</mapper>

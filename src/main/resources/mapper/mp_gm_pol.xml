@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_pol">
+    
+    <select id="listAllPolygons" parameterType="com.grupomovil.entity.EBGm_pol"
+        resultType="com.grupomovil.entity.EBGm_pol">
+        SELECT * FROM gm_polygon;
+    </select>
+    
+    <select id="getPolygon" parameterType="com.grupomovil.entity.EBGm_pol"
+        resultType="com.grupomovil.entity.EBGm_pol">
+        SELECT * FROM gm_polygon WHERE gm_pol_id = #{gm_pol_id};
+    </select>
+    
+    <!-- trae los registros o coordenadas que corresponden una zona -->
+    <select id="getPolygonByZone" parameterType="int"
+        resultType="com.grupomovil.entity.EBGm_pol">
+        SELECT * FROM gm_polygon WHERE gm_zon_id = #{gm_zon_id};
+    </select>
+    
+    <insert id="addPolygon" useGeneratedKeys="true" keyProperty="gm_pol_id" keyColumn="gm_pol_id"
+            parameterType="com.grupomovil.entity.EBGm_pol">
+        INSERT INTO gm_polygon (gm_pol_lat, gm_pol_lon, gm_pol_alt, gm_pol_rad, gm_zon_id)
+        VALUES(#{gm_pol_lat}, #{gm_pol_lon}, #{gm_pol_alt}, #{gm_pol_rad}, #{gm_zon_id})
+    </insert>
+    
+    <update id="updatePolygon" parameterType="com.grupomovil.entity.EBGm_pol">
+        UPDATE gm_polygon SET 
+        gm_pol_lat = #{gm_pol_lat},
+        gm_pol_lon = #{gm_pol_lon},
+        gm_pol_alt = #{gm_pol_alt},
+        gm_pol_rad = #{gm_pol_rad},
+        gm_zon_id = #{gm_zon_id}
+        WHERE gm_pol_id = #{gm_pol_id}
+    </update>
+    
+    <delete id="deletePolygon" parameterType="com.grupomovil.entity.EBGm_pol">
+        DELETE FROM gm_polygon WHERE gm_pol_id = #{gm_pol_id}
+    </delete>
+
+</mapper>

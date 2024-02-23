@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_ina_car">
+
+    <select id="selectInabilityCarry" parameterType="com.grupomovil.entity.EBGm_ina_car"
+            resultType="com.grupomovil.entity.EBGm_ina_car">
+        SELECT * FROM gm_ina_car ORDER BY ina_car_id DESC
+    </select>
+    
+    
+    <insert id="createInabilityCarry" useGeneratedKeys="true" keyProperty="ina_car_id" keyColumn="ina_car_id"
+               parameterType="com.grupomovil.entity.EBGm_ina_car">
+        insert into gm_ina_car
+        (ina_car_id, ina_car_dat_sta, ina_car_dat_end, col_id, ina_car_sta_id, usu_cre)
+        values
+        (#{ina_car_id}, #{ina_car_dat_sta}, #{ina_car_dat_end}, #{col_id}, #{ina_car_sta_id}, #{usu_cre})
+    </insert>
+    
+    <update id="editInabilityCarry" parameterType="com.grupomovil.entity.EBGm_ina_car">
+        UPDATE gm_ina_car SET 
+        ina_car_sta_id = #{ina_car_sta_id}
+        WHERE ina_car_id = #{ina_car_id}  
+    </update>
+    
+</mapper>

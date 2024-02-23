@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_EBWs_EntriesAndExits">
+    <select id="CounterEntriesAndExits" parameterType="com.grupomovil.entity.ws.EBWs_EntriesAndExits"
+            resultType="com.grupomovil.entity.ws.EBWs_EntriesAndExits">
+        select T1.disponibles, T2.totalentradas, T3.totalsalidas, (T1.disponibles-T3.totalsalidas+T2.totalentradas) as contador
+        from ((SELECT
+        count(id_vehiculo) as disponibles
+        FROM 
+        vehiculo v 
+        WHERE 
+        v.id_vehiculo_tipo_estado = 1 
+        AND v.id_gop_unidad_funcional = #{UF}
+        AND v.estado_reg = 0 ) T1, 
+        (select count(id_tp_control) as totalentradas from tp_control where creado BETWEEN #{fechainicio} AND #{fechafin} and tipo_evento=1) T2,
+        (select count(id_tp_control) as totalsalidas from tp_control where creado BETWEEN #{fechainicio} AND #{fechafin} and tipo_evento=0) T3);
+    </select>
+       
+</mapper>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC
+"-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+        <setting name="multipleResultSetsEnabled" value="false" />
+        <setting name="useColumnLabel" value="true" />
+        <setting name="useGeneratedKeys" value="false" />
+        <setting name="defaultExecutorType" value="SIMPLE" />
+        <setting name="defaultStatementTimeout" value="250" />
+        <setting name="localCacheScope" value="SESSION" />
+        <setting name="lazyLoadingEnabled" value="false" />
+    </settings>
+
+    <environments default="BD1">
+        
+        <!-- MyMovil BD - MySQL -->
+        <!-- <environment id="BD1">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://10.0.3.118:3306/test_mymovil?zeroDateTimeBehavior=convertToNull" />     
+                <property name="poolMaximumActiveConnections" value="50" />
+                <property name="poolMaximumIdleConnections" value="50" />
+                <property name="username" value="mymovil" />
+                <property name="password" value="Prueb432!0" />
+            </dataSource>   
+        </environment> -->
+        
+        <!-- MyMovil BD - MySQL -->
+        <environment id="BD1">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://10.0.3.118:3306/mymovil?zeroDateTimeBehavior=convertToNull" />
+                <property name="poolMaximumActiveConnections" value="50" />
+                <property name="poolMaximumIdleConnections" value="50" />
+                <property name="username" value="mymovil" />
+                <property name="password" value="Prueb432!0" />
+            </dataSource>
+        </environment>
+        
+        <!-- Kactus CNX - SQLSERVER -->
+        <environment id="BD2">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://10.0.3.63\RRHHMSSQL;databaseName=kactus"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="mymovil"/>
+                <property name="password" value="mYm0v1lzcxho"/>
+            </dataSource>
+        </environment>
+        
+        <!-- Kactus BMO - SQLSERVER -->
+        <environment id="BD3">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://10.0.3.63\RRHHMSSQL;databaseName=KactusBMO"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="mymovil"/>
+                <property name="password" value="mYm0v1lzcxho"/>
+            </dataSource>
+        </environment>
+        
+        <!-- Kactus GRM - SQLSERVER -->
+        <environment id="BD4">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://10.0.3.63\RRHHMSSQL;databaseName=KactusGrM"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="mymovil"/>
+                <property name="password" value="mYm0v1lzcxho"/>
+            </dataSource>
+        </environment>
+        
+        <!-- GEO - SQLSERVER -->
+        <environment id="BD5">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://10.0.3.93:3306/bmo_geo_api?characterEncoding=utf8"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="geo_user"/>
+                <property name="password" value="GeoGM-*/2021"/>
+            </dataSource>
+        </environment>
+        
+        <!-- RIGEL - SQLSERVER -->
+        <environment id="BD6">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://10.0.3.138:3306/rgmo?characterEncoding=utf8"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="geo"/>
+                <property name="password" value=".*G3o$2022--*GRM"/>
+            </dataSource>
+        </environment>
+
+        <!-- Maximo GRM - SQLSERVER -->
+        <environment id="BD7">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://10.0.3.58\MANTENIMIENTOSQL;databaseName=GRMAXPR"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="grnpservices"/>
+                <property name="password" value="GrMser*2205"/>
+            </dataSource>
+        </environment>
+    
+        <!-- RIGEL - Novedades -->
+        <environment id="BD8">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://10.0.3.138:3306/rgmo?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=utf8" />
+                <property name="poolMaximumActiveConnections" value="50" />
+                <property name="poolMaximumIdleConnections" value="50" />
+                <property name="username" value="operaciones_bi" />
+                <property name="password" value="R1g3L,,2212" />
+            </dataSource>   
+        </environment>
+        
+        <!-- Scada - MySQL -->
+        <environment id="BD9">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://10.0.3.93:3306/gm_scadata?characterEncoding=utf8" />
+                <property name="poolMaximumActiveConnections" value="50" />
+                <property name="poolMaximumIdleConnections" value="50" />
+                <property name="username" value="geouser" />
+                <property name="password" value="G3o.2022" />
+            </dataSource>   
+        </environment>
+    
+        <!-- ZKTECO - SQL -->
+        <environment id="BD10">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://KATMANDU\GESTIONMSSQL;databaseName=zkteco"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="zkadmin"/>
+                <property name="password" value="Zk.4dm1n-2207"/>
+            </dataSource>
+        </environment>
+        
+        <environment id="BD11">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://10.0.3.138:3306/rgmo?characterEncoding=utf8" />
+                <property name="poolMaximumActiveConnections" value="50" />
+                <property name="poolMaximumIdleConnections" value="50" />
+                <property name="username" value="soportetics" />
+                <property name="password" value="R1g3L..2209" />
+            </dataSource>   
+        </environment>
+        
+        <environment id="BD12">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://10.0.3.62\GESTIONMSSQL;databaseName=zkteco"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="zkadmin"/>
+                <property name="password" value="Zk.4dm1n-2207"/>
+            </dataSource>
+        </environment>
+        
+        <!-- RIGEL - BDPRUEBAS -->
+        <environment id="BD13">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://10.0.3.111:3306/rgmo?characterEncoding=utf8"/>
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="username" value="green_mymovil"/>
+                <property name="password" value=".*Rigel2022//"/>
+            </dataSource>
+        </environment>
+        
+    </environments>
+    
+    <mappers>
+        
+        <mapper resource="mapper/mp_gm_asi_men.xml"/> <!-- Asignación menús -->
+        <mapper resource="mapper/mp_gm_cco.xml"/>
+        <mapper resource="mapper/mp_gm_col.xml"/>     
+        <mapper resource="mapper/mp_gm_col_pos.xml"/>
+        <mapper resource="mapper/mp_gm_com.xml"/>
+        <mapper resource="mapper/mp_gm_ema_tmp.xml"/>  
+        <mapper resource="mapper/mp_gm_ema_pro.xml"/> 
+        <mapper resource="mapper/mp_gm_men.xml"/>      <!-- Menús -->
+        <mapper resource="mapper/mp_gm_par_sys.xml"/>
+        <mapper resource="mapper/mp_gm_use_com.xml"/>  <!-- Usuario app -->
+        <mapper resource="mapper/mp_gm_use_pla.xml"/>  <!-- Usuario plataforma -->
+        <mapper resource="mapper/mp_kac_car.xml"/>
+        <mapper resource="mapper/mp_kac_cco.xml"/>
+        <mapper resource="mapper/mp_kac_col.xml"/>
+        <mapper resource="mapper/mp_kac_vac.xml"/>
+        <mapper resource="mapper/mp_gm_vac_day_wov.xml"/>
+        <mapper resource="mapper/mp_gm_vac_per.xml"/>
+        <mapper resource="mapper/mp_gm_req.xml"/>
+        <mapper resource="mapper/mp_gm_req_sta.xml"/>
+        <mapper resource="mapper/mp_gm_req_ans.xml"/>
+        <mapper resource="mapper/mp_gm_req_att.xml"/>
+        <mapper resource="mapper/mp_gm_ina_att.xml"/>
+        <mapper resource="mapper/mp_gm_ina_car.xml"/>
+        <mapper resource="mapper/mp_gm_col_doc.xml"/>
+        <mapper resource="mapper/mp_kac_emp_doc.xml"/>        
+        <mapper resource="mapper/mp_rigel.xml"/>        
+        
+        <!-- MAPPERS INTRANET -->
+        <mapper resource="mapper/mp_gm_int_ban.xml"/>     <!-- Banner -->
+        <mapper resource="mapper/mp_gm_int_cat.xml"/>     <!-- Categoria -->
+        <mapper resource="mapper/mp_gm_int_dis_gro.xml"/> <!-- Grupos de Distribución -->
+        <mapper resource="mapper/mp_gm_int_dis_lis.xml"/> <!-- Listas de Distribución -->
+        <mapper resource="mapper/mp_gm_int_news.xml"/>    <!-- Noticias -->
+        <mapper resource="mapper/mp_gm_int_ima.xml"/>     <!-- Imagen -->
+        
+        <!-- MAPPERS WEBSERVICES -->
+        <mapper resource="mapper/mp_gm_sta_pol.xml"/>
+        <!-- MAPPERS GEO -->
+        <mapper resource="mapper/mp_gm_geo_map.xml"/>
+        <!-- MAPPERS RIGEL -->
+        <mapper resource="mapper/mp_gm_geo_rigel.xml"/>
+        <mapper resource="mapper/mp_rigel_novedad.xml"/>
+        
+        <!-- MAPPERS SOLICITUDES -->
+        <mapper resource="mapper/mp_gm_req_are.xml"/>
+        <mapper resource="mapper/mp_gm_req_are_con.xml"/>        <!-- Configuración solicitud por área -->
+        <mapper resource="mapper/mp_gm_req_are_rea.xml"/>        <!-- Motivo solicitud por área-->
+        <mapper resource="mapper/mp_gm_req_are_rel_typ_rea.xml"/><!-- Relación tipo & motivo solicitud por área -->
+        <mapper resource="mapper/mp_gm_req_are_typ.xml"/>        <!-- Tipo de solicitud por área -->
+        <mapper resource="mapper/mp_gm_req_con.xml"/>            <!-- Configuración solicitud -->
+        <mapper resource="mapper/mp_gm_req_rea.xml"/>            <!-- Motivo solicitud -->
+        <mapper resource="mapper/mp_gm_req_rel_typ_rea.xml"/>    <!-- Relación tipo & motivo solicitud -->
+        <mapper resource="mapper/mp_gm_req_typ.xml"/>            <!-- Tipo de solicitud -->      
+        
+        <!-- MAPPERS GEOMAP -->
+        <mapper resource="mapper/mp_gm_alarm.xml"/>                     <!-- Alarmas -->
+        <mapper resource="mapper/mp_gm_alarm_clasification.xml"/>       <!-- Alarmas Clasificación -->
+        <mapper resource="mapper/mp_gm_alarm_level.xml"/>               <!-- Alarmas Nivel -->
+        <mapper resource="mapper/mp_gm_alarm_parametrization.xml"/>     <!-- Alarmas Parametrización -->
+        <mapper resource="mapper/mp_gm_pol.xml"/>                       <!-- Poligonos -->
+        <mapper resource="mapper/mp_gm_var.xml"/>                       <!-- Alarmas Variables -->
+        <mapper resource="mapper/mp_gm_var_ran.xml"/>                   <!-- Alarmas Variables rango -->
+        <mapper resource="mapper/mp_gm_zon.xml"/>                       <!-- Zonas -->
+        <mapper resource="mapper/mp_gm_zon_par.xml"/>                   <!-- Zonas parametrización -->
+        <mapper resource="mapper/mp_gm_loc_veh.xml"/> 
+        <mapper resource="mapper/mp_gm_polygon.xml"/>  
+        <mapper resource="mapper/mp_gm_zone.xml"/>  
+        <mapper resource="mapper/mp_gm_zone_parametrization.xml"/> 
+        
+        <mapper resource="mapper/mp_assetmeter.xml"/>  
+        
+        <mapper resource="mapper/mp_gm_emp_park.xml"/>  <!-- Parking--> 
+                
+        <mapper resource="mapper/mp_gm_emp_new_park.xml"/>  <!-- Parking --> 
+        <mapper resource="mapper/mp_gm_loc_veh_park.xml"/> <!-- Parking --> 
+        <mapper resource="mapper/mp_gm_est_typ.xml"/>   <!-- Tipos de Estado --> 
+        
+        <!-- Indicadores Sostenibilidad -->
+        <mapper resource="mapper/mp_gm_sos_mat.xml"/>       <!-- Matriz Sostenibilidad --> 
+        <mapper resource="mapper/mp_gm_cco_sos_mat.xml"/>   <!-- Centro de costos Matriz Sostenibilidad --> 
+        <mapper resource="mapper/mp_gm_sos_est.xml"/>       <!-- Estrategia --> 
+        <mapper resource="mapper/mp_gm_sos_estado.xml"/>    <!-- Estado --> 
+        <mapper resource="mapper/mp_gm_sos_fre.xml"/>       <!-- Frecuencia --> 
+        <mapper resource="mapper/mp_gm_sos_cla.xml"/>       <!-- Clasificación --> 
+        <mapper resource="mapper/mp_gm_sos_act.xml"/>       <!-- Actividad --> 
+        <mapper resource="mapper/mp_gm_sos_pro.xml"/>       <!-- Proceso --> 
+        <mapper resource="mapper/mp_gm_sos_ind.xml"/>       <!-- Indicador --> 
+        <mapper resource="mapper/mp_gm_sos_obj.xml"/>       <!-- Objetivo --> 
+        <mapper resource="mapper/mp_gm_sos_seg_ind.xml"/>   <!-- Seguimiento Indicadores --> 
+        <mapper resource="mapper/mp_gm_sos_var.xml"/>       <!-- Variables Indicadores --> 
+        
+        <!-- Homologaciones -->
+        <mapper resource="mapper/mp_gm_req_typ_hom.xml"/> <!-- tipo de solicitudes -->
+        
+        <!-- Scada -->
+        <mapper resource="mapper/mp_data_scada.xml"/>
+        
+        <!-- MAPPERS KACTUS -->
+        <mapper resource="mapper/mp_kac_inca.xml"/> <!-- Incapacidades -->
+        
+        <mapper resource="mapper/mp_EntityInfoGreen.xml"/> <!-- -->
+        <mapper resource="mapper/mp_EBWs_EntriesAndExits.xml"/> 
+        
+        <mapper resource="mapper/mp_gm_clap.xml"/>
+        <mapper resource="mapper/mp_bio.xml"/>
+        
+        <!--Biometricos-->
+        <mapper resource="mapper/mp_kactus.xml"/>
+        <mapper resource="mapper/mp_acc_timeseg.xml"/>
+        <mapper resource="mapper/mp_acc_level.xml"/>
+        <mapper resource="mapper/mp_gm_log_bio.xml"/>
+        <mapper resource="mapper/mp_wor_day.xml"/>
+        <!--Vacaciones-->
+        <mapper resource="mapper/mp_gm_his_cap.xml"/>
+        <mapper resource="mapper/mp_gm_his_cap_tip.xml"/>
+    </mappers>
+    
+</configuration>

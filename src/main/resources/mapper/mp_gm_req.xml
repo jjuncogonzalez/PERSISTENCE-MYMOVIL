@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req">
+
+    <select id="selectRequests" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="com.grupomovil.entity.EBGm_req">
+        SELECT * FROM selectRequest
+        <where>
+            <if test="initialRequests == 1">
+                AND req_dat >= #{dateRequest}
+            </if>   
+            <if test="com_id != null and com_id != 0">
+                AND com_id = #{com_id}
+            </if>
+            <if test="initialHistory == 1">
+                AND col_id = #{col_id}
+            </if>
+            AND req_sta_id != 5
+        </where>
+        ORDER BY req_id DESC
+    </select>
+    
+    <select id="selectRequestsWs" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="com.grupomovil.entity.EBGm_req">
+        SELECT * FROM selectRequest
+        <where>
+            col_cod = #{col_cod}
+            <if test="req_sta_id == 1">
+                AND req_sta_id IN (1,4)
+            </if>   
+            <if test="req_sta_id == 2">
+                AND req_sta_id = 2
+            </if>
+            <if test="req_sta_id == 3">
+                AND req_sta_id = 3
+            </if>
+        </where>
+        ORDER BY dat_cre DESC LIMIT 4;
+    </select>
+    
+    <select id="selectReqRecords" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="com.grupomovil.entity.EBGm_req">
+        SELECT * FROM selectReqRecord 
+        WHERE col_id = #{col_id};
+    </select>
+    
+    <select id="selectRequestsCount" parameterType="int"
+            resultType="int">
+        SELECT count(*) FROM selectRequest
+        WHERE req_sta_id = #{value};
+    </select>
+        
+    <select id="selectRequestsCountColaborator" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="int">
+        SELECT count(*) FROM gm_req 
+        WHERE month(req_dat) = #{month}
+        AND YEAR(req_dat) = #{year}
+        AND col_id = #{col_id}
+        AND req_sta_id = 2;
+    </select>
+    
+    <select id="selectRequestsCountGeneral" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="int">
+        SELECT count(*) FROM gm_req 
+        WHERE month(req_dat) = #{month}
+        AND YEAR(req_dat) = #{year}
+        AND req_sta_id = 2;
+    </select>
+    
+    <select id="selectRequestsCountTypeColaborator" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="int">
+        SELECT count(*) FROM gm_req 
+        WHERE month(req_dat) = #{month}
+        AND YEAR(req_dat) = #{year}
+        AND col_id = #{col_id}
+        AND req_typ_id = #{req_typ_id}
+        AND req_sta_id = 2;
+    </select>
+    
+    <select id="selectRequestsCountType" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="int">
+        SELECT req_max FROM gm_req_typ WHERE req_typ_id = #{req_typ_id};
+    </select>
+    
+    <select id="selectRequestsTypeWs" parameterType="com.grupomovil.entity.EBGm_req_typ"
+            resultType="com.grupomovil.entity.EBGm_req_typ">
+        SELECT * FROM gm_req_typ WHERE com_id = #{com_id} AND req_col = 1;
+    </select>
+    
+    <select id="selectgmReqReaPerson" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_req_rea">
+
+        SELECT  r.req_rea_id, r.req_typ_id, m.req_rea_nam
+        FROM gm_req_rel_typ_rea r
+        JOIN gm_req_rea m ON r.req_rea_id = m.req_rea_id
+        WHERE r.req_typ_id = #{req_typ_id};
+    </select>
+    
+    <select id="selectReqRepeated" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="com.grupomovil.entity.EBGm_req">
+        SELECT * FROM gm_req 
+        WHERE req_dat = #{req_dat}
+        AND col_id = #{col_id}
+        AND req_sta_id != 5
+    </select>
+        
+    <select id="selectReqRep" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="com.grupomovil.entity.EBGm_req">
+        SELECT * FROM gm_req 
+        WHERE req_dat = #{req_dat}
+        AND col_id = #{col_id}
+        AND req_typ_id = #{req_typ_id}
+        AND req_sta_id = 4
+        AND dat_cre between #{dateStartRequest} and #{dateEndRequest}
+    </select>
+    
+    <!-- Busca el registro que coincide con los campos dados -->
+    <select id="finReq" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="com.grupomovil.entity.EBGm_req">
+        SELECT * FROM gm_req r
+        LEFT JOIN gm_col c ON r.col_id = c.col_id
+        WHERE c.col_cod = #{col_cod} 
+        AND req_dat = #{req_dat}
+        AND req_dat_end = #{req_dat_end} 
+        AND req_typ_id = #{req_typ_id}
+        AND req_rea_id = #{req_rea_id}
+    </select>
+        
+    <insert id="createRequests" useGeneratedKeys="true" keyProperty="req_id" keyColumn="req_id"
+            parameterType="com.grupomovil.entity.EBGm_req">
+        insert into gm_req
+        (req_id, req_cod, req_sta_id, req_hou_sta, req_hou_end, req_dat, req_dat_end, col_id, com_id,
+        req_rea_id, req_typ_id, req_obs, req_att, req_req, req_bre_zon, req_vie, usu_cre)
+        values
+        (#{req_id}, #{req_cod}, #{req_sta_id}, #{req_hou_sta}, #{req_hou_end}, #{req_dat}, #{req_dat_end}, #{col_id}, #{com_id},
+        #{req_rea_id},#{req_typ_id}, #{req_obs}, #{req_att}, #{req_req}, #{req_bre_zon}, #{req_vie}, #{usu_cre})
+    </insert>
+        
+    <update id="editGuidRequests" parameterType="com.grupomovil.entity.EBGm_req"> 
+        UPDATE gm_req SET 
+        req_cod = #{req_cod}
+        WHERE req_id = #{req_id}  
+    </update> 
+    
+    <update id="editStatusRequests" parameterType="com.grupomovil.entity.EBGm_req">
+        UPDATE gm_req SET 
+        req_sta_id = #{req_sta_id},
+        usu_mod = #{usu_mod},
+        req_sen = #{req_sen}  
+        WHERE req_id = #{req_id}  
+    </update>
+    
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_ema_pro">
+
+    <select id="selectEmailProcess" parameterType="com.grupomovil.entity.EBGm_ema_pro"
+            resultType="com.grupomovil.entity.EBGm_ema_pro">
+        SELECT * FROM gm_ema_pro;
+    </select>
+    
+     <select id="selectEmailProcessById" parameterType="com.grupomovil.entity.EBGm_ema_pro"
+            resultType="com.grupomovil.entity.EBGm_ema_pro">
+        SELECT * FROM gm_ema_pro WHERE ema_pro_id = #{ema_pro_id} 
+    </select>
+    
+    <insert id="createEmailProcess" useGeneratedKeys="true" keyProperty="ema_pro_id" keyColumn="ema_pro_id"
+               parameterType="com.grupomovil.entity.EBGm_com">
+        insert into gm_rema_pro
+        (ema_pro_nam, ema_pro_sta, ema_tmp_id, usu_cre)
+        values
+        (#{ema_pro_nam}, #{ema_pro_sta}, #{com_ini}, #{usu_cre})
+    </insert>
+    
+    <update id="editEmailProcess" parameterType="com.grupomovil.entity.EBGm_ema_pro">
+        UPDATE gm_ema_pro SET 
+        ema_pro_nam = #{ema_pro_nam}, 
+        ema_pro_sta = #{ema_pro_sta},
+        ema_tmp_id = #{ema_tmp_id},
+        usu_mod = #{usu_mod}
+        WHERE com_id = #{com_id}  
+    </update>
+    
+</mapper>

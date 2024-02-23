@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_vac_per">
+
+    <select id="selectGmVacPer" parameterType="com.grupomovil.entity.EBGm_vac_per"
+            resultType="com.grupomovil.entity.EBGm_vac_per">
+        
+        SELECT * FROM gm_vac_per;
+        
+    </select>
+    
+    <insert id="createGmVacPer" useGeneratedKeys="true" keyProperty="vac_per_id" keyColumn="vac_per_id"
+            parameterType="com.grupomovil.entity.EBGm_vac_per">
+        
+        insert into gm_vac_per
+        (vac_per_id, vac_per_ini_dat, vac_per_fin_dat, vac_per_qua, vac_per_des, usu_cre)
+        values
+        (#{vac_per_id}, #{vac_per_ini_dat}, #{vac_per_fin_dat}, #{vac_per_qua}, #{vac_per_des}, #{usu_cre})
+        
+    </insert>
+    
+    <update id="editGmVacPer" parameterType="com.grupomovil.entity.EBGm_vac_per">
+        
+        UPDATE gm_vac_per SET 
+        vac_per_ini_dat = #{vac_per_ini_dat},
+        vac_per_fin_dat = #{vac_per_fin_dat},
+        vac_per_qua = #{vac_per_qua},
+        vac_per_des = #{vac_per_des},
+        usu_mod = #{usu_mod}
+        WHERE vac_per_id = #{vac_per_id}  
+        
+    </update>
+
+    
+</mapper>

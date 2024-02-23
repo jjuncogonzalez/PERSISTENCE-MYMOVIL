@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_int_news">
+
+    <select id="selectNews" parameterType="com.grupomovil.entity.EBGm_int_news"
+            resultType="com.grupomovil.entity.EBGm_int_news">
+        SELECT * FROM gm_int_news;     
+    </select>
+    
+    <select id="selectNewsById" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_int_news">
+        SELECT * FROM gm_int_news WHERE news_id = #{news_id}  
+    </select>
+    
+    <!-- trae los N registros finales de la tabla-->
+    <select id="selectLastNNews" parameterType="com.grupomovil.entity.EBGm_int_news"
+            resultType="com.grupomovil.entity.EBGm_int_news">
+        SELECT * FROM findLastNNews ORDER BY news_id ASC
+        <if test="nRegistries != 0" >
+            LIMIT = #{nRegistries}
+        </if>
+    </select>
+    
+    <insert id="createNews" useGeneratedKeys="true" keyProperty="news_id" keyColumn="news_id"
+               parameterType="com.grupomovil.entity.EBGm_int_news">
+        insert into gm_int_news
+        (news_tit, news_tex, news_ima, news_tmp, news_fec_ini, news_fec_fin, cat_id, ima_id,
+         news_vis, lis_dis_id, usu_cre)
+        values
+        (#{news_tit}, #{news_tex}, #{news_ima}, #{news_tmp}, #{news_fec_ini}, 
+         #{news_fec_fin}, #{cat_id}, #{ima_id}, #{news_vis}, #{lis_dis_id}, #{usu_cre})
+    </insert>
+    
+    <update id="editNews" parameterType="com.grupomovil.entity.EBGm_int_news">
+        UPDATE gm_int_news SET 
+        news_ima=#{news_ima}, news_tit=#{news_tit}, news_tex=#{news_tex}, news_tmp=#{news_tmp}, 
+         news_fec_ini=#{news_fec_ini}, news_fec_fin=#{news_fec_fin}, cat_id=#{cat_id}, ima_id=#{ima_id}, 
+         news_vis=#{news_vis}, lis_dis_id=#{lis_dis_id}, dat_mod=#{dat_mod}, usu_mod=#{usu_mod}
+        WHERE news_id = #{news_id}  
+    </update>
+    
+</mapper>

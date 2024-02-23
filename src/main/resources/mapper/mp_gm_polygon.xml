@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_polygon">
+
+    <!-- Buscar todos los registros de la tabla -->
+    <select id="selectPolygon" parameterType="com.grupomovil.entity.EBGm_polygon"
+            resultType="com.grupomovil.entity.EBGm_polygon">
+        SELECT * FROM gm_polygon;
+    </select>
+   
+    <insert id="createPolygon" useGeneratedKeys="true" keyProperty="gm_pol_id" keyColumn="gm_pol_id"
+            parameterType="com.grupomovil.entity.EBGm_polygon">
+        insert into gm_polygon
+        (gm_pol_id, gm_pol_dat, gm_pol_lat, gm_pol_lon, gm_pol_alt, gm_pol_rad, gm_zon_id)
+        values
+        (#{gm_pol_id}, #{gm_pol_dat}, #{gm_pol_lat}, #{gm_pol_lon}, #{gm_pol_alt}, #{gm_pol_rad}, #{gm_zon_id})
+    </insert>
+
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_typ">
+
+    <!-- Buscar todos los registros de la tabla -->
+    <select id="selectReqTyp" parameterType="com.grupomovil.entity.EBGm_req_typ"
+            resultType="com.grupomovil.entity.EBGm_req_typ">
+        SELECT * FROM gm_req_typ;
+    </select>
+    
+    <!-- Buscar tipo de solicitud por compañía -->
+    <select id="selectReqTypByComId" parameterType="com.grupomovil.entity.EBGm_req_typ"
+            resultType="com.grupomovil.entity.EBGm_req_typ">
+        SELECT * FROM gm_req_typ WHERE com_id = #{com_id};
+    </select>
+       
+    <!-- Buscar tipo de solicitud por nombre -->
+    <select id="selectReqTypByName" parameterType="com.grupomovil.entity.EBGm_req_typ"
+            resultType="com.grupomovil.entity.EBGm_req_typ">
+        SELECT * FROM gm_req_typ WHERE req_typ_nam = #{req_typ_nam};
+    </select>
+    
+    <!-- Buscar tipo de solicitud por id -->
+    <select id="selectReqTypById" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_req_typ">
+        SELECT * FROM gm_req_typ WHERE req_typ_id = #{value};
+    </select>
+    
+    <!-- Buscar tipos de solicitudes para colaboradores o para administrativos, 
+        teniendo presente el id de la compañía de la persona que hace la consulta -->
+    <select id="selectReqTypByReqCol" parameterType="com.grupomovil.entity.EBGm_req_typ"
+            resultType="com.grupomovil.entity.EBGm_req_typ">
+        SELECT * FROM gm_req_typ WHERE req_col = #{req_col} AND com_id = #{com_id};
+    </select>
+    
+    <!-- Buscar tipos de solicitudes para colaboradores o para administrativos, 
+        teniendo presente id del área de la compañía de la persona que hace la consulta -->
+    <select id="selectReqTypByCcoCol" parameterType="com.grupomovil.entity.EBGm_req_typ"
+            resultType="com.grupomovil.entity.EBGm_req_typ">
+        SELECT * FROM gm_req_typ WHERE req_col = #{req_col} AND com_id = #{com_id};
+    </select>
+    
+    <!-- Traer valor de req_col para el id dado -->
+    <select id="selectReqColByIdTyp" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_req_typ">
+        SELECT req_col FROM gm_req_typ WHERE req_typ_id = #{value};
+    </select>
+    
+    <!-- trae el ID de las noticias que tienen asociado el id de la categoria -->
+    <select id="selectReqReaWithThisReqTyp" parameterType="com.grupomovil.entity.EBGm_req_typ" 
+            resultType="int">
+        SELECT req_rea_id FROM gm_req_rel_typ_rea WHERE req_typ_id = #{req_typ_id};     
+    </select>
+    
+    <insert id="createReqTyp" useGeneratedKeys="true" keyProperty="req_typ_id" keyColumn="req_typ_id"
+               parameterType="com.grupomovil.entity.EBGm_req_typ">
+        INSERT INTO gm_req_typ
+        (req_typ_id, req_typ_nam, req_typ_sta, req_hou, req_dat_end, com_id, 
+         req_col, req_max, usu_cre)
+        VALUES
+        (#{req_typ_id}, #{req_typ_nam}, #{req_typ_sta}, #{req_hou}, #{req_dat_end}, 
+         #{com_id}, #{req_col}, #{req_max}, #{usu_cre})
+    </insert>
+    
+    <update id="editReqTyp" parameterType="com.grupomovil.entity.EBGm_req_typ">
+        UPDATE gm_req_typ SET 
+        req_typ_nam = #{req_typ_nam}, 
+        req_typ_sta = #{req_typ_sta}, 
+        req_hou = #{req_hou}, 
+        req_dat_end = #{req_dat_end}, 
+        req_max = #{req_max},
+        com_id = #{com_id}, 
+        req_col = #{req_col}, 
+        usu_mod = #{usu_mod}
+        WHERE req_typ_id = #{req_typ_id}  
+    </update>
+   
+    <!-- Eliminar un registro dado el identificador de la tabla -->
+    <delete id="deleteReqTyp" parameterType="com.grupomovil.entity.EBGm_req_typ">
+        DELETE FROM gm_req_typ WHERE req_typ_id = #{req_typ_id}
+    </delete>
+    
+</mapper>

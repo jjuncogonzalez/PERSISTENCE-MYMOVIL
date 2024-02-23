@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_rigel_novedad">
+    
+    <select id="findRigelNovedades" parameterType="com.grupomovil.entity.ws.EBWs_FilterRigelNovedades"
+            resultType="com.grupomovil.entity.ws.EBWs_RigelNovedad">
+        SELECT nov.id_novedad,
+               nov.fecha,
+               nov.id_gop_unidad_funcional,
+               unf.nombre as empresa,
+               emp.identificacion,
+               emp.codigo_tm,
+               emp.apellidos,
+               emp.nombres,
+               nov.desde,
+               nov.hasta,
+               timestampdiff(DAY, nov.desde, nov.hasta) AS dias,
+               nov.puntos_pm ,
+               nov.puntos_pm_conciliados,
+               nov.id_novedad_tipo_detalle,
+               det.titulo_tipo_novedad,
+               det.descripcion_tipo_novedad,
+               nov.procede,
+               nov.observaciones
+        FROM novedad as nov
+        LEFT JOIN empleado as emp on nov.id_empleado = emp.id_empleado
+        LEFT JOIN gop_unidad_funcional as unf on nov.id_gop_unidad_funcional = unf.id_gop_unidad_funcional
+        LEFT JOIN novedad_tipo_detalles as det  on nov.id_novedad_tipo_detalle = det.id_novedad_tipo_detalle
+        <where> 
+            nov.id_novedad_tipo = 1
+            AND nov.id_novedad_tipo_detalle in (7,8,9,10,11,12,13,14,15,16,22,24,77,78,79,80,81,6)
+            AND nov.procede = 1
+            AND nov.fecha between #{dat_ini} and #{dat_fin}
+            <if test="uni_fun != 0">
+                AND nov.id_gop_unidad_funcional = #{uni_fun}
+            </if>
+            <if test="id_ope != null">
+                AND emp.codigo_tm = #{id_ope}
+            </if>
+            <if test="aus_dia != null">
+                AND nov.fecha = #{aus_dia}
+            </if>
+            <if test="con_dia != null">
+                AND nov.fecha = #{con_dia}
+            </if>
+        </where>
+    </select>
+
+</mapper>
+

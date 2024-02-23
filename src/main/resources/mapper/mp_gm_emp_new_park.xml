@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_emp_new_park">
+
+    <update id="updateNewVehicle" parameterType="com.grupomovil.entity.EBGm_emp_new_park">
+        UPDATE gm_per_new_park SET
+         veh_park_ide = #{veh_park_ide},
+         veh_park_veh_typ = #{veh_park_veh_typ},
+         veh_park_mar = #{veh_park_mar},
+         veh_park_mod = #{veh_park_mod},
+        veh_park_col = #{veh_park_col},
+        veh_park_pla = #{veh_park_pla},
+        veh_status=  #{veh_status}
+        WHERE veh_park_id = #{veh_park_id}
+    </update>
+    
+
+    <insert id="insertNewVehicle" useGeneratedKeys="true" 
+            parameterType="com.grupomovil.entity.EBGm_emp_new_park"> 
+        
+        INSERT INTO gm_per_new_park
+        ( veh_park_id,	 veh_park_ide,	 veh_park_veh_typ,	 veh_park_mar,	 veh_park_mod,	 veh_park_col,	 veh_park_pla,	 dat_cre,	 usu_cre,	 dat_mod,	 usu_mod,	 veh_status
+)
+        VALUES
+                (#{veh_park_id},	#{ veh_park_ide},	#{ veh_park_veh_typ},	#{ veh_park_mar},	#{ veh_park_mod},	#{ veh_park_col},	#{ veh_park_pla},	#{ dat_cre},	#{ usu_cre},	#{ dat_mod},	#{ usu_mod},	#{veh_status}
+)
+    
+    </insert>
+        
+    <select id="selectNewVehicle" parameterType="com.grupomovil.entity.EBGm_emp_new_park"
+            resultType="com.grupomovil.entity.EBGm_emp_new_park">    
+       SELECT * FROM gm_per_new_park
+        where veh_park_pla =#{veh_park_pla};
+    </select>
+       
+       <select id="selectPersonalParkingUnity" parameterType="com.grupomovil.entity.EBGm_emp_new_park"
+            resultType="com.grupomovil.entity.EBGm_emp_new_park">    
+       SELECT * FROM gm_per_new_park
+        where veh_park_pla =#{veh_park_pla};
+    </select>
+    
+</mapper>

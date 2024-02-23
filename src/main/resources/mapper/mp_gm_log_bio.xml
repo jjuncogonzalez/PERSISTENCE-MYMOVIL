@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_log_bio">
+    
+    <insert id="createLogErrorBiometrico" useGeneratedKeys="true" keyProperty="log_bio_id" keyColumn="log_bio_id"
+            parameterType="com.grupomovil.entity.biometricos.EBGm_log_bio">
+        insert into gm_log_bio
+        (log_bio_id, log_bio_tok, log_bio_ide, log_bio_men, log_bio_suc, log_bio_pho)
+        values
+        (#{log_bio_id}, #{log_bio_tok},  #{log_bio_ide}, #{log_bio_men}, #{log_bio_suc}, #{log_bio_pho})
+    </insert>
+    
+</mapper>

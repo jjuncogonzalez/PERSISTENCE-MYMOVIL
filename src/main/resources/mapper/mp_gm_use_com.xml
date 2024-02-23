@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_use_com">
+
+    <select id="selectUserCom" parameterType="com.grupomovil.entity.EBGm_use_com"
+            resultType="com.grupomovil.entity.EBGm_use_com">
+        SELECT * FROM gm_use_com;
+    </select>
+
+    <select id="selectUserComByIdCol" parameterType="com.grupomovil.entity.EBGm_use_com"
+            resultType="com.grupomovil.entity.EBGm_use_com">
+        SELECT * FROM gm_use_com 
+        WHERE col_id = #{col_id};
+    </select>
+    
+    <select id="selectUserComByIde" parameterType="com.grupomovil.entity.EBGm_use_com"
+            resultType="com.grupomovil.entity.EBGm_use_com">
+        SELECT * FROM gm_use_com 
+        WHERE use_com_use = #{use_com_use};
+    </select>
+    
+    <select id="selectUserComByIdeandPass" parameterType="com.grupomovil.entity.EBGm_use_com"
+            resultType="com.grupomovil.entity.ws.EBWs_Login">
+        SELECT us.use_com_id, us.use_com_nam, co.col_cod, us.use_com_use, us.use_com_sta, us.com_id, us.rig_id AS rig_id, us.rol_id, us.uf_id AS idUF  FROM gm_use_com us
+        INNER JOIN gm_col co ON us.col_id = co.col_id WHERE us.use_com_use = #{use_com_use} and us.use_com_pas = #{use_com_pas} and us.com_id = #{com_id};
+    </select>
+    
+    <select id="selectUserComByIdeandQr" parameterType="com.grupomovil.entity.EBGm_use_com"
+            resultType="com.grupomovil.entity.ws.EBWs_Login">
+        SELECT us.use_com_id, us.use_com_nam, co.col_cod, us.use_com_use, us.use_com_sta, us.com_id, us.rig_id AS rig_id, us.rol_id FROM gm_use_com us
+        INNER JOIN gm_col co ON us.col_id = co.col_id WHERE us.use_com_use = #{use_com_use} and us.com_id = #{com_id};
+    </select>
+    
+    <select id="selectDataCreateUserCommon" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_use_com">
+        select * from selectDataCreateUserCommon  where col_id = #{col_id};
+    </select>
+    
+    <select id="selectUserComByCompany" parameterType="com.grupomovil.entity.EBGm_use_com"
+            resultType="com.grupomovil.entity.EBGm_use_com">
+        SELECT * FROM gm_use_com WHERE com_id = #{com_id}  
+    </select>
+        
+    <select id="selectUserComByUserName" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_use_com">
+        SELECT * FROM gm_use_com WHERE use_com_use = #{use_com_use}  
+    </select>
+    
+    <select id="selectUserComByIdeandCom" parameterType="com.grupomovil.entity.EBGm_use_com"
+            resultType="com.grupomovil.entity.ws.EBWs_Login">
+        SELECT us.use_com_id, us.use_com_nam, co.col_cod, us.use_com_use,us.use_com_pas, us.use_com_sta, us.com_id, us.rig_id AS rig_id, us.rol_id, us.uf_id AS idUF FROM gm_use_com us
+        INNER JOIN gm_col co ON us.col_id = co.col_id WHERE us.use_com_use = #{use_com_use} and us.com_id = #{com_id};
+    </select>
+    
+    <insert id="createUserCom" useGeneratedKeys="true" keyProperty="use_com_id" keyColumn="use_com_id"
+            parameterType="com.grupomovil.entity.EBGm_use_com">
+        insert into gm_use_com
+        (usu_cre, rol_id, col_id, use_com_id_dis, use_com_nam, use_com_use, use_com_pas, 
+        use_com_sta, use_com_ima, com_id, use_com_pas_cha, use_com_las_cha, 
+        use_com_las_ent, use_com_num_ent, rig_id)
+
+        values
+        (#{usu_cre}, 1, #{col_id}, #{use_com_id_dis}, #{use_com_nam}, #{use_com_use}, 
+        #{use_com_pas}, #{use_com_sta}, #{use_com_ima}, #{com_id}, #{use_com_pas_cha}, 
+        #{use_com_las_cha}, #{use_com_las_ent}, #{use_com_num_ent}, #{rig_id})
+    </insert>
+    
+    <update id="editUserCom" parameterType="com.grupomovil.entity.EBGm_use_com">
+        UPDATE gm_use_com SET 
+        com_sta = #{com_sta},
+        com_des = #{com_des},
+        com_ini = #{com_ini},
+        usu_mod = #{usu_mod}
+        WHERE use_com_id = #{use_com_id}  
+    </update>
+    
+    <update id="editRigelId" parameterType="com.grupomovil.entity.EBGm_use_com">
+        UPDATE gm_use_com SET 
+        rig_id = #{rig_id},
+        usu_mod = #{usu_mod}
+        WHERE use_com_id = #{use_com_id}  
+    </update>
+    
+    <update id="editUserComPassword" parameterType="com.grupomovil.entity.EBGm_use_com">
+        UPDATE gm_use_com SET 
+        use_com_pas = #{use_com_pas},
+        use_com_las_cha = #{use_com_las_cha},
+        use_com_pas_cha = #{use_com_pas_cha},
+        usu_mod = #{usu_mod} 
+        WHERE use_com_id = #{use_com_id}  
+    </update>
+    
+</mapper>

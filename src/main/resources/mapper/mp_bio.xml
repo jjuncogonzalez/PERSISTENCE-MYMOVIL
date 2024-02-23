@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_bio">
+    
+    <select id="selectDataBio" parameterType="com.grupomovil.entity.ws.BIO.EBWs_bio"
+            resultType="com.grupomovil.entity.ws.BIO.EBWs_bio">
+        SELECT cod_empl, tip_docu, concat(nom_empl,' ',ape_empl) as nombre, nom_ccos, cod_ccos, cod_carg, nom_carg
+        FROM Empleados_Rigel WHERE cod_empl = #{cod_empl} and ind_acti = 'A';
+    </select>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_fre">
+    <!--consultar toda la información de la tabla frecuencia sostenibilidad, 
+    los filtros se aplica de acuerdo a la información que contenga el objeto EBGm_sos_fre -->
+    <select id="selectSosFre" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_fre"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_fre">
+        SELECT * FROM gm_sos_fre
+        <where>
+            <!-- identificador único de la tabla -->
+            <if test="id_fre != 0">
+                id_fre = #{id_fre}
+            </if>
+            <!-- nombre de la frecuencia -->
+            <if test="nom_fre != null and nom_fre != ''">
+                AND nom_fre = #{nom_fre}
+            </if>
+            <!-- valor de la frecuencia -->
+            <if test="val_fre != 0">
+                AND val_fre = #{val_fre}
+            </if>
+            
+        </where>     
+    </select>
+     
+    <insert id="createSosFre" useGeneratedKeys="true" keyProperty="id_fre" keyColumn="id_fre"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_fre">
+        INSERT INTO gm_sos_fre
+        (nom_fre, val_fre, use_cre)
+        values
+        (#{nom_fre}, #{val_fre}, #{use_cre})
+    </insert>
+    
+    <update id="editSosFre" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_fre"> 
+        UPDATE gm_sos_fre SET 
+        nom_fre = #{nom_fre},
+        val_fre = #{val_fre},
+        use_mod = #{use_mod}
+        WHERE id_fre = #{id_fre}
+          
+    </update>  
+</mapper>    

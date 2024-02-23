@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_kac_inca">
+
+    <!-- Lista todos los registros de la vista Rigel_inca -->
+    <select id="selectRigInca" parameterType="com.grupomovil.entity.kactus.EBKac_inca"
+            resultType="com.grupomovil.entity.kactus.EBKac_inca">
+    SELECT * FROM Rigel_inca;
+    </select>
+    
+</mapper>
+
+

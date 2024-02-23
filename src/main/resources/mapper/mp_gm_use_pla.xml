@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.mp_gm_use_pla">
+    <!--consultar toda la información de la tabla de usuarios plataforma-->
+    <select id="selectUser" parameterType="com.grupomovil.entity.EBGm_use_pla"
+            resultType="com.grupomovil.entity.EBGm_use_pla">
+        SELECT * FROM gm_use_pla
+    </select> 
+    
+    <!-- obtener un usuario plataforma por identificador de la tabla usuarios plataforma -->
+    <select id="selectUserById" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_use_pla">
+        SELECT * FROM gm_use_pla WHERE use_pla_id = #{use_pla_id}  
+    </select>
+    
+    <!-- obtener un usuario plataforma por identificador del área -->
+    <select id="selectUserPlaByCcoId" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_use_pla">
+        SELECT * FROM gm_use_pla WHERE cco_id = #{cco_id}  
+    </select>
+    
+    <!-- Trae la información para crear un usario plataforma -->
+    <select id="selectDataCreateUser" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_use_pla">
+        SELECT * FROM SelectDataCreateUserPla WHERE col_id = #{col_id}  
+    </select>
+     
+    <!-- trae informacióin del usuario plataforma que coincida con el número de 
+         registro de la tabla de colaboradores -->
+    <select id="selectUserByIdCol" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_use_pla">
+        SELECT * FROM gm_use_pla WHERE col_id = #{col_id}  
+    </select>
+    
+    <!-- trae información del usuario plataforma que coincida con nombre del 
+         colaborador -->
+    <select id="selectUserByUserName" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_use_pla">
+        SELECT * FROM gm_use_pla WHERE use_pla_use = #{use_pla_use}  
+    </select>
+    
+    <!-- trae la información que se maneja en sesión -->
+    <select id="loadDataUsePlaSession" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_use_pla">
+        SELECT * FROM SelectDataUsePlaSession WHERE use_pla_use = #{use_pla_use}  
+    </select>
+    
+    <!-- trae informacióin del usuario plataforma que coincida con el número de 
+         identificación del colaborador -->
+    <select id="getUserPlaByIde" parameterType="String"
+            resultType="com.grupomovil.entity.EBGm_use_pla">
+        SELECT * FROM gm_use_pla pl
+        INNER JOIN gm_col co ON pl.col_id = co.col_id
+        WHERE co.col_ide = #{value}
+    </select>
+    
+    <!-- Crear usuario plataforma -->
+    <insert id="createUser" useGeneratedKeys="true" keyProperty="com_id" keyColumn="com_id"
+               parameterType="com.grupomovil.entity.EBGm_use_pla">
+        insert into gm_use_pla
+        (use_pla_id, use_pla_use, use_pla_nam, use_pla_pas, use_pla_las_ent, 
+         use_pla_exp, use_pla_sta, use_pla_pas_cha, use_pla_las_cha, 
+         use_pla_num_ent, com_id, cco_id, col_id, usu_cre, rol_id)
+        values
+        (#{use_pla_id}, #{use_pla_use}, #{use_pla_nam}, #{use_pla_pas}, #{use_pla_las_ent},
+        #{use_pla_exp}, #{use_pla_sta}, #{use_pla_pas_cha}, #{use_pla_las_cha}, 
+        #{use_pla_num_ent}, #{com_id}, #{cco_id}, #{col_id}, #{usu_cre}, #{rol_id})
+        
+    </insert>
+    
+    <!-- modificar datos del usuario plataforma -->
+    <update id="editUser" parameterType="com.grupomovil.entity.EBGm_use_pla">
+        UPDATE gm_use_pla SET 
+        use_pla_use = #{use_pla_use}, 
+        use_pla_nam = #{use_pla_nam}, 
+        use_pla_exp = #{use_pla_exp},
+        use_pla_sta = #{use_pla_sta},
+        rol_id = #{rol_id},
+        usu_mod = #{usu_mod}
+        WHERE use_pla_id = #{use_pla_id}  
+    </update>
+    
+    <!-- permite cambiar el password de un usario -->
+    <update id="editUserPassword" parameterType="com.grupomovil.entity.EBGm_use_pla">
+        UPDATE gm_use_pla SET 
+        use_pla_pas = #{use_pla_pas},
+        use_pla_pas_cha = #{use_pla_pas_cha},
+        usu_mod = #{usu_mod} 
+        WHERE use_pla_id = #{use_pla_id}  
+    </update>
+    
+    <!-- setear el número de sesión del usario plataforma -->
+    <update id="editUserNSession" parameterType="com.grupomovil.entity.EBGm_use_pla">
+        UPDATE gm_use_pla SET
+        use_pla_num_ent = #{use_pla_num_ent},
+        use_pla_las_ent = #{use_pla_las_ent},
+        usu_mod = #{usu_mod}
+        WHERE use_pla_id = #{use_pla_id}  
+    </update>
+    
+</mapper>

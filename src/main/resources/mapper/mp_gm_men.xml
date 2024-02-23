@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_men">
+
+    <select id="selectMenus" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men;
+    </select>
+    
+    <!-- trae el registro que corresponde al identificador dado -->
+    <select id="selectMenuById" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men WHERE men_id = #{men_id};
+    </select>
+    
+    <!-- trae los registros que corresponden unicamente a tipo MENÚ, a su vez 
+        estos son organizados alfabeticamente según su nombre -->
+    <select id="selectOnlyMenus" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men WHERE men_tip = 1 ORDER BY men_des;
+    </select>
+    
+    <!-- trae los registros que corresponden unicamente a tipo MENÚ, a su vez 
+        estos son organizados alfabeticamente según su nombre -->
+    <select id="selectActiveMenus" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men WHERE men_tip = 1 AND men_est = 1 ORDER BY men_des;
+    </select>
+    
+    <!-- trae los registros que corresponden unicamente al tipo de menú que se 
+        envíe por paramétro -->
+    <select id="selectMenusByType" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men WHERE men_tip = #{value};
+    </select>
+    
+    <!-- trae los registros activos que corresponden unicamente al tipo de menú 
+        que se envíe por paramétro -->
+    <select id="selectActiveMenusByType" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men WHERE men_tip = #{value} AND men_est = 1;
+    </select>
+    
+    <!-- trae los nombres que corresponden unicamente a tipo MENÚ, a su vez 
+        estos son organizados alfabeticamente según su nombre -->
+    <select id="selectOnlyMenusName" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="String">
+        SELECT men_des FROM gm_men WHERE men_tip = 1 ORDER BY men_des;
+    </select>
+      
+    <!-- Trae todos los registros (MENUS y CABECERAS) ordenados la columna men_ord -->  
+    <select id="selectMenusSorted" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men ORDER BY men_ord;
+    </select>  
+    
+    <!-- Trae la última cabecera -->  
+    <select id="selectLastHeader" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men ORDER BY men_ord desc LIMIT 1;
+    </select>  
+    
+    <!-- Trae todos los menús que están activos -->
+    <select id="selectActivesMenus" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men WHERE men_est='1' ORDER BY men_ord;
+    </select>  
+    
+    <!-- Trae todos los menús ordenados alfabeticamente, que están activos y asociados a un header -->
+    <select id="selectMenusByHeader" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men WHERE cab_id = #{men_id} ORDER BY men_des;
+    </select> 
+     
+    <!-- Trae el nombre de la cabecera a la que pertenece un menú -->
+    <select id="selectNameHeader" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT men_des FROM gm_men WHERE men_id = (SELECT cab_id FROM gm_men WHERE men_id = #{men_id});
+    </select>  
+    
+    <!-- Buscar menú por nombre -->
+    <select id="selectMenuByName" parameterType="com.grupomovil.entity.EBGm_men"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT * FROM gm_men WHERE men_des = #{men_des} ORDER BY men_ord;
+    </select>
+    
+    <!-- trae los menus que le han sido asignados a un usuario --> 
+    <select id="selectMenusAssignedUser" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT men_des, men_lin, men_ico, men_tip, am.men_id as men_id, men_ord, men_est, cab_id 
+        FROM gm_asi_men am 
+        INNER JOIN gm_men m ON am.men_id = m.men_id 
+        WHERE use_pla_id = #{value}
+    </select>
+    
+    <!-- trae los menus activos que le han sido asignados a un usuario --> 
+    <select id="selectActiveMenusAssignedUser" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_men">
+        SELECT men_des, men_lin, men_ico, men_tip, am.men_id as men_id, men_ord, men_est, cab_id 
+        FROM gm_asi_men am 
+        INNER JOIN gm_men m ON am.men_id = m.men_id 
+        WHERE use_pla_id = #{value} AND men_est = 1
+    </select>
+    
+    <insert id="createMenu" useGeneratedKeys="true" keyProperty="men_id" keyColumn="men_id"
+               parameterType="com.grupomovil.entity.EBGm_men">
+        insert into gm_men
+        (usu_cre, men_des, men_lin, men_ico, men_tip, men_ord, cab_id)
+        values
+        (#{usu_cre}, #{men_des}, #{men_lin}, #{men_ico}, #{men_tip}, #{men_ord}, #{cab_id})
+    </insert>
+    
+    <update id="editMenu" parameterType="com.grupomovil.entity.EBGm_men">
+        UPDATE gm_men SET 
+        men_des = #{men_des},
+        men_lin = #{men_lin},
+        men_ico = #{men_ico},
+        men_tip = #{men_tip},
+        men_ord = #{men_ord},
+        men_est = #{men_est},
+        cab_id = #{cab_id}
+        WHERE men_id = #{men_id}  
+    </update>
+    
+</mapper>

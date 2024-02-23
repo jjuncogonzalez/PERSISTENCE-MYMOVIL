@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_con">
+
+    <select id="selectReqCon" parameterType="com.grupomovil.entity.EBGm_req_con"
+            resultType="com.grupomovil.entity.EBGm_req_con">
+        SELECT * FROM gm_req_con;
+    </select>
+    
+    <!-- Trae un registro de acuerdo a la compañía -->
+    <select id="selectReqConByComId" parameterType="com.grupomovil.entity.EBGm_req_con"
+            resultType="com.grupomovil.entity.EBGm_req_con">
+        SELECT * FROM gm_req_con WHERE com_id=#{com_id};     
+    </select>
+    
+    <insert id="createReqCon" useGeneratedKeys="true" keyProperty="com_id" keyColumn="com_id"
+               parameterType="com.grupomovil.entity.EBGm_req_con">
+        INSERT INTO gm_req_con
+        (com_id, req_con_day, req_con_hou, req_con_num_day, req_con_req_mou, 
+         req_con_req_col, usu_cre)
+        VALUES
+        (#{com_id}, #{req_con_day}, #{req_con_hou}, #{req_con_num_day}, 
+         #{req_con_req_mou}, #{req_con_req_col}, #{usu_cre})
+    </insert>
+    
+    <update id="editReqCon" parameterType="com.grupomovil.entity.EBGm_req_con">
+        UPDATE gm_req_con SET 
+        req_con_day = #{req_con_day}, 
+        req_con_hou = #{req_con_hou}, 
+        req_con_num_day = #{req_con_num_day}, 
+        req_con_req_mou = #{req_con_req_mou}, 
+        req_con_req_col = #{req_con_req_col},
+        usu_mod = #{usu_mod}
+        WHERE com_id = #{com_id}  
+    </update>
+    
+</mapper>

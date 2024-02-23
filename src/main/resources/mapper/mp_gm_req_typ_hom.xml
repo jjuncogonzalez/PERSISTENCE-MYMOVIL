@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_typ_hom">
+    <!-- Trae todos los registros de la tabla de homologaciones -->
+    <select id="selectAllReqTypHomologation" parameterType="com.grupomovil.entity.EBGm_req_typ_hom"
+        resultType="com.grupomovil.entity.EBGm_req_typ_hom">
+        SELECT * FROM gm_req_typ_hom;
+    </select>
+    
+    <!-- Trae el registro de la tabla de homologaciones que coincide con el identificador dado -->
+    <select id="selectReqTypHomologation" parameterType="com.grupomovil.entity.EBGm_req_typ_hom"
+        resultType="com.grupomovil.entity.EBGm_req_typ_hom">
+        SELECT * FROM gm_req_typ_hom WHERE req_typ_hom_id = #{req_typ_hom_id};
+    </select>
+    
+    <!-- Trae el registro de la tabla de homologaciones que coincide con el identificador de MyMovil y el tipo de solicitud-->
+    <select id="selectReqTypHomologationByMymID" parameterType="com.grupomovil.entity.EBGm_req_typ_hom"
+        resultType="com.grupomovil.entity.EBGm_req_typ_hom">
+        SELECT * FROM gm_req_typ_hom WHERE req_typ_id_mym = #{req_typ_id_mym} AND tip_req = #{tip_req};
+    </select>
+    
+    <!-- Trae el registro de la tabla de homologaciones que coincide con el identificador de Rigel -->
+    <select id="selectReqTypHomologationByRigID" parameterType="com.grupomovil.entity.EBGm_req_typ_hom"
+        resultType="com.grupomovil.entity.EBGm_req_typ_hom">
+        SELECT * FROM gm_req_typ_hom WHERE req_typ_id_rig = #{req_typ_id_rig} AND tip_req = #{tip_req};
+    </select>
+    
+    <!-- Insertar un registro en la tabla homnologación -->
+    <insert id="createReqTypHomologation" useGeneratedKeys="true" keyProperty="req_typ_hom_id" keyColumn="req_typ_hom_id"
+               parameterType="com.grupomovil.entity.EBGm_req_typ_hom">
+        INSERT INTO gm_req_con
+        (req_typ_hom_id, req_typ_id_mym, req_typ_id_rig, usu_cre)
+        VALUES
+        (#{req_typ_hom_id}, #{req_typ_id_mym}, #{req_typ_id_rig}, #{usu_cre})
+    </insert>
+    
+    <!-- Actualizar un registro en la tabla homnologación -->
+    <update id="updateReqTypHomologation" parameterType="com.grupomovil.entity.EBGm_req_typ_hom">
+        UPDATE gm_req_typ_hom SET 
+            req_typ_hom_id = #{req_typ_hom_id},
+            req_typ_id_mym = #{req_typ_id_mym},
+            req_typ_id_rig = #{req_typ_id_rig}
+        WHERE req_typ_hom_id = #{req_typ_hom_id}  
+    </update>
+   
+</mapper>

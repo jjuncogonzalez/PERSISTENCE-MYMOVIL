@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_pro">
+    <!--consultar toda la información de la tabla procesos sostenibilidad, 
+    los filtros se aplican de acuerdo a la información que contenga el objeto EBGm_sos_pro -->
+    <select id="selectSosPro" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_pro"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_pro">
+        SELECT * FROM gm_sos_pro
+        <where>
+            <!-- identificador único de la tabla -->
+            <if test="id_pro != 0">
+                id_pro = #{id_pro}
+            </if>
+            <!-- nombre del proceso -->
+            <if test="nom_pro != null and nom_pro != ''">
+                AND nom_pro = #{nom_pro}
+            </if>
+            <!-- llave foranea a la tabla de colaboradores -->
+            <if test="id_col != 0">
+                AND id_col = #{id_col}
+            </if>
+            <!-- llave foranea a la tabla de estados -->
+            <if test="id_esta != 0">
+                AND id_esta = #{id_esta}
+            </if>
+        </where>     
+    </select>
+     
+    <insert id="createSosPro" useGeneratedKeys="true" keyProperty="id_pro" keyColumn="id_pro"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_pro">
+        INSERT INTO gm_sos_pro
+        (nom_pro, id_area, id_col, id_esta, use_cre)
+        values
+        (#{nom_pro}, #{id_area}, #{id_col}, #{id_esta}, #{use_cre})
+    </insert>
+    
+    <update id="editSosPro" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_pro"> 
+        UPDATE gm_sos_pro SET 
+        nom_pro = #{nom_pro},
+        id_area = #{id_area}, 
+        id_col = #{id_col}, 
+        id_esta = #{id_esta},
+        use_mod = #{use_mod}
+        WHERE id_pro = #{id_pro}
+    </update>  
+</mapper>    

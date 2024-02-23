@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_acc_level">
+    
+    <select id="selectAccLevel" parameterType="com.grupomovil.entity.biometricos.EBAccLevel"
+            resultType="com.grupomovil.entity.biometricos.EBAccLevel">
+        SELECT * FROM acc_level WHERE id = #{id};
+    </select>
+    
+    <insert id="createAccLevel" useGeneratedKeys="true" parameterType="com.grupomovil.entity.biometricos.EBAccLevel">
+        insert into acc_level
+        (id, create_time, op_version, auth_area_id, name, timeseg_id)
+        values
+        (#{id}, #{create_time}, #{op_version}, #{auth_area_id}, #{name}, #{timeseg_id})
+    </insert>
+    
+    <insert id="createAccLevelDoor" useGeneratedKeys="true" parameterType="com.grupomovil.entity.biometricos.EBAccLevelDoor">
+        insert into acc_level_door
+        (id, create_time, op_version, door_id, level_id)
+        values
+        (#{id}, #{create_time}, #{op_version}, #{door_id}, #{level_id})
+    </insert>
+   
+</mapper>

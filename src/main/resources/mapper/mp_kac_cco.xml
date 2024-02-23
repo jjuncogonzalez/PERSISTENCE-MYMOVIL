@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_kac_cco">
+
+    <select id="selectKactusCcos" parameterType="com.grupomovil.entity.EBKac_cco"
+            resultType="com.grupomovil.entity.EBKac_cco">
+        
+        SELECT DISTINCT cod_ccos
+        ,nom_ccos
+        ,ind_acti FROM ( SELECT *
+        FROM gn_ccost) T1 WHERE act_hora BETWEEN (#{startDate}) AND (#{endDate})
+        AND cod_ccos != 0
+        AND ind_acti is not null
+
+    </select>
+    
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_rel_typ_rea">
+
+    <select id="selectRelTypRea" parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea"
+            resultType="com.grupomovil.entity.EBGm_req_rel_typ_rea">
+        SELECT * FROM gm_req_rel_typ_rea;
+    </select>
+    
+    <!-- Buscar relacion tipo-motivo de solicitud por compañía -->
+    <select id="selectRelTypReaByCom" parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea"
+            resultType="com.grupomovil.entity.EBGm_req_rel_typ_rea">
+        SELECT r.*, t.req_typ_nam, m.req_rea_nam FROM gm_req_rel_typ_rea r
+        INNER JOIN gm_req_typ t ON t.req_typ_id = r.req_typ_id
+        INNER JOIN gm_req_rea m ON m.req_rea_id = r.req_rea_id
+        WHERE r.com_id = #{com_id};
+    </select>
+    
+    <!-- Trae registro que coincide con el ID del Motivo de solicitud y el ID del Tipo de solicitud -->
+    <select id="findRelTypRea" parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea"
+            resultType="com.grupomovil.entity.EBGm_req_rel_typ_rea">
+        SELECT * FROM gm_req_rel_typ_rea WHERE req_typ_id = #{req_typ_id} AND req_rea_id = #{req_rea_id};
+    </select> 
+    
+    <!-- Trae registro que coincide con el nombre del Tipo y Motivo de solicitud -->
+    <select id="findRelTypReaByName" parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea"
+            resultType="com.grupomovil.entity.EBGm_req_rel_typ_rea">
+        SELECT * FROM gm_req_rel_typ_rea WHERE req_typ_nam = #{req_typ_nam} AND req_rea_nam = #{req_rea_nam};
+    </select> 
+    
+    <!-- CONSULTA que trae: id, nombre del tipo de solicitud y nombre del motivo de la solicitud -->
+    <select id="selectTypReaNames" parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea"
+            resultType="com.grupomovil.entity.EBGm_req_rel_typ_rea">
+        SELECT rel_typ_rea_id, i.req_typ_id as req_typ_id, c.req_rea_id as req_rea_id, i.req_typ_nam as req_typ_nam, c.req_rea_nam as req_rea_nam FROM gm_req_rel_typ_rea d  
+        JOIN gm_req_rea c ON d.req_rea_id = c.req_rea_id
+        JOIN gm_req_typ i ON d.req_typ_id = i.req_typ_id;
+    </select>
+    
+    <!-- CONSULTA que trae: id, nombre del tipo-motivo de solicitud-->
+    <select id="selectRelTypReaNames" parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea"
+            resultType="String">
+        SELECT concat(i.req_typ_nam,'-',c.req_rea_nam) AS req_typ_rea_nam FROM gm_req_rel_typ_rea d  
+        JOIN gm_req_rea c ON d.req_rea_id = c.req_rea_id
+        JOIN gm_req_typ i ON d.req_typ_id = i.req_typ_id;
+    </select>
+    
+    <!-- obtener el nombre del Motivo de solicitud dado el ID -->
+    <select id="selectReqReaNameById" parameterType="int"
+            resultType="String">
+        SELECT req_rea_nam FROM gm_req_rea WHERE req_rea_id=#{req_rea_id};
+    </select>
+    
+    <!-- obtener el nombre del tipo de solicitud dado el ID -->
+    <select id="selectReqTypNameById" parameterType="int"
+            resultType="String">
+        SELECT req_typ_nam FROM gm_req_typ WHERE req_typ_id=#{req_typ_id};
+    </select>
+    
+    <!-- Buscar Motivo Solicitud por tipo de solicitud -->
+    <select id="selectReqReaByTypIdIntoRelTypRea" parameterType="com.grupomovil.entity.EBGm_req_rea"
+            resultType="com.grupomovil.entity.EBGm_req_rea">
+        SELECT  m.req_rea_id as req_rea_id, m.req_rea_nam as req_rea_nam, m.req_rea_pri as req_rea_pri, m.req_rea_sta as req_rea_sta, r.req_typ_id as req_typ_id 
+        FROM gm_req_rea m  
+        JOIN gm_req_rel_typ_rea r ON m.req_rea_id = r.req_rea_id WHERE m.req_typ_id = r.req_typ_id
+    </select>
+    
+    <insert id="createRelTypRea" useGeneratedKeys="true" keyProperty="rel_typ_rea_id" keyColumn="rel_typ_rea_id"
+            parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea">
+        insert into gm_req_rel_typ_rea
+        (rel_typ_rea_id, req_typ_id, req_rea_id, com_id, usu_cre)
+        values
+        (#{rel_typ_rea_id}, #{req_typ_id}, #{req_rea_id}, #{com_id}, #{usu_cre})
+    </insert>
+    
+    <update id="editRelTypRea" parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea">
+        UPDATE gm_req_rel_typ_rea SET 
+        req_typ_id = #{req_typ_id}, 
+        req_rea_id = #{req_rea_id},
+        com_id = #{com_id}, 
+        usu_mod = #{usu_mod}
+        WHERE rel_typ_rea_id = #{rel_typ_rea_id}  
+    </update>
+   
+    <!-- Eliminar un registro dado el identificador de la tabla -->
+    <delete id="deleteRelTypRea" parameterType="com.grupomovil.entity.EBGm_req_rel_typ_rea">
+        DELETE FROM gm_req_rel_typ_rea WHERE req_typ_id = #{req_typ_id}
+    </delete>
+    
+</mapper>

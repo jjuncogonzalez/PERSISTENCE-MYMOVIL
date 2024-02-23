@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_cla">
+    <!--consultar toda la información de la tabla clasificación sostenibilidad, 
+    los filtros se aplican de acuerdo a la información que contenga el objeto EBGm_sos_cla -->
+    <select id="selectSosCla" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_cla"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_cla">
+        SELECT * FROM gm_sos_cla
+        <where>
+            <!-- identificador único de la tabla -->
+            <if test="id_cla != 0">
+                id_est = #{id_est}
+            </if>
+            <!-- nombre de la clasificación -->
+            <if test="nom_cla != null and nom_cla != ''">
+                AND nom_cla = #{nom_cla}
+            </if>
+        </where>     
+    </select>
+     
+    <insert id="createSosCla" useGeneratedKeys="true" keyProperty="id_cla" keyColumn="id_cla"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_cla">
+        INSERT INTO gm_sos_cla
+        (nom_cla, use_cre)
+        values
+        (#{nom_cla}, #{use_cre})
+    </insert>
+    
+    <update id="editNameSosCla" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_cla"> 
+        UPDATE gm_sos_cla SET 
+        nom_cla = #{nom_cla},
+        use_mod = #{use_mod}
+        WHERE id_cla = #{id_cla}  
+    </update>  
+</mapper>    

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_int_dis_gro">
+
+    <select id="selectAllDistributionGroup" parameterType="com.grupomovil.entity.EBGm_int_dis_gro"
+            resultType="com.grupomovil.entity.EBGm_int_dis_gro">
+        
+        SELECT * FROM gm_int_dis_gro;     
+    </select>
+    
+    <!-- Buscar menú por nombre -->
+    <select id="selectDisGroByName" parameterType="com.grupomovil.entity.EBGm_int_dis_gro"
+            resultType="com.grupomovil.entity.EBGm_int_dis_gro">
+        SELECT * FROM gm_int_dis_gro WHERE dis_gro_nam = #{dis_gro_nam};
+    </select>
+    
+    <!-- Trae los registros de las categorias que no tienen estado 1 en la columna dis_gro_id -->
+    <select id="selectDistributionGroup" parameterType="com.grupomovil.entity.EBGm_int_dis_gro"
+            resultType="com.grupomovil.entity.EBGm_int_dis_gro">
+        SELECT * FROM gm_int_dis_gro WHERE dis_gro_del=0;     
+    </select>
+    
+    <!-- obtener el nombre del grupo de distribución dado el ID -->
+    <select id="selectGroNameById" parameterType="int"
+            resultType="String">
+        SELECT dis_gro_nam FROM gm_int_dis_gro where dis_gro_id=#{dis_gro_id};     
+    </select>
+    
+    <!-- trae el ID de las noticias que tienen asociado el id del grupo de distribución -->
+    <select id="selectLisDisWithThisDisGro" parameterType="com.grupomovil.entity.EBGm_int_dis_gro" 
+            resultType="int">
+        SELECT dis_lis_id FROM gm_int_dis_lis WHERE dis_gro_id = #{dis_gro_id};     
+    </select>
+    
+    <insert id="createDistributionGroup" useGeneratedKeys="true" keyProperty="dis_gro_id" keyColumn="dis_gro_id"
+               parameterType="com.grupomovil.entity.EBGm_int_dis_gro">
+        insert into gm_int_dis_gro
+        (dis_gro_id, dis_gro_nam, usu_cre)
+        values
+        (#{dis_gro_id}, #{dis_gro_nam}, #{usu_cre})
+    </insert>
+    
+    <update id="editDistributionGroup" parameterType="com.grupomovil.entity.EBGm_int_dis_gro">
+        UPDATE gm_int_dis_gro SET 
+        dis_gro_nam=#{dis_gro_nam}, usu_mod=#{usu_mod}
+        WHERE dis_gro_id=#{dis_gro_id}  
+    </update>
+    
+    <!-- eliminar un grupo de distribución -->
+    <update id="deleteDistributionGroup" parameterType="com.grupomovil.entity.EBGm_int_dis_gro">
+        UPDATE gm_int_dis_gro SET 
+        dis_gro_del=#{dis_gro_del}, dat_mod=#{dat_mod}, usu_mod=#{usu_mod}
+        WHERE dis_gro_id = #{dis_gro_id}  
+    </update>
+    
+</mapper>

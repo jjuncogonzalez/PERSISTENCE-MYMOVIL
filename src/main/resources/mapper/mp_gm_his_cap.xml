@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_his_cap">
+    
+    <select id="findGmHisCap" parameterType="com.grupomovil.entity.EBGm_his_cap"
+            resultType="com.grupomovil.entity.EBGm_his_cap">
+        SELECT t1.con_cap_id,
+        t1.col_id,
+        t2.col_ide,
+        t2.col_cod,
+        t2.col_sur,
+        t2.col_nam,
+        t5.col_pos_des,
+        "C3" as con_cap_cat,
+        t4.his_cap_tip_cap,
+        t1.his_cap_tip_id,
+        t4.his_cap_tip_val,
+        t1.con_cap_fec_ini_con,
+        t1.con_cap_fec_vin_sis,
+        t1.con_cap_fec_ven_lic,
+        t1.con_cap_fec_ven_cod,
+        DATE_ADD(t1.con_cap_fec_ven_cod, INTERVAL -3 MONTH) as con_cap_sug,
+        t1.con_cap_fec_ini_20_21,
+        t1.con_cap_fec_fin_20_21,
+        t1.con_cap_fec_ini_21_22,
+        t1.con_cap_fec_fin_21_22,
+        t1.con_cap_fec_ini_22_23,
+        t1.con_cap_fec_fin_22_23,
+        t1.con_cap_fec_ini_23_24,
+        t1.con_cap_fec_fin_23_24,
+        t1.con_cap_fec_ini_24_25,
+        t1.con_cap_fec_fin_24_25,
+        t1.con_cap_fec_ini_25_26,
+        t1.con_cap_fec_fin_25_26,
+        t1.con_cap_fec_ini_26_27,
+        t1.con_cap_fec_fin_26_27,
+        t1.con_cap_fec_ini_27_28,
+        t1.con_cap_fec_fin_27_28,
+        t1.con_cap_fec_ini_28_29,
+        t1.con_cap_fec_fin_28_29,
+        t1.con_cap_fec_ini_29_30,
+        t1.con_cap_fec_fin_29_30,
+        t1.con_cap_fec_ini_30_31,
+        t1.con_cap_fec_fin_30_31,
+        t1.dat_cre,
+        t1.usu_cre,
+        t1.dat_mod,
+        t1.usu_mod
+        FROM gm_con_cap t1
+        left join gm_col t2 on t1.col_id = t2.col_id
+        left join gm_col t3 on t1.usu_cre = t3.col_id
+        inner join gm_his_cap_tip t4 on t1.his_cap_tip_id=t4.his_cap_tip_id
+        left join gm_col_pos t5 on t5.col_pos_id = t2.col_pos_id
+        order by t1.col_id, t4.his_cap_tip_cap desc;
+    </select>
+    
+    <select id="findGmHisCapbyColAndType" parameterType="com.grupomovil.entity.EBGm_his_cap"
+            resultType="com.grupomovil.entity.EBGm_his_cap">
+        SELECT t1.con_cap_id,
+        t1.col_id,
+        t2.col_ide,
+        t2.col_cod,
+        t2.col_sur,
+        t2.col_nam,
+        t5.col_pos_des,
+        "C3" as con_cap_cat,
+        t4.his_cap_tip_cap,
+        t1.his_cap_tip_id,
+        t4.his_cap_tip_val,
+        t1.con_cap_fec_ini_con,
+        t1.con_cap_fec_vin_sis,
+        t1.con_cap_fec_ven_lic,
+        t1.con_cap_fec_ven_cod,
+        DATE_ADD(t1.con_cap_fec_ven_cod, INTERVAL -3 MONTH) as con_cap_sug,
+        t1.con_cap_fec_ini_20_21,
+        t1.con_cap_fec_fin_20_21,
+        t1.con_cap_fec_ini_21_22,
+        t1.con_cap_fec_fin_21_22,
+        t1.con_cap_fec_ini_22_23,
+        t1.con_cap_fec_fin_22_23,
+        t1.con_cap_fec_ini_23_24,
+        t1.con_cap_fec_fin_23_24,
+        t1.con_cap_fec_ini_24_25,
+        t1.con_cap_fec_fin_24_25,
+        t1.con_cap_fec_ini_25_26,
+        t1.con_cap_fec_fin_25_26,
+        t1.con_cap_fec_ini_26_27,
+        t1.con_cap_fec_fin_26_27,
+        t1.con_cap_fec_ini_27_28,
+        t1.con_cap_fec_fin_27_28,
+        t1.con_cap_fec_ini_28_29,
+        t1.con_cap_fec_fin_28_29,
+        t1.con_cap_fec_ini_29_30,
+        t1.con_cap_fec_fin_29_30,
+        t1.con_cap_fec_ini_30_31,
+        t1.con_cap_fec_fin_30_31,
+        t1.dat_cre,
+        t1.usu_cre,
+        t1.dat_mod,
+        t1.usu_mod
+        FROM gm_con_cap t1
+        left join gm_col t2 on t1.col_id = t2.col_id
+        left join gm_col t3 on t1.usu_cre = t3.col_id
+        inner join gm_his_cap_tip t4 on t1.his_cap_tip_id=t4.his_cap_tip_id
+        left join gm_col_pos t5 on t5.col_pos_id = t2.col_pos_id
+        where t1.col_id = #{col_id} and t1.his_cap_tip_id= #{his_cap_tip_id}
+        order by t1.col_id, t4.his_cap_tip_cap desc LIMIT 1;
+    </select>
+    
+    <select id="selectCol" parameterType="com.grupomovil.entity.EBGm_col"
+            resultType="com.grupomovil.entity.EBGm_col">
+        SELECT c.*, p.col_pos_des FROM gm_col c 
+        INNER JOIN gm_col_pos p ON p.col_pos_id = c.col_pos_id
+        WHERE c.com_id = 2 and c.cco_id = 77 
+    </select>
+    
+    <insert id="createHisCap" useGeneratedKeys="true" keyProperty="con_cap_id" keyColumn="con_cap_id"
+            parameterType="com.grupomovil.entity.EBGm_his_cap">
+        INSERT INTO gm_con_cap
+        (con_cap_id,
+        con_cap_fec_ini_con,
+        con_cap_fec_vin_sis,
+        con_cap_fec_ven_lic,
+        con_cap_fec_ven_cod,
+        con_cap_fec_ini_20_21,
+        con_cap_fec_fin_20_21,
+        con_cap_fec_ini_21_22,
+        con_cap_fec_fin_21_22,
+        con_cap_fec_ini_22_23,
+        con_cap_fec_fin_22_23,
+        con_cap_fec_ini_23_24,
+        con_cap_fec_fin_23_24,
+        con_cap_fec_ini_24_25,
+        con_cap_fec_fin_24_25,
+        con_cap_fec_ini_25_26,
+        con_cap_fec_fin_25_26,
+        con_cap_fec_ini_26_27,
+        con_cap_fec_fin_26_27,
+        con_cap_fec_ini_27_28,
+        con_cap_fec_fin_27_28,
+        con_cap_fec_ini_28_29,
+        con_cap_fec_fin_28_29,
+        con_cap_fec_ini_29_30,
+        con_cap_fec_fin_29_30,
+        con_cap_fec_ini_30_31,
+        con_cap_fec_fin_30_31,
+        dat_cre,
+        usu_cre,
+        col_id,
+        his_cap_tip_id)
+        VALUES (
+        #{con_cap_id},
+        #{con_cap_fec_ini_con},
+        #{con_cap_fec_vin_sis},
+        #{con_cap_fec_ven_lic},
+        #{con_cap_fec_ven_cod},
+        #{con_cap_fec_ini_20_21},
+        #{con_cap_fec_fin_20_21},
+        #{con_cap_fec_ini_21_22},
+        #{con_cap_fec_fin_21_22},
+        #{con_cap_fec_ini_22_23},
+        #{con_cap_fec_fin_22_23},
+        #{con_cap_fec_ini_23_24},
+        #{con_cap_fec_fin_23_24},
+        #{con_cap_fec_ini_24_25},
+        #{con_cap_fec_fin_24_25},
+        #{con_cap_fec_ini_25_26},
+        #{con_cap_fec_fin_25_26},
+        #{con_cap_fec_ini_26_27},
+        #{con_cap_fec_fin_26_27},
+        #{con_cap_fec_ini_27_28},
+        #{con_cap_fec_fin_27_28},
+        #{con_cap_fec_ini_28_29},
+        #{con_cap_fec_fin_28_29},
+        #{con_cap_fec_ini_29_30},
+        #{con_cap_fec_fin_29_30},
+        #{con_cap_fec_ini_30_31},
+        #{con_cap_fec_fin_30_31},
+        CURRENT_TIMESTAMP,
+        #{usu_cre},
+        #{col_id},
+        #{his_cap_tip_id})
+    </insert>
+    
+    <update id="updateHisCap" parameterType="com.grupomovil.entity.EBGm_his_cap">
+        UPDATE gm_con_cap
+        SET
+        con_cap_fec_ini_con = #{con_cap_fec_ini_con},
+        con_cap_fec_vin_sis = #{con_cap_fec_vin_sis},
+        con_cap_fec_ven_lic = #{con_cap_fec_ven_lic},
+        con_cap_fec_ven_cod = #{con_cap_fec_ven_cod},
+        con_cap_fec_ini_20_21 = #{con_cap_fec_ini_20_21},
+        con_cap_fec_fin_20_21 = #{con_cap_fec_fin_20_21},
+        con_cap_fec_ini_21_22 = #{con_cap_fec_ini_21_22},
+        con_cap_fec_fin_21_22 = #{con_cap_fec_fin_21_22},
+        con_cap_fec_ini_22_23 = #{con_cap_fec_ini_22_23},
+        con_cap_fec_fin_22_23 = #{con_cap_fec_fin_22_23},
+        con_cap_fec_ini_23_24 = #{con_cap_fec_ini_23_24},
+        con_cap_fec_fin_23_24 = #{con_cap_fec_fin_23_24},
+        con_cap_fec_ini_24_25 = #{con_cap_fec_ini_24_25},
+        con_cap_fec_fin_24_25 = #{con_cap_fec_fin_24_25},
+        con_cap_fec_ini_25_26 = #{con_cap_fec_ini_25_26},
+        con_cap_fec_fin_25_26 = #{con_cap_fec_fin_25_26},
+        con_cap_fec_ini_26_27 = #{con_cap_fec_ini_26_27},
+        con_cap_fec_fin_26_27 = #{con_cap_fec_fin_26_27},
+        con_cap_fec_ini_27_28 = #{con_cap_fec_ini_27_28},
+        con_cap_fec_fin_27_28 = #{con_cap_fec_fin_27_28},
+        con_cap_fec_ini_28_29 = #{con_cap_fec_ini_28_29},
+        con_cap_fec_fin_28_29 = #{con_cap_fec_fin_28_29},
+        con_cap_fec_ini_29_30 = #{con_cap_fec_ini_29_30},
+        con_cap_fec_fin_29_30 = #{con_cap_fec_fin_29_30},
+        con_cap_fec_ini_30_31 = #{con_cap_fec_ini_30_31},
+        con_cap_fec_fin_30_31 = #{con_cap_fec_fin_30_31},
+        dat_mod = #{dat_mod},
+        usu_mod = #{usu_mod},
+        col_id = #{col_id},
+        his_cap_tip_id = #{his_cap_tip_id}
+        WHERE con_cap_id = #{con_cap_id}
+    </update>
+
+</mapper>
+

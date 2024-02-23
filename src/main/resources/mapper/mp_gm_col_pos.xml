@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_col_pos">
+
+    <select id="selectKactusPosition" parameterType="com.grupomovil.entity.EBGm_col_pos"
+            resultType="com.grupomovil.entity.EBGm_col_pos">
+        
+        SELECT * FROM gm_col_pos 
+        
+        <where>
+            
+            <if test="com_id != 0">
+                com_id = #{com_id}
+            </if>
+            
+        </where>
+        
+    </select>
+        
+    <!-- obtener el nombre del cargo dado el ID -->
+    <select id="selectPosNameById" parameterType="int"
+            resultType="String">
+        SELECT col_pos_des FROM gm_col_pos WHERE col_pos_id=#{col_pos_id};     
+    </select>
+    
+    <insert id="createGmCar" useGeneratedKeys="true" keyProperty="col_pos_id" keyColumn="col_pos_id"
+            parameterType="com.grupomovil.entity.EBGm_col_pos">
+        
+        insert into gm_col_pos
+        (col_pos_id, col_pos_des, col_pos_sof, col_pos_sta, com_id, usu_cre)
+        values
+        (#{col_pos_id}, #{col_pos_des}, #{col_pos_sof}, #{col_pos_sta}, #{com_id}, #{usu_cre})
+        
+    </insert>
+    
+    <update id="editGmCar" parameterType="com.grupomovil.entity.EBGm_col_pos">
+        UPDATE gm_col_pos SET 
+        col_pos_des = #{col_pos_des},
+        col_pos_sof = #{col_pos_sof},
+        col_pos_sta = #{col_pos_sta},
+        usu_mod = #{usu_mod}
+        WHERE col_pos_id = #{col_pos_id}  
+    </update>
+    
+</mapper>

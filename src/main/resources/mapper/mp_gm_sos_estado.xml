@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_estado">
+    <!-- consultar toda la información de la tabla estado sostenibilidad, 
+    los filtros se aplican de acuerdo a la información que contenga el objeto EBGm_sos_estado -->
+    <select id="selectSosEstado" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_estado"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_estado">
+        SELECT * FROM gm_sos_estado
+        <where>
+            <!-- filtrar por identificador único de la tabla -->
+            <if test="id_esta != 0">
+                id_esta = #{id_esta}
+            </if>
+            <!-- filtrar por nombre del estado -->
+            <if test="nom_esta != null and nom_esta != ''">
+                nom_esta = #{nom_esta}
+            </if>
+        </where>     
+    </select>
+     
+    <insert id="createSosEstado" useGeneratedKeys="true" keyProperty="id_esta" keyColumn="id_esta"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_estado">
+        <!-- no hay necesidad de ingresar llave primaria ya que la DB autoincrementa el valor-->
+        INSERT INTO gm_sos_estado
+        (nom_esta, use_cre)
+        values
+        (#{nom_esta}, #{use_cre})
+    </insert>
+    
+    <update id="editNameSosEstado" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_estado"> 
+        UPDATE gm_sos_estado SET 
+        nom_esta = #{nom_esta},
+        use_mod = #{use_mod}
+        WHERE id_esta = #{id_esta}  
+    </update>  
+    
+</mapper>    

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_int_ima">
+    <!-- trae un objeto gm_int_ima que corresponda al identificador dado-->
+    <select id="selectIntranetImage" parameterType="com.grupomovil.entity.EBGm_int_ima"
+            resultType="com.grupomovil.entity.EBGm_int_ima">
+        SELECT * FROM gm_int_ima
+        WHERE ima_id = #{ima_id}
+    </select>
+    
+    <!-- trae el identificador de la imagen que corresponda al nombre y ubicacion-->
+    <select id="selectIdIntranetImageByNamePath" parameterType="com.grupomovil.entity.EBGm_int_ima"
+            resultType="int">
+        SELECT ima_id FROM gm_int_ima
+        WHERE (ima_pat = #{ima_pat} AND ima_nam = #{ima_nam})
+    </select>
+    
+    <!-- trae un objeto gm_int_ima que corresponda al nombre y ubicacion-->
+    <select id="findIntranetImageByNamePath" parameterType="com.grupomovil.entity.EBGm_int_ima"
+            resultType="com.grupomovil.entity.EBGm_int_ima">
+        SELECT * FROM gm_int_ima
+        WHERE (ima_pat = #{ima_pat} AND ima_nam = #{ima_nam})
+    </select>
+    
+    <insert id="createIntranetImage" useGeneratedKeys="true" keyProperty="ima_id" keyColumn="ima_id"
+                parameterType="com.grupomovil.entity.EBGm_int_ima">
+        insert into gm_int_ima
+        (ima_id, ima_pat, ima_siz, ima_fto, ima_nam, ima_des, usu_cre)
+        values
+        (#{ima_id}, #{ima_pat}, #{ima_siz}, #{ima_fto}, #{ima_nam}, #{ima_des}, #{usu_cre})
+    </insert>
+    
+    
+</mapper>

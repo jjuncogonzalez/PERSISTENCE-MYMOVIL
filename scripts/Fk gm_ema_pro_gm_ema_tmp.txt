@@ -1,0 +1,6 @@
+ALTER TABLE `testmymovil`.`gm_ema_pro` 
+ADD CONSTRAINT `fk_gm_ema_pro_gm_ema_tmp`
+  FOREIGN KEY (`ema_tmp_id`)
+  REFERENCES `testmymovil`.`gm_ema_tmp` (`ema_tmp_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

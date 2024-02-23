@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_alarm_parametrization">
+
+    <select id="selectParAlarma" parameterType="com.grupomovil.entity.EBGm_alarm_parametrization"
+            resultType="com.grupomovil.entity.EBGm_alarm_parametrization">
+        SELECT * FROM gm_alarm_parametrization;
+    </select>
+    
+    <select id="selectParAlarmaByAlarmId" parameterType="com.grupomovil.entity.EBGm_alarm_parametrization"
+            resultType="com.grupomovil.entity.EBGm_alarm_parametrization">
+        SELECT * FROM gm_alarm_parametrization WHERE gm_ala_id = #{gm_ala_id};
+    </select>
+    
+    <select id="selectParAlarmaByKey" parameterType="com.grupomovil.entity.EBGm_alarm_parametrization"
+            resultType="com.grupomovil.entity.EBGm_alarm_parametrization">
+        SELECT * FROM gm_alarm_parametrization WHERE gm_ala_id = #{gm_ala_id} AND gm_var_id =#{gm_var_id};
+    </select>
+    
+    <insert id="createParAlarma" useGeneratedKeys="true" keyProperty="gm_ala_lev_id" keyColumn="gm_ala_lev_id"
+               parameterType="com.grupomovil.entity.EBGm_alarm_parametrization">
+        INSERT INTO gm_alarm_parametrization
+            (gm_ala_par_val, gm_ala_id, gm_var_id, gm_var_ran_id, usu_cre)
+        VALUES (#{gm_ala_par_val}, #{gm_ala_id}, #{gm_var_id}, #{gm_var_ran_id}, #{usu_cre})
+    </insert>
+    
+    <update id="editParAlarma" parameterType="com.grupomovil.entity.EBGm_alarm_parametrization">
+        UPDATE 
+            gm_alarm_parametrization 
+        SET 
+            gm_ala_par_val = #{gm_ala_par_val},   
+            gm_var_ran_id = #{gm_var_ran_id},
+            usu_mod = #{usu_mod}
+        WHERE 
+            gm_ala_id = #{gm_ala_id} AND gm_var_id = #{gm_var_id}
+    </update>
+    
+    <delete id="deleteParAlarm" parameterType="com.grupomovil.entity.EBGm_alarm_parametrization">
+        DELETE FROM 
+            gm_alarm_parametrization 
+        WHERE 
+            gm_var_id = #{gm_var_id} AND gm_ala_id = #{gm_ala_id} AND gm_var_ran_id = #{gm_var_ran_id}
+    </delete>
+    
+</mapper>

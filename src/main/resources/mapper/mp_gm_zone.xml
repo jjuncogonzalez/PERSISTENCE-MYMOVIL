@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_zone">
+
+    <!-- Buscar todos los registros de la tabla -->
+    <select id="selectZone" parameterType="com.grupomovil.entity.EBGm_zone"
+            resultType="com.grupomovil.entity.EBGm_zone">
+        SELECT * FROM gm_zone;
+    </select>
+   
+    <insert id="createZone" useGeneratedKeys="true" keyProperty="gm_zon_id" keyColumn="gm_zon_id"
+            parameterType="com.grupomovil.entity.EBGm_zone">
+        insert into gm_zone
+        (gm_zon_id, gm_zon_dat, gm_zon_nam, gm_zon_des, gm_zon_sta, gm_zon_typ_id)
+        values
+        (#{gm_zon_id}, #{gm_zon_dat}, #{gm_zon_nam}, #{gm_zon_des}, #{gm_zon_sta}, #{gm_zon_typ_id})
+    </insert>
+
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_alarm">
+
+    <select id="selectAlarma" parameterType="com.grupomovil.entity.EBGm_alarm"
+            resultType="com.grupomovil.entity.EBGm_alarm">
+        SELECT * FROM gm_alarm;
+    </select>
+    
+    <!-- Trae el nombre de la alarma dado su id -->
+    <select id="selectAlarmaNameById" parameterType="int"
+            resultType="String">
+        SELECT gm_ala_nam FROM gm_alarm WHERE gm_ala_id=#{gm_ala_id};     
+    </select>
+    
+    <!-- Trae el objeto tipo alarma dado su id -->
+    <select id="selectAlarmaById" parameterType="com.grupomovil.entity.EBGm_alarm"
+            resultType="String">
+        SELECT * FROM gm_alarm WHERE gm_ala_id=#{gm_ala_id};     
+    </select>
+    
+    <insert id="createAlarma" useGeneratedKeys="true" keyProperty="gm_ala_id" keyColumn="gm_ala_id"
+               parameterType="com.grupomovil.entity.EBGm_alarm">
+        INSERT INTO gm_alarm
+        (gm_ala_id, gm_ala_dat, gm_ala_des, gm_ala_cod, gm_ala_val, gm_ala_val2, 
+         gm_ala_ema, gm_ala_sta, gm_ala_lev_id, gm_ala_cla_id, gm_var_id, 
+         gm_var_ran_id, emq_rul_id, usu_cre)
+        VALUES
+        (#{gm_ala_id}, #{gm_ala_dat}, #{gm_ala_des}, #{gm_ala_cod}, #{gm_ala_val}, 
+         #{gm_ala_val2}, #{gm_ala_ema}, #{gm_ala_sta}, #{gm_ala_lev_id}, #{gm_ala_cla_id}, 
+         #{gm_var_id}, #{gm_var_ran_id}, #{emq_rul_id}, #{usu_cre})
+    </insert>
+    
+    <update id="editAlarma" parameterType="com.grupomovil.entity.EBGm_alarm">
+        UPDATE gm_alarm SET 
+         gm_ala_dat = #{gm_ala_dat}, 
+         gm_ala_des = #{gm_ala_des}, 
+         gm_ala_cod = #{gm_ala_cod}, 
+         gm_ala_sta = #{gm_ala_sta},
+         usu_mod = #{usu_mod}
+        WHERE gm_ala_id = #{gm_ala_id}  
+    </update>
+    
+    <delete id="deleteAlarm" parameterType="com.grupomovil.entity.EBGm_alarm">
+        DELETE FROM gm_alarm WHERE gm_ala_id = #{gm_ala_id}
+    </delete>
+</mapper>

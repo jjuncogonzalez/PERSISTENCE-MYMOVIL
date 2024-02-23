@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_seg_ind">
+    <!--consultar toda la información de la tabla seguimiento indicadores de sostenibilidad, 
+    los filtros se aplican de acuerdo a la información que contenga el objeto EBGm_sos_seg_ind -->
+    <select id="selectSosSegInd" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_seg_ind"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_seg_ind">
+        SELECT * FROM gm_sos_seg_ind
+        <where>            
+            <!-- identificador único de la tabla -->
+            <if test="id_seg_ind != 0">
+                id_seg_ind = #{id_seg_ind}
+            </if>
+            <!-- FK a la tabla de indicadores -->
+            <if test="id_ind != 0">
+                AND id_ind = #{id_ind}
+            </if>
+        </where>     
+    </select>
+     
+    <insert id="createSosSegInd" useGeneratedKeys="true" keyProperty="id_seg_ind" keyColumn="id_seg_ind"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_seg_ind">    
+        INSERT INTO gm_sos_seg_ind
+        (id_ind, seg_ind_dat_ges, seg_ind_mes, seg_ind_year, val_var1, val_var2, val_var3, val_var4, val_var5, val_var6, seg_ind_cump, use_cre)
+        values
+        (#{id_ind}, #{seg_ind_dat_ges}, #{seg_ind_mes}, #{seg_ind_year}, #{val_var1}, #{val_var2}, #{val_var3}, #{val_var4}, #{val_var5}, #{val_var6}, #{seg_ind_cump}, #{use_cre})
+    </insert>
+    
+    <update id="editSosSegInd" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_seg_ind"> 
+        UPDATE gm_sos_seg_ind SET 
+        id_ind = #{id_ind}, 
+        seg_ind_dat_ges = #{seg_ind_dat_ges}, 
+        seg_ind_mes = #{seg_ind_mes}, 
+        seg_ind_year = #{seg_ind_year}, 
+        val_var1 = #{val_var1}, 
+        val_var2 = #{val_var2}, 
+        val_var3 = #{val_var3}, 
+        val_var4 = #{val_var4}, 
+        val_var5 = #{val_var5}, 
+        val_var6 = #{val_var6}, 
+        seg_ind_cump = #{seg_ind_cump},
+        use_mod = #{use_mod}
+        WHERE id_seg_ind = #{id_seg_ind}
+    </update>  
+</mapper>    
+

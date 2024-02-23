@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_est_typ">
+
+
+
+
+
+    <select id="selectEstados" 
+            resultType="com.grupomovil.entity.EBGm_est_typ">    
+    
+        SELECT * FROM gm_est_typ
+
+    </select>
+</mapper>

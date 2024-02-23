@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_kac_vac">
+
+    <select id="selectKactusVaca" parameterType="com.grupomovil.entity.EBKac_vac"
+            resultType="com.grupomovil.entity.EBKac_vac">
+        
+        SELECT * FROM (SELECT  YEAR(fec_dis1) AS afiltro,* FROM mymovil_vaca) T1 WHERE
+        T1.afiltro = #{afiltro} AND T1.pri_vac ='NO'
+
+    </select>
+    
+    
+    <select id="selectKactusVacaProno" parameterType="com.grupomovil.entity.EBGm_vac_pro"
+            resultType="com.grupomovil.entity.EBGm_vac_pro">
+        
+        SELECT *
+        FROM Mymovil_vaca_pronostico
+        
+        <where>
+            
+            <if test="opeValidator != 0">
+                cod_carg IN (28,29,30)
+            </if>
+            
+        </where>
+    </select>
+    
+</mapper>

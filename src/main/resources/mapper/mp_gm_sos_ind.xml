@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_ind">
+    <!--consultar toda la información de la tabla indicadores sostenibilidad, 
+    los filtros se aplican de acuerdo a la información que contenga el objeto EBGm_sos_ind -->
+    <select id="selectSosInd" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_ind"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_ind">
+        SELECT * FROM gm_sos_ind
+        <where>
+            <!-- identificador único de la tabla -->
+            <if test="id_ind != 0">
+                id_ind = #{id_ind}
+            </if>
+            <!-- descripción del indicador -->
+            <if test="cod_ind != null and cod_ind != ''">
+                AND cod_ind = #{cod_ind}
+            </if>
+            <!-- descripción del indicador -->
+            <if test="des_ind != null and des_ind != ''">
+                AND des_ind = #{des_ind}
+            </if>
+            <!-- descripción operación matemática -->
+            <if test="des_ope_mat != null and des_ope_mat != ''">
+                AND des_ope_mat = #{des_ope_mat}
+            </if>
+            <!-- llave foranea a la tabla de objetivos -->
+            <if test="id_obj != 0">
+                AND id_obj = #{id_obj}
+            </if>
+            <!-- llave foranea a la tabla de procesos -->
+            <if test="id_pro != 0">
+                AND id_pro = #{id_pro}
+            </if>
+            <!-- llave foranea a la tabla de clasificación -->
+            <if test="id_cla != 0">
+                AND id_cla = #{id_cla}
+            </if>
+            <!-- llave foranea a la tabla de frecuencia -->
+            <if test="id_fre != 0">
+                AND id_fre = #{id_fre}
+            </if>
+            <!-- llave foranea al centro de costo -->
+            <if test="id_cco != 0">
+                AND id_cco = #{id_cco}
+            </if>
+            <!-- fecha cumplimiento del indicador -->
+            <if test="fech_cump_ind != null">
+                AND fech_cump_ind = #{fech_cump_ind}
+            </if>
+            <!-- llave foranea a la tabla de colaboradores -->
+            <if test="id_resp != 0">
+                AND id_resp = #{id_resp}
+            </if>
+            <!-- llave foranea a la tabla de estados -->
+            <if test="id_estado_ind != 0">
+                AND id_estado_ind = #{id_estado_ind}
+            </if>
+        </where>     
+    </select>
+    
+    <!-- Consulta que trae el nombre del proceso que tiene asociado el indicador -->
+    <select id="selectProNameFromInd" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_ind"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_pro">
+        SELECT pro.* FROM gm_sos_pro pro 
+        INNER JOIN gm_sos_ind ind 
+        ON pro.id_pro = ind.id_pro 
+        WHERE ind.id_ind = #{id_ind}     
+    </select>   
+      
+    <insert id="createSosInd" useGeneratedKeys="true" keyProperty="id_ind" keyColumn="id_ind"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_ind">
+        INSERT INTO gm_sos_ind
+        (cod_ind, des_ind, des_ope_mat, id_obj, id_pro, id_cla, id_fre, es_tasa, meta_val, id_cco, fech_cump_ind, id_resp, id_estado_ind, use_cre)
+        values
+        (#{cod_ind}, #{des_ind}, #{des_ope_mat}, #{id_obj}, #{id_pro}, #{id_cla}, #{id_fre}, #{es_tasa}, #{meta_val}, #{id_cco}, #{fech_cump_ind}, #{id_resp}, #{id_estado_ind}, #{use_cre})
+    </insert>
+    
+    <update id="editSosInd" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_ind"> 
+        UPDATE gm_sos_ind SET 
+        cod_ind = #{cod_ind}, 
+        des_ind = #{des_ind}, 
+        des_ope_mat = #{des_ope_mat}, 
+        id_obj = #{id_obj}, 
+        id_pro = #{id_pro}, 
+        id_cla = #{id_cla}, 
+        id_fre = #{id_fre}, 
+        es_tasa = #{es_tasa}, 
+        meta_val = #{meta_val}, 
+        id_cco = #{id_cco}, 
+        fech_cump_ind = #{fech_cump_ind}, 
+        id_resp = #{id_resp}, 
+        id_estado_ind = #{id_estado_ind},
+        use_mod = #{use_mod}
+        WHERE id_ind = #{id_ind}
+    </update>  
+    
+</mapper>    

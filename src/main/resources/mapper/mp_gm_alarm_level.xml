@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_alarm_level">
+
+    <select id="selectLevAlarma" parameterType="com.grupomovil.entity.EBGm_alarm_level"
+            resultType="com.grupomovil.entity.EBGm_alarm_level">
+        SELECT * FROM gm_alarm_level;
+    </select>
+    
+    <!-- Trae el nombre del nivel de la alarma dado su id -->
+    <select id="selectLevAlarmaNameById" parameterType="int"
+            resultType="String">
+        SELECT gm_ala_lev_nam FROM gm_alarm_level WHERE gm_ala_lev_id = #{gm_ala_lev_id};     
+    </select>
+    
+    <insert id="createLevAlarma" useGeneratedKeys="true" keyProperty="gm_ala_lev_id" keyColumn="gm_ala_lev_id"
+               parameterType="com.grupomovil.entity.EBGm_alarm_level">
+        INSERT INTO gm_alarm_level
+        gm_ala_lev_id, gm_ala_lev_dat, gm_ala_lev_nam, gm_ala_lev_des, usu_cre)
+        VALUES
+        (#{gm_ala_lev_id}, #{gm_ala_lev_dat}, #{gm_ala_lev_nam}, #{gm_ala_lev_des}, #{usu_cre})
+    </insert>
+    
+    <update id="editLevAlarma" parameterType="com.grupomovil.entity.EBGm_alarm_level">
+        UPDATE gm_alarm_level SET 
+         gm_ala_lev_dat = #{gm_ala_lev_dat}, 
+         gm_ala_lev_nam = #{gm_ala_lev_nam},
+         gm_ala_lev_des = #{gm_ala_lev_des},
+         usu_mod = #{usu_mod}
+        WHERE gm_ala_lev_id = #{gm_ala_lev_id}  
+    </update>
+    
+</mapper>

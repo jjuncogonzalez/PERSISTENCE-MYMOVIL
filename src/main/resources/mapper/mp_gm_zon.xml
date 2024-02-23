@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_zon">
+    
+    <select id="listAllZones" parameterType="com.grupomovil.entity.EBGm_zon"
+        resultType="com.grupomovil.entity.EBGm_zon">
+        SELECT * FROM gm_zone;
+    </select>
+    
+    <select id="getZone" parameterType="com.grupomovil.entity.EBGm_zon"
+        resultType="com.grupomovil.entity.EBGm_zon">
+        SELECT * FROM gm_zone WHERE gm_zon_id = #{gm_zon_id};
+    </select>
+    
+    <insert id="addZone" useGeneratedKeys="true" keyProperty="gm_zon_id" keyColumn="gm_zon_id"
+            parameterType="com.grupomovil.entity.EBGm_zon">
+        INSERT INTO gm_zone (gm_zon_nam, gm_zon_des, gm_zon_sta, gm_zon_typ_id)
+        VALUES(#{gm_zon_nam}, #{gm_zon_des}, #{gm_zon_sta}, #{gm_zon_typ_id})
+    </insert>
+    
+    <update id="updateZone" parameterType="com.grupomovil.entity.EBGm_zon">
+        UPDATE gm_zone SET 
+        gm_zon_nam = #{gm_zon_nam},
+        gm_zon_des = #{gm_zon_des},
+        gm_zon_sta = #{gm_zon_sta},
+        gm_zon_typ_id = #{gm_zon_typ_id}
+        WHERE gm_zon_id = #{gm_zon_id}
+    </update>
+    
+    <delete id="deleteZone" parameterType="com.grupomovil.entity.EBGm_zon">
+        DELETE FROM gm_zone WHERE gm_zon_id = #{gm_zon_id}
+    </delete>
+
+</mapper>

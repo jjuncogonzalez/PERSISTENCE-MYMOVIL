@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_loc_veh">
+
+
+    <insert id="insertLocation" useGeneratedKeys="true" 
+            parameterType="com.grupomovil.entity.EBGm_loc_veh"> 
+        INSERT INTO gm_loc_veh 
+        (loc_id,loc_veh, loc_pos,loc_est,loc_niv_cari,loc_km,usu_cre)
+        VALUES
+        (null,#{loc_veh},#{loc_pos},#{loc_est},#{loc_niv_cari},#{loc_km},#{usu_cre})
+    </insert>
+        
+    <select id="selectLocation67" 
+            resultType="com.grupomovil.entity.EBGm_loc_veh">    
+
+
+
+        SELECT t.loc_veh, t.loc_pos, t.loc_est,  r.dat_cre  , t.loc_niv_cari, t.loc_km 
+        FROM (
+        SELECT loc_id,loc_veh, loc_pos, loc_est,  max(dat_cre) as dat_cre  , loc_niv_cari, loc_km 
+      
+        FROM gm_loc_veh
+        where loc_veh like'Z67%'
+        GROUP BY loc_veh
+        ) r
+        INNER JOIN gm_loc_veh t
+
+        ON t.loc_veh = r.loc_veh AND t.dat_cre = r.dat_cre
+        GROUP BY loc_veh
+        order by loc_veh ASC
+        
+        
+
+    </select>
+    <select id="selectLocation63" 
+               resultType="com.grupomovil.entity.EBGm_loc_veh">    
+   
+
+
+        SELECT t.loc_veh, t.loc_pos, t.loc_est,  r.dat_cre  , t.loc_niv_cari, t.loc_km 
+        FROM (
+        SELECT loc_id,loc_veh, loc_pos, loc_est,  max(dat_cre) as dat_cre  , loc_niv_cari, loc_km 
+      
+        FROM gm_loc_veh
+        where loc_veh like'Z63%'
+        GROUP BY loc_veh
+        ) r
+        INNER JOIN gm_loc_veh t
+
+        ON t.loc_veh = r.loc_veh AND t.dat_cre = r.dat_cre
+        GROUP BY loc_veh
+        order by loc_veh ASC
+        
+        
+
+    </select>
+    
+
+    <select id="selectLocationvehicle" parameterType="com.grupomovil.entity.EBGm_loc_veh"
+               resultType="com.grupomovil.entity.EBGm_loc_veh" >    
+   
+
+        SELECT t.loc_veh, t.loc_pos, t.loc_est,  r.dat_cre  , t.loc_niv_cari, t.loc_km 
+        FROM (
+        SELECT loc_id,loc_veh, loc_pos, loc_est,  max(dat_cre) as dat_cre  , loc_niv_cari, loc_km 
+      
+        FROM gm_loc_veh
+        where loc_veh = #{loc_veh}
+        GROUP BY loc_veh
+        ) r
+        INNER JOIN gm_loc_veh t
+
+        ON t.loc_veh = r.loc_veh AND t.dat_cre = r.dat_cre
+        GROUP BY loc_veh
+        order by loc_veh ASC
+        
+
+    </select>
+
+<select id="selectLocation" parameterType="com.grupomovil.entity.EBGm_loc_veh"
+            resultType="com.grupomovil.entity.EBGm_loc_veh">    
+        SELECT * FROM gm_loc_veh
+        where loc_veh =#{loc_veh};
+    </select>
+
+
+</mapper>

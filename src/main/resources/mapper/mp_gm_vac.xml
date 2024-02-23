@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_vac">
+
+    <select id="selectGmVac" parameterType="com.grupomovil.entity.EBGm_vac"
+            resultType="com.grupomovil.entity.EBGm_vac">
+        SELECT v.vac_ide, p.vac_per_ini_dat, p.vac_per_fin_dat FROM gm_vac v
+        INNER JOIN gm_vac_per p ON v.vac_per_id = p.vac_per_id
+        WHERE p.vac_per_id = 8
+    </select>
+    
+    <insert id="createGmVac" useGeneratedKeys="true" keyProperty="vac_id" keyColumn="vac_id"
+            parameterType="com.grupomovil.entity.EBGm_vac">
+        
+        insert into gm_vac
+        (vac_id, vac_ide, usu_cre)
+        values
+        (#{vac_id}, #{vac_ide}, #{usu_cre})
+        
+    </insert>
+    
+</mapper>

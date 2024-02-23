@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_par_sys">
+
+    <select id="selectParamSystem" parameterType="String"
+            resultType="String">
+        SELECT par_sys_val FROM gm_par_sys WHERE par_sys_key = #{par_sys_key} 
+    </select>
+    
+    <update id="editParamSystem" parameterType="com.grupomovil.entity.EBGm_par_sys">
+        UPDATE gm_par_sys SET 
+        par_sys_val = #{par_sys_val}
+        WHERE par_sys_key = #{par_sys_key}  
+    </update>
+    
+    
+</mapper>

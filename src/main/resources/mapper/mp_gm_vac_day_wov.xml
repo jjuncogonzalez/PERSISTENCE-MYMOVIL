@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_vac_day_wov">
+
+    <select id="selectGmVacDayWov" parameterType="com.grupomovil.entity.EBGm_vac_day_wov"
+            resultType="com.grupomovil.entity.EBGm_vac_day_wov">
+        
+        SELECT * FROM gm_vac_day_wov
+        WHERE day_wov_sta = 1;
+        
+    </select>
+    
+    <insert id="createGmVacDayWov" useGeneratedKeys="true" keyProperty="day_wov_id" keyColumn="day_wov_id"
+            parameterType="com.grupomovil.entity.EBGm_vac_day_wov">
+        
+        insert into gm_vac_day_wov
+        (day_wov_id, day_wov_dat, day_wov_sta, usu_cre)
+        values
+        (#{day_wov_id}, #{day_wov_dat}, #{day_wov_sta}, #{usu_cre})
+        
+    </insert>
+    
+    <update id="editGmVacDayWov" parameterType="com.grupomovil.entity.EBGm_vac_day_wov">
+        
+        UPDATE gm_vac_day_wov SET 
+        day_wov_sta = #{day_wov_sta},
+        usu_mod = #{usu_mod}
+        WHERE day_wov_id = #{day_wov_id}  
+        
+    </update>
+
+    
+</mapper>

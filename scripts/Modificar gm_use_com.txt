@@ -1,0 +1,38 @@
+ALTER TABLE `testmymovil`.`gm_use_com` 
+ADD COLUMN `id_dis` VARCHAR(20) NOT NULL DEFAULT '' COMMENT 'identificador dispositivo' AFTER `col_id`,
+ADD COLUMN `use_com_nam` VARCHAR(45) NOT NULL COMMENT 'nombre usuario' AFTER `id_dis`,
+ADD COLUMN `use_com_use` VARCHAR(45) NOT NULL COMMENT 'usuario' AFTER `use_com_nam`,
+ADD COLUMN `use_com_pas` VARCHAR(100) NOT NULL COMMENT 'contraseña' AFTER `use_com_use`,
+ADD COLUMN `use_com_sta` TINYINT(4) NOT NULL COMMENT 'estado 0 = Inactivo, 1 = Activo, 3 = Eliminado' AFTER `use_com_pas`,
+ADD COLUMN `use_com_ima` LONGBLOB NULL DEFAULT NULL COMMENT 'imagen (foto)' AFTER `use_com_sta`,
+ADD COLUMN `com_id` INT(11) NOT NULL COMMENT 'fk a compañias' AFTER `use_com_ima`,
+ADD COLUMN `use_com_las_ent` DATE NOT NULL COMMENT 'última entrada' AFTER `com_id`,
+ADD COLUMN `use_com_pas_cha` DATE NOT NULL COMMENT 'fecha caducidad contraseña' AFTER `use_com_las_ent`,
+ADD COLUMN `use_com_las_cha` DATE NOT NULL COMMENT 'último cambio de contraseña' AFTER `use_com_pas_cha`,
+ADD COLUMN `use_com_num_ent` INT(11) NOT NULL COMMENT 'n ingresos' AFTER `use_com_las_cha`,
+CHANGE COLUMN `col_id` `col_id` INT(11) NULL DEFAULT NULL COMMENT 'fk a id colaborador' ,
+ADD INDEX `fk_gmuse_com_gm_com_idx` (`com_id` ASC),
+ADD INDEX `fk_gm_use_com_gm_use_pla_idx` (`usu_cre` ASC),
+ADD INDEX `fk_gm_usu_com_use_mod_gm_use_pla_idx` (`usu_mod` ASC);
+;
+ALTER TABLE `testmymovil`.`gm_use_com` 
+ADD CONSTRAINT `fk_gm_use_com_gm_com`
+  FOREIGN KEY (`com_id`)
+  REFERENCES `testmymovil`.`gm_com` (`com_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_gm_use_com_gm_col`
+  FOREIGN KEY (`col_id`)
+  REFERENCES `testmymovil`.`gm_col` (`col_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_gm_use_com_usu_cre_gm_use_pla`
+  FOREIGN KEY (`usu_cre`)
+  REFERENCES `testmymovil`.`gm_use_pla` (`use_pla_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_gm_usu_com_use_mod_gm_use_pla`
+  FOREIGN KEY (`usu_mod`)
+  REFERENCES `testmymovil`.`gm_use_pla` (`use_pla_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_att">
+
+    <select id="selectRequestsAttachments" parameterType="com.grupomovil.entity.EBGm_req"
+            resultType="com.grupomovil.entity.EBGm_req_att">
+        SELECT * FROM gm_req_att
+        WHERE req_id = #{req_id}
+        ORDER BY req_att_id DESC
+    </select>
+    
+    <insert id="createRequestsAttachments" useGeneratedKeys="true" keyProperty="req_att_id" keyColumn="req_att_id"
+                parameterType="com.grupomovil.entity.EBGm_req_att">
+        insert into gm_req_att
+        (req_att_id, req_att_pat, req_att_siz, req_att_ext, req_att_nam, req_att_des, req_id, usu_cre)
+        values
+        (#{req_att_id}, #{req_att_pat}, #{req_att_siz}, #{req_att_ext}, #{req_att_nam}, #{req_att_des}, #{req_id}, #{usu_cre})
+    </insert>
+</mapper>

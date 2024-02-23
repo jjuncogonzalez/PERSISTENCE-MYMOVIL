@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_est">
+    <!--consultar toda la información de la tabla estrategia sostenibilidad, 
+    los filtros se aplica de acuerdo a la información que contenga el objeto EBGm_sos_est -->
+    <select id="selectSosEst" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_est"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_est">
+        SELECT * FROM gm_sos_est
+        <where>
+            <!-- identificador único de la tabla -->
+            <if test="id_est != 0">
+                id_est = #{id_est}
+            </if>
+            <!-- Llave foranea a la tabla de actividades -->
+            <if test="id_act != 0"> 
+                AND id_act = #{id_act}
+            </if>
+            <!-- descripción de la estrategia -->
+            <if test="des_est != null and des_est != ''">
+                AND des_est = #{des_est}
+            </if>
+        </where>     
+    </select>
+     
+    <insert id="createSosEst" useGeneratedKeys="true" keyProperty="id_est" keyColumn="id_est"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_est">
+        INSERT INTO gm_sos_est
+        (id_act, des_est, use_cre)
+        values
+        (#{id_act}, #{des_est}, #{use_cre})
+    </insert>
+    
+    <update id="editDescripcionSosEst" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_est"> 
+        UPDATE gm_sos_est SET 
+        des_est = #{des_est},
+        use_mod = #{use_mod}
+        WHERE id_est = #{id_est}  
+    </update>  
+</mapper>    

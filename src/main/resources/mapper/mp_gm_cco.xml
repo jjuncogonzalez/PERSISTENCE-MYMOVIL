@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_cco">
+
+    <select id="selectGmCco" parameterType="com.grupomovil.entity.EBGm_cco"
+            resultType="com.grupomovil.entity.EBGm_cco">
+        SELECT * FROM gm_cco 
+        <where>
+            <if test="com_id != 0">
+                com_id = #{com_id}
+            </if>
+            <if test="cco_id != 0">
+                cco_id = #{cco_id}
+            </if>
+        </where>
+    </select>
+    
+    <insert id="createGmCco" useGeneratedKeys="true" keyProperty="cco_id" keyColumn="cco_id"
+            parameterType="com.grupomovil.entity.EBGm_cco">
+        
+        insert into gm_cco
+        (cco_id, cco_des, cco_cod_kac, cco_sta, com_id, usu_cre)
+        values
+        (#{cco_id}, #{cco_des}, #{cco_cod_kac}, #{cco_sta}, #{com_id}, #{usu_cre})
+        
+    </insert>
+    
+    <update id="editGmCco" parameterType="com.grupomovil.entity.EBGm_cco">
+        UPDATE gm_cco SET 
+        cco_des = #{cco_des},
+        cco_cod_kac = #{cco_cod_kac},
+        cco_sta = #{cco_sta},
+        usu_mod = #{usu_mod}
+        WHERE cco_id = #{cco_id}  
+    </update>
+    
+</mapper>

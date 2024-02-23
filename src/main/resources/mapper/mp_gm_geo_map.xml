@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_geo_map">
+    
+    <select id="selectAllVehicles" parameterType="com.grupomovil.entity.EBGm_geo_map"
+        resultType="com.grupomovil.entity.EBGm_geo_map">
+        SELECT * FROM get_vehicles;
+    </select>
+    
+    <select id="selectByVehicle" parameterType="com.grupomovil.entity.EBGm_geo_map"
+        resultType="com.grupomovil.entity.EBGm_geo_map">
+        SELECT * FROM get_vehicles WHERE tm_com_ide = #{vehicle};
+    </select>
+    
+    <select id="getRoute" parameterType="com.grupomovil.entity.EBGm_geo_rou"
+        resultType="com.grupomovil.entity.EBGm_geo_rou">
+        CALL `BG_GET_REPORT`(#{dataVehicle}, #{dateStart}, #{dateEnd});
+    </select>
+    
+    <select id="getPositionVehicle" parameterType="com.grupomovil.entity.EBGm_geo_req_1"
+        resultType="com.grupomovil.entity.EBGm_geo_req_1">
+        SELECT Latitude, Longitude, DATE_ADD(VehicleTimestamp, INTERVAL -5 HOUR) AS VehicleTimestamp, BatteryVoltage FROM get_vehicles WHERE tm_com_ide = #{vehicle};
+    </select>
+    
+    <select id="getStoppedVehicle" parameterType="com.grupomovil.entity.EBGm_geo_req_2"
+        resultType="com.grupomovil.entity.EBGm_geo_req_2">
+        SELECT
+            tm_com_ide AS Vehicle,
+            IF(EventType="VehicleEventTypeVehicleMovingStop", "Apagado", "Detenido") AS Status,
+            DATE_ADD(VehicleTimestamp, INTERVAL -5 HOUR) AS VehicleTimestamp
+        FROM get_vehicles
+        WHERE TIMESTAMPDIFF(MINUTE, DATE_ADD(VehicleTimestamp, INTERVAL -5 HOUR), DATE_ADD(NOW(), INTERVAL -5 HOUR)) >= #{minutes}
+        AND polygon NOT IN (95, 96, 97, 98, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110);
+    </select>
+    
+    <select id="getPositionYard" parameterType="com.grupomovil.entity.EBGm_geo_req_3"
+        resultType="com.grupomovil.entity.EBGm_geo_req_3">
+        SELECT 
+            tm_com_ide AS vehicle,
+            BatteryVoltage,
+            IF(Polygon IN(95, 96, 97, 98, 99, 100, 101, 102, 103, 157, 104, 105, 106, 107, 108, 155, 109, 110), 'true', 'false') AS response,
+            CASE
+                WHEN Polygon = 95 THEN "Patio 20 de Julio"
+                WHEN Polygon = 96 THEN "Patio 80"
+                WHEN Polygon = 97 THEN "Patio Américas"
+                WHEN Polygon = 98 THEN "Patio Bachué"
+                WHEN Polygon = 99 THEN "Patio Bonito"
+		WHEN Polygon = 100 THEN "Patio Calle 6°"
+                WHEN Polygon = 101 THEN "Patio Eldorado"
+                WHEN Polygon = 102 THEN "Patio Fiscalía"
+                WHEN Polygon = 103 THEN "Patio Laguna"
+                WHEN Polygon = 157 THEN "Patio Laguna"
+		WHEN Polygon = 104 THEN "Patio MarcoPolo"
+                WHEN Polygon = 105 THEN "Patio Norte"
+                WHEN Polygon = 106 THEN "Patio Nuevo Sur"
+                WHEN Polygon = 107 THEN "Patio Suba"
+                WHEN Polygon = 108 THEN "Patio Sur"
+                WHEN Polygon = 155 THEN "Patio Sur"
+		WHEN Polygon = 109 THEN "Patio Tunal"
+                WHEN Polygon = 158 THEN "Patio Tunal"
+		WHEN Polygon = 110 THEN "Patio Usme"
+                ELSE "En vía"
+            END AS location
+        FROM 
+            get_vehicles
+        WHERE 
+            tm_com_ide = #{entrada};
+    </select>
+    
+    <select id="getVehiclesInYard" parameterType="com.grupomovil.entity.EBGm_geo_req_4"
+        resultType="com.grupomovil.entity.EBGm_geo_req_4">
+        
+        <if test="yard == 103">
+            SELECT Latitude, Longitude, DATE_ADD(VehicleTimestamp, INTERVAL -5 HOUR) AS VehicleTimestamp, tm_com_ide AS Vehicle FROM get_vehicles WHERE polygon IN(103, 157);
+        </if>
+        
+        <if test="yard == 109">
+            SELECT Latitude, Longitude, DATE_ADD(VehicleTimestamp, INTERVAL -5 HOUR) AS VehicleTimestamp, tm_com_ide AS Vehicle FROM get_vehicles WHERE Polygon IN (109, 158);
+        </if>
+    </select>
+    
+    <select id="listAllVehicleLocation" parameterType="com.grupomovil.entity.EBGm_geo_req_5"
+        resultType="com.grupomovil.entity.EBGm_geo_req_5">
+        SELECT 
+            tm_com_ide AS vehicle,
+            BatteryVoltage,
+            IF(Polygon IN(95, 96, 97, 98, 99, 100, 101, 102, 103, 157, 104, 105, 106, 107, 108, 155, 109, 110), 'true', 'false') AS response,
+            CASE
+                WHEN Polygon = 95 THEN "Patio 20 de Julio"
+                WHEN Polygon = 96 THEN "Patio 80"
+                WHEN Polygon = 97 THEN "Patio Américas"
+                WHEN Polygon = 98 THEN "Patio Bachué"
+                WHEN Polygon = 99 THEN "Patio Bonito"
+		WHEN Polygon = 100 THEN "Patio Calle 6°"
+                WHEN Polygon = 101 THEN "Patio Eldorado"
+                WHEN Polygon = 102 THEN "Patio Fiscalía"
+                WHEN Polygon = 103 THEN "Patio Laguna"
+                WHEN Polygon = 157 THEN "Patio Laguna"
+		WHEN Polygon = 104 THEN "Patio MarcoPolo"
+                WHEN Polygon = 105 THEN "Patio Norte"
+                WHEN Polygon = 106 THEN "Patio Nuevo Sur"
+                WHEN Polygon = 107 THEN "Patio Suba"
+                WHEN Polygon = 108 THEN "Patio Sur"
+                WHEN Polygon = 155 THEN "Patio Sur"
+		WHEN Polygon = 109 THEN "Patio Tunal"
+                WHEN Polygon = 158 THEN "Patio Tunal"
+		WHEN Polygon = 110 THEN "Patio Usme"
+                ELSE "En vía"
+            END AS location
+        FROM 
+            get_vehicles;
+    </select>
+    
+</mapper>

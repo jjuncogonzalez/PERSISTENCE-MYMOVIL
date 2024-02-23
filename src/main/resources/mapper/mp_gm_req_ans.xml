@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_ans">
+
+    <select id="selectRequestsAnswer" parameterType="com.grupomovil.entity.EBGm_req_ans"
+            resultType="com.grupomovil.entity.EBGm_req_ans">
+        SELECT an.*, up.use_pla_use, uc.use_com_nam FROM gm_req_ans an
+        LEFT JOIN gm_use_pla up ON an.usu_cre = up.use_pla_id
+        LEFT JOIN gm_use_com uc ON an.usu_cre = uc.use_com_id
+        WHERE req_id = #{req_id}
+        ORDER BY req_ans_id DESC
+    </select>
+    
+    <insert id="createRequestsAnswer" useGeneratedKeys="true" keyProperty="req_ans_id" keyColumn="req_ans_id"
+                parameterType="com.grupomovil.entity.EBGm_req_ans">
+        insert into gm_req_ans
+        (req_ans_id, req_val, req_is_col, req_vie, req_id, usu_cre)
+        values
+        (null, #{req_val}, #{req_is_col}, #{req_vie}, #{req_id}, #{usu_cre})
+    </insert>
+</mapper>

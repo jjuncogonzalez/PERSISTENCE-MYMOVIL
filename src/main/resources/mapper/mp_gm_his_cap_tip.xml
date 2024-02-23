@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_his_cap_tip">
+    
+    <select id="findGmHisCapTipo" parameterType="com.grupomovil.entity.EBGm_his_cap_tip"
+            resultType="com.grupomovil.entity.EBGm_his_cap_tip">
+        SELECT * FROM gm_his_cap_tip
+    </select>
+
+</mapper>
+

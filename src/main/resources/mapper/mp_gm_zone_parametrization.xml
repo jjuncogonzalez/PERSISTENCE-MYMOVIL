@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_zone_parametrization">
+
+    <!-- Buscar todos los registros de la tabla -->
+    <select id="selectZoneParametrization" parameterType="com.grupomovil.entity.EBGm_zone_parametrization"
+            resultType="com.grupomovil.entity.EBGm_zone_parametrization">
+        SELECT * FROM gm_zone_parametrization;
+    </select>
+   
+    <insert id="createZoneParametrization" parameterType="com.grupomovil.entity.EBGm_zone_parametrization">
+        insert into gm_zone_parametrization
+        (gm_zon_par_val, gm_zon_id, gm_var_id, gm_var_ran_id)
+        values
+        (#{gm_zon_par_val}, #{gm_zon_id}, #{gm_var_id}, #{gm_var_ran_id})
+    </insert>
+
+</mapper>

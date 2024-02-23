@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_kac_col">
+
+    <select id="selectKactusColaborators" parameterType="com.grupomovil.entity.EBKac_col"
+            resultType="com.grupomovil.entity.EBKac_col">
+        
+        SELECT cod_empl AS col_ide
+        ,tip_docu AS col_doc_typ
+        ,cod_inte AS col_cod
+        ,nom_empl AS col_nam
+        ,ape_empl AS col_sur
+        ,fec_naci AS col_bir
+        ,tel_movi AS col_tel
+        ,sex_empl AS col_gen
+        ,box_mail AS col_ema
+        ,fec_cont
+        ,nro_cont
+        ,ind_acti AS col_sta
+        ,fec_deja
+        ,cod_ccos AS are_kac
+        ,cod_carg AS col_pos
+        ,aEmple
+        ,aContr
+        FROM Empleados_Rigel
+        <where>
+            <if test="aEmpleValidator == 1">
+                aEmple BETWEEN (#{startDate}) AND (#{endDate})
+            </if>
+            <if test="aContrValidator == 1">
+                aContr BETWEEN (#{startDate}) AND (#{endDate})
+            </if>
+            <if test="fec_contValidator == 1">
+                fec_cont BETWEEN (#{startDate}) AND (#{endDate})
+            </if>
+            <if test="ind_acti == 1">
+                AND ind_acti = 'A'
+            </if>
+            <if test="ind_acti == 0">
+                AND ind_acti = 'I'
+            </if>
+        </where>
+        
+    </select>
+    
+
+    
+</mapper>

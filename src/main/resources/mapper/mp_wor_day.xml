@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_wor_day">
+    
+    <select id="selectEmpDate" parameterType="com.grupomovil.entity.biometricos.EBGm_wor_day_emp_date"
+            resultType="com.grupomovil.entity.biometricos.EBGm_wor_day_emp_date">
+        SELECT j.* FROM generica_jornada j INNER JOIN empleado e ON e.id_empleado = j.id_empleado WHERE e.identificacion = #{wor_day_con_ide} AND j.fecha = #{wor_day_con_fec};
+    </select>
+    
+    <select id="selectWorkDayType" parameterType="com.grupomovil.entity.biometricos.EBGm_wor_day_type"
+            resultType="com.grupomovil.entity.biometricos.EBGm_wor_day_type">
+        SELECT g.* FROM generica_jornada_tipo g	WHERE g.hini_t1 = #{realTimeOrigin} AND g.hfin_t1 = #{realTimeDestiny} AND g.id_param_area = #{idParamArea} AND g.estado_reg = 0 LIMIT 1;
+    </select>
+    
+    <select id="selectOperatorsWorkDay" parameterType="com.grupomovil.entity.biometricos.EBGm_wor_day_ope"
+            resultType="com.grupomovil.entity.biometricos.EBGm_wor_day_ope">
+        SELECT id_prg_sercon as idPrgSercon, fecha, emp.identificacion, CONCAT(emp.nombres, ' ', emp.apellidos) as nombres, 'OPERADORES' as area, time_origin as timeOrigin, time_destiny as timeDestiny,  hini_turno2 as hiniTurno2, hfin_turno2 as hfinTurno2, hini_turno3 as hiniTurno3, hfin_turno3 as hfinTurno3,real_time_origin as realTimeOrigin, real_time_destiny as realTimeDestiny, real_hini_turno2 as realHiniTurno2, real_hfin_turno2 as realHfinTurno2, real_hini_turno3 as realHiniTurno3, real_hfin_turno3 as realHfinTurno3,nomina_borrada as nominaBorrada, autorizado, fecha_autoriza as fechaAutoriza, liquidado, jor.creado as creado, jor.modificado as modificado from rgmo.prg_sercon jor INNER JOIN empleado emp ON emp.id_empleado = jor.id_empleado AND jor.fecha BETWEEN DATE(#{fromDate}) AND DATE(#{toDate})
+    </select>
+    
+    <select id="selectOperatorWorkDayById" parameterType="com.grupomovil.entity.biometricos.EBGm_wor_day_ope"
+            resultType="com.grupomovil.entity.biometricos.EBGm_wor_day_ope">
+        SELECT  id_prg_sercon as idPrgSercon, fecha, emp.identificacion, CONCAT(emp.nombres, ' ', emp.apellidos) as nombres, 'OPERADORES' as area, time_origin as timeOrigin, 
+                time_destiny as timeDestiny, hini_turno2 as hiniTurno2, hfin_turno2 as hfinTurno2, hini_turno3 as hiniTurno3, hfin_turno3 as hfinTurno3, real_time_origin as realTimeOrigin,
+                real_time_destiny as realTimeDestiny, real_hini_turno2 as realHiniTurno2, real_hfin_turno2 as realHfinTurno2, real_hini_turno3 as realHiniTurno3, real_hfin_turno3 as realHfinTurno3,
+                nomina_borrada as nominaBorrada, autorizado, fecha_autoriza as fechaAutoriza, liquidado, jor.creado as creado, jor.modificado as modificado
+            FROM rgmo.prg_sercon jor
+            INNER JOIN empleado emp ON emp.id_empleado = jor.id_empleado 
+            AND jor.fecha = DATE(#{fecha}) 
+            AND emp.identificacion = #{identificacion}
+    </select>
+    
+    <select id="selectWorkDayGeneric" parameterType="com.grupomovil.entity.biometricos.EBGm_wor_day_gen"
+            resultType="com.grupomovil.entity.biometricos.EBGm_wor_day_gen">
+        SELECT  id_generica_jornada as idGenericaJornada, fecha, emp.identificacion, CONCAT(emp.nombres, ' ', emp.apellidos) as nombres, pa.area as area, 
+                time_origin as timeOrigin, time_destiny as timeDestiny, real_time_origin as realTimeOrigin, real_time_destiny as realTimeDestiny, 
+                nomina_borrada as nominaBorrada, autorizado, fecha_autoriza as fechaAutoriza, liquidado as liquidado, jor.creado, jor.modificado 
+            FROM rgmo.generica_jornada jor 
+            INNER JOIN empleado emp ON emp.id_empleado = jor.id_empleado 
+            INNER JOIN param_area pa ON pa.id_param_area = jor.id_param_area 
+            AND jor.fecha BETWEEN DATE(#{fromDate}) AND DATE(#{toDate})            
+    </select>
+    
+    <select id="selectWorkDayGenericById" parameterType="com.grupomovil.entity.biometricos.EBGm_wor_day_gen"
+            resultType="com.grupomovil.entity.biometricos.EBGm_wor_day_gen">
+        SELECT  id_generica_jornada as idGenericaJornada, fecha, emp.identificacion, CONCAT(emp.nombres, ' ', emp.apellidos) as nombres, pa.area as area, 
+                time_origin as timeOrigin, time_destiny as timeDestiny, real_time_origin as realTimeOrigin, real_time_destiny as realTimeDestiny, 
+                nomina_borrada as nominaBorrada, autorizado, fecha_autoriza as fechaAutoriza, liquidado as liquidado, jor.creado, jor.modificado 
+            FROM rgmo.generica_jornada jor 
+            INNER JOIN empleado emp ON emp.id_empleado = jor.id_empleado 
+            INNER JOIN param_area pa ON pa.id_param_area = jor.id_param_area 
+            AND jor.fecha = DATE(#{fecha}) 
+            AND emp.identificacion = #{identificacion}            
+    </select>
+    
+    <select id="selectWorkDayGenericByDateArea" parameterType="com.grupomovil.entity.biometricos.EBGm_wor_day_acc_level"
+            resultType="com.grupomovil.entity.biometricos.EBGm_wor_day_acc_level">
+        SELECT  id_generica_jornada as idGenericaJornada, fecha, emp.identificacion, gjt.descripcion as tipoHorario
+            FROM rgmo.generica_jornada jor 
+            INNER JOIN empleado emp ON emp.id_empleado = jor.id_empleado 
+            INNER JOIN param_area pa ON pa.id_param_area = jor.id_param_area 
+            INNER JOIN generica_jornada_tipo gjt on jor.id_generica_jornada_tipo= gjt.id_generica_jornada_tipo
+            AND jor.fecha BETWEEN DATE(#{fechaInicio}) AND DATE(#{fechaFin})
+            AND jor.id_param_area = #{area}           
+    </select>
+    
+</mapper>

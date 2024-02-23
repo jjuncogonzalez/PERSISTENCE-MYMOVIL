@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_loc_veh_park">
+
+
+    <insert id="insertLocation234" useGeneratedKeys="true" 
+            parameterType="com.grupomovil.entity.EBGm_loc_veh"> 
+        INSERT INTO gm_loc_veh 
+        (loc_id,loc_veh, loc_pos,loc_est,loc_niv_cari,loc_km,usu_cre)
+        VALUES
+        (null,#{loc_veh},#{loc_pos},#{loc_est},#{loc_niv_cari},#{loc_km},#{usu_cre})
+    </insert>
+        
+    <select id="selectLocation67234" 
+            resultType="com.grupomovil.entity.EBGm_loc_veh">    
+
+
+
+        SELECT t.loc_veh, t.loc_pos, t.loc_est,  r.dat_cre  , t.loc_niv_cari, t.loc_km 
+        FROM (
+        SELECT loc_id,loc_veh, loc_pos, loc_est,  max(dat_cre) as dat_cre  , loc_niv_cari, loc_km 
+      
+        FROM gm_loc_veh
+        where loc_veh like'Z67%'
+        GROUP BY loc_veh
+        ) r
+        INNER JOIN gm_loc_veh t
+
+        ON t.loc_veh = r.loc_veh AND t.dat_cre = r.dat_cre
+        GROUP BY loc_veh
+        order by loc_veh ASC
+        
+        
+
+    </select>
+    <select id="selectLocation63234" 
+               resultType="com.grupomovil.entity.EBGm_loc_veh">    
+   
+
+
+        SELECT t.loc_veh, t.loc_pos, t.loc_est,  r.dat_cre  , t.loc_niv_cari, t.loc_km 
+        FROM (
+        SELECT loc_id,loc_veh, loc_pos, loc_est,  max(dat_cre) as dat_cre  , loc_niv_cari, loc_km 
+      
+        FROM gm_loc_veh
+        where loc_veh like'Z63%'
+        GROUP BY loc_veh
+        ) r
+        INNER JOIN gm_loc_veh t
+
+        ON t.loc_veh = r.loc_veh AND t.dat_cre = r.dat_cre
+        GROUP BY loc_veh
+        order by loc_veh ASC
+        
+        
+
+    </select>
+    
+
+    <select id="selectLocationvehicleparking" parameterType="com.grupomovil.entity.EBGm_loc_veh"
+               resultType="com.grupomovil.entity.EBGm_loc_veh" >    
+   
+
+     
+        SELECT t.veh_park_id,   r.dat_cre ,t.his_nov_id,u.nov_nam, t.nov_id,t.emp_park_id,p.emp_park_nam,p.emp_park_sur,p.emp_park_ide,p.emp_park_nit,p.emp_park_tel
+        FROM (
+        SELECT veh_park_id,  max(dat_cre) as dat_cre  ,his_nov_id, nov_id,emp_park_id
+      
+        FROM gm_nov_his 
+        where veh_park_id = #{veh_park_id }
+        GROUP BY veh_park_id
+        ) r
+        
+
+        INNER JOIN gm_nov_his t
+
+        ON t.veh_park_id = r.veh_park_id AND t.dat_cre = r.dat_cre
+        INNER JOIN gm_nov AS u
+    ON u.nov_id = t.nov_id 
+    
+        INNER JOIN gm_per_park AS p
+    ON p.emp_park_id = r.emp_park_id 
+        GROUP BY veh_park_id
+        order by veh_park_id ASC
+        
+
+    </select>
+
+<select id="selectLocation234" parameterType="com.grupomovil.entity.EBGm_loc_veh"
+            resultType="com.grupomovil.entity.EBGm_loc_veh">    
+        SELECT * FROM gm_loc_veh
+        where loc_veh =#{loc_veh};
+    </select>
+
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_emp_park">
+
+
+
+
+
+
+    <update id="updatePersonalParking" parameterType="com.grupomovil.entity.EBGm_emp_park">
+        UPDATE gm_per_park SET
+        
+       emp_park_nam = #{emp_park_nam},
+         emp_park_sur = #{emp_park_sur},
+         emp_park_tel = #{emp_park_tel},
+               emp_status = #{emp_status},
+        emp_park_nit = #{emp_park_nit},
+        emp_park_doc_typ_id = #{emp_park_doc_typ_id}
+        WHERE emp_park_id = #{emp_park_id}
+    </update>
+    
+
+    <insert id="insertPersonalParking" useGeneratedKeys="true" 
+            parameterType="com.grupomovil.entity.EBGm_emp_park"> 
+      
+        
+
+        INSERT INTO gm_per_park
+        ( emp_park_id, emp_park_ide, emp_park_doc_typ_id, emp_park_nam, emp_park_sur, emp_park_tel, emp_park_nit, dat_cre, usu_cre, dat_mod, usu_mod, emp_status)
+        VALUES
+                (#{emp_park_id},	#{emp_park_ide},	#{emp_park_doc_typ_id},	#{emp_park_nam},	#{emp_park_sur},	#{emp_park_tel},	#{emp_park_nit},	#{dat_cre},	#{usu_cre},	#{dat_mod},	#{usu_mod},	#{emp_status}
+)
+    
+    </insert>
+        
+    <select id="selectPersonalParking" parameterType="com.grupomovil.entity.EBGm_emp_park"
+            resultType="com.grupomovil.entity.EBGm_emp_park">    
+       SELECT * FROM gm_per_park
+        where emp_park_ide =#{emp_park_ide};
+    </select>
+    
+
+ 
+</mapper>

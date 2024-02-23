@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_var_ran">
+    
+    <select id="listAllRanges" parameterType="com.grupomovil.entity.EBGm_var_ran"
+        resultType="com.grupomovil.entity.EBGm_var_ran">
+        SELECT * FROM gm_variable_range;
+    </select>
+    
+    <!-- Trae el nombre del nivel de la alarma dado su id -->
+    <select id="selectRanVarNameById" parameterType="int"
+            resultType="String">
+        SELECT gm_var_ran_nam FROM gm_variable_range WHERE gm_var_ran_id = #{gm_var_ran_id};     
+    </select>
+    
+    <select id="getRange" parameterType="com.grupomovil.entity.EBGm_var_ran"
+        resultType="com.grupomovil.entity.EBGm_var_ran">
+        SELECT * FROM gm_variable_range WHERE gm_var_ran_id = #{gm_var_ran_id};
+    </select>
+    
+    <insert id="addRange" useGeneratedKeys="true" keyProperty="gm_var_ran_id" keyColumn="gm_var_ran_id"
+            parameterType="com.grupomovil.entity.EBGm_var_ran">
+        INSERT INTO gm_variable_range (gm_var_ran_nam, gm_var_ran_sim)
+        VALUES(#{gm_var_ran_nam}, #{gm_var_ran_sim})
+    </insert>
+    
+    <update id="updateRange" parameterType="com.grupomovil.entity.EBGm_var_ran">
+        UPDATE gm_variable_range SET 
+        gm_var_ran_nam = #{gm_var_ran_nam},
+        gm_var_ran_sim = #{gm_var_ran_sim}
+        WHERE gm_var_ran_id = #{gm_var_ran_id}
+    </update>
+    
+    <delete id="deleteRange" parameterType="com.grupomovil.entity.EBGm_var_ran">
+        DELETE FROM gm_variable_range WHERE gm_var_ran_id = #{gm_var_ran_id}
+    </delete>
+
+</mapper>

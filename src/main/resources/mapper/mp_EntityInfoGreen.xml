@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_EntityInfoGreen">
+    <!-- listado de entradas y salidas -->
+    <select id="listServicesGreen" parameterType="com.grupomovil.entity.EntityListServices"
+            resultType="com.grupomovil.entity.EntityListServices">
+        select TG.*,PR.name as ruta, ST1.num_entry_depot as type_table from (
+        SELECT tc.id_prg_tc, tc.id_vehiculo, tc.id_empleado, em.codigo_tm,CONCAT(em.nombres,' ',em.apellidos) as nombre, tc.servbus,
+        veh.codigo as bus, tc.time_origin, tc.time_destiny, tc.to_stop, tc.from_stop, tc.tabla,
+        tc.id_task_type, 1 as type_entry, 0 as type_exit 
+        , (select id_ruta from prg_tc where time_destiny=tc.time_origin and id_ruta is not null and id_vehiculo=tc.id_vehiculo
+        and fecha=tc.fecha LIMIT 1) as idruta
+        FROM prg_tc tc 
+        LEFT JOIN empleado em on em.id_empleado=tc.id_empleado
+        LEFT JOIN vehiculo veh on veh.id_vehiculo=tc.id_vehiculo
+        INNER JOIN (SELECT  * FROM prg_stop_point sp WHERE sp.is_depot = 1) AS sp ON tc.to_stop = sp.id_prg_stoppoint 
+        WHERE tc.fecha =  DATE(#{fecha}) AND tc.id_prg_tc NOT IN (SELECT  made.id_prg_tc FROM my_app_confirm_depot_entry made) 
+        AND tc.id_gop_unidad_funcional = #{UF}
+        AND tc.estado_operacion NOT IN (5 , 8, 99) AND tc.servbus IS NOT NULL AND tc.id_vehiculo IS NOT NULL
+        UNION ALL 
+        SELECT tc.id_prg_tc, tc.id_vehiculo, tc.id_empleado, em.codigo_tm,CONCAT(em.nombres,' ',em.apellidos) as nombre, tc.servbus,
+        veh.codigo as bus, tc.time_origin, tc.time_destiny, tc.to_stop, tc.from_stop, tc.tabla,
+        tc.id_task_type,0 as type_entry,1 as type_exit 
+        , (select id_ruta from prg_tc where time_origin=tc.time_destiny and id_ruta is not null and id_vehiculo=tc.id_vehiculo
+        and fecha=tc.fecha LIMIT 1) as idruta
+        FROM prg_tc tc 
+        LEFT JOIN empleado em on em.id_empleado=tc.id_empleado
+        LEFT JOIN vehiculo veh on veh.id_vehiculo=tc.id_vehiculo
+        INNER JOIN (SELECT * FROM prg_stop_point sp WHERE sp.is_depot = 1) AS sp ON tc.from_stop = sp.id_prg_stoppoint 
+        WHERE tc.fecha =  DATE(#{fecha}) AND tc.id_prg_tc NOT IN (SELECT made.id_prg_tc FROM my_app_confirm_depot_exit made) 
+        AND tc.id_gop_unidad_funcional =  #{UF} AND tc.servbus IS NOT NULL
+        AND tc.estado_operacion NOT IN (5 , 8, 99) AND tc.id_vehiculo IS NOT NULL) TG 
+        LEFT JOIN prg_route PR ON TG.idruta=PR.id_prg_route
+        INNER JOIN (
+        SELECT 
+        p.servbus AS servbus, 
+        CASE WHEN COUNT(p.id_prg_tc)>1 THEN 'Partida' ELSE 'Larga' end AS num_entry_depot
+        FROM
+        prg_tc p
+        INNER JOIN
+        (SELECT 
+        psp.*
+        FROM
+        prg_stop_point psp
+        WHERE
+        psp.is_depot IS NULL OR psp.is_depot = 1) psppx ON psppx.id_prg_stoppoint = p.to_stop
+        WHERE
+        p.fecha = DATE(#{fecha})
+        AND p.servbus IS NOT NULL
+        AND p.estado_operacion NOT IN (3 , 4, 6, 7)
+        AND p.id_gop_unidad_funcional = #{UF}
+        GROUP BY servbus
+        ) ST1 on TG.servbus= ST1.servbus
+        order by time_origin asc;
+    </select>
+    
+    <!-- trae el contador de entradas y salidas de buses de la UF para una fecha especifica -->
+    <select id="counterEntryExitBusByUF" parameterType="com.grupomovil.entity.EntityCounterBus"
+            resultType="com.grupomovil.entity.EntityCounterBus">
+        SELECT  
+        total, confirmado , 1 as depotentry, 0 as depotexit
+        FROM 
+        (SELECT  
+        COUNT(*) AS total 
+        FROM 
+        prg_tc tc 
+        INNER JOIN (SELECT  
+        * 
+        FROM 
+        prg_stop_point sp 
+        WHERE 
+        sp.is_depot = 1) AS sp ON tc.to_stop = sp.id_prg_stoppoint 
+        WHERE 
+        tc.fecha = DATE(#{fecha})
+        AND tc.id_gop_unidad_funcional = #{UF} 
+        AND tc.servbus IS NOT NULL 
+        AND tc.id_vehiculo IS NOT NULL) AS tc, 
+        (SELECT  
+        COUNT(*) AS confirmado 
+        FROM 
+        prg_tc tc 
+        INNER JOIN (SELECT  
+        * 
+        FROM 
+        prg_stop_point sp 
+        WHERE 
+        sp.is_depot = 1) AS sp ON tc.to_stop = sp.id_prg_stoppoint 
+        WHERE 
+        tc.fecha = DATE(#{fecha}) 
+        AND tc.id_prg_tc IN (SELECT  
+        made.id_prg_tc 
+        FROM 
+        my_app_confirm_depot_entry made) 
+        AND tc.id_gop_unidad_funcional = #{UF} 
+        AND tc.servbus IS NOT NULL 
+        AND tc.id_vehiculo IS NOT NULL) AS tcc
+        UNION ALL
+        SELECT  
+        total, confirmado , 0 as depotentry, 1 as depotexit
+        FROM 
+        (SELECT  
+        COUNT(*) AS total 
+        FROM 
+        prg_tc tc 
+        INNER JOIN (SELECT  
+        * 
+        FROM 
+        prg_stop_point sp 
+        WHERE 
+        sp.is_depot = 1) AS sp ON tc.from_stop = sp.id_prg_stoppoint 
+        WHERE 
+        tc.fecha = DATE(#{fecha})
+        AND tc.id_gop_unidad_funcional = #{UF} 
+        AND tc.servbus IS NOT NULL 
+        AND tc.id_vehiculo IS NOT NULL) AS tc, 
+        (SELECT  
+        COUNT(*) AS confirmado 
+        FROM 
+        prg_tc tc 
+        INNER JOIN (SELECT  
+        * 
+        FROM 
+        prg_stop_point sp 
+        WHERE 
+        sp.is_depot = 1) AS sp ON tc.from_stop = sp.id_prg_stoppoint 
+        WHERE 
+        tc.fecha = DATE(#{fecha}) 
+        AND tc.id_prg_tc IN (SELECT  
+        made.id_prg_tc 
+        FROM 
+        my_app_confirm_depot_exit made) 
+        AND tc.id_gop_unidad_funcional = #{UF} 
+        AND tc.servbus IS NOT NULL 
+        AND tc.id_vehiculo IS NOT NULL) AS tcc;
+    </select>
+    
+    <!-- listado de disponibles -->
+    <select id="listVehiclesAvaible" parameterType="com.grupomovil.entity.EntityVehicleAvaible"
+            resultType="com.grupomovil.entity.EntityVehicleAvaible">
+        SELECT 
+        v.*, vt.descripcion_tipo_vehiculo as type_vehicle 
+        FROM 
+        vehiculo v 
+        LEFT JOIN vehiculo_tipo vt on v.id_vehiculo_tipo=vt.id_vehiculo_tipo
+        WHERE 
+        v.id_vehiculo_tipo_estado = 1 
+        AND v.id_gop_unidad_funcional = #{UF}
+        AND v.estado_reg = 0 
+        AND v.id_vehiculo NOT IN (SELECT DISTINCT 
+        p.id_vehiculo 
+        FROM 
+        prg_tc p 
+        WHERE 
+        p.fecha = DATE(#{fecha}) 
+        AND p.id_gop_unidad_funcional = #{UF}
+        AND p.id_vehiculo IS NOT NULL 
+        AND p.estado_reg = 0);
+    </select>
+       
+</mapper>

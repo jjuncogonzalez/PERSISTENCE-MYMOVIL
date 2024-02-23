@@ -1,0 +1,46 @@
+CREATE TABLE `testmymovil`.`gm_ema_tmp` (
+  `gm_sch_id` INT(11) NOT NULL COMMENT 'IDENTIFICADOR',
+  `dat_cre` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `use_cre` INT(11) NOT NULL,
+  `sch_nam` VARCHAR(45) NOT NULL COMMENT 'nombre de la plantilla',
+  `sch_fto` VARCHAR(45) NOT NULL COMMENT 'FORMATO o cuerpo del HTML',
+  `dat_mod` DATETIME NULL DEFAULT ON UPDATE CURRENT_TIMESTAMP,
+  `usu_mod` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`gm_sch_id`),
+  INDEX `fk_ema_tmp_gm_use_cre_idx` (`use_cre` ASC),
+  INDEX `fk_ema_tmp_gm_use_mod_idx` (`usu_mod` ASC),
+  CONSTRAINT `fk_ema_tmp_gm_use_cre`
+    FOREIGN KEY (`use_cre`)
+    REFERENCES `testmymovil`.`gm_use_pla` (`use_pla_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ema_tmp_gm_use_mod`
+    FOREIGN KEY (`usu_mod`)
+    REFERENCES `testmymovil`.`gm_use_pla` (`use_pla_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+COMMENT = 'Tabla de plantillas HTML';
+
+
+ALTER TABLE `testmymovil`.`gm_ema_pro` 
+ADD COLUMN `ema_tmp_id` INT(11) NOT NULL AFTER `usu_mod`,
+ADD INDEX `fk_ema_pro_ema_tmp_idx` (`ema_tmp_id` ASC);
+;
+ALTER TABLE `testmymovil`.`gm_ema_pro` 
+ADD CONSTRAINT `fk_ema_pro_ema_tmp`
+  FOREIGN KEY (`ema_tmp_id`)
+  REFERENCES `testmymovil`.`gm_ema_tmp` (`gm_sch_idd`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `testmymovil`.`gm_ema_tmp` 
+CHANGE COLUMN `sch_id` `ema_tmp_id` INT(11) NOT NULL COMMENT 'IDENTIFICADOR' ,
+CHANGE COLUMN `sch_nam` `ema_tmp_nam` VARCHAR(45) NOT NULL COMMENT 'nombre de la plantilla' ,
+CHANGE COLUMN `sch_fto` `eme_tmp_fto` VARCHAR(45) NOT NULL COMMENT 'FORMATO o cuerpo del HTML' ;
+
+ALTER TABLE `testmymovil`.`gm_ema_pro` 
+ADD CONSTRAINT `fk_ema_pro_ema_tmp_id`
+  FOREIGN KEY (`ema_tmp_id`)
+  REFERENCES `testmymovil`.`gm_ema_tmp` (`ema_tmp_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

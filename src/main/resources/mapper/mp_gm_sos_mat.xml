@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_mat">
+    <!--consultar toda la información de la tabla de Matriz sostenibilidad -->
+    <select id="selectSosMat" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_mat"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_mat">
+        SELECT *, co.cco_des FROM gm_sos_mat sm, gm_cco co
+        WHERE sm.cco_id = co.cco_id
+        <if test="cco_id != 0">
+            AND sm.cco_id = #{cco_id}
+        </if>
+    </select> 
+    
+    <select id="selectIndSos" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_mat"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_mat">
+        SELECT * from IndicadoresSostenibilidad
+        <where>
+            <if test="cco_id != 0">
+                cco_id = #{cco_id}
+            </if>
+        </where>
+    </select> 
+    
+    <!-- obtener un registro de la tabla por identificador -->
+    <select id="selectSosMatById" parameterType="String"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_mat">
+        SELECT * FROM gm_sos_mat WHERE sos_mat_id = #{sos_mat_id}  
+    </select>
+    
+    <!-- obtener un registro por identificador del área -->
+    <select id="selectSosMatPlaByCcoId" parameterType="String"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_mat">
+        SELECT * FROM gm_sos_mat WHERE cco_id = #{cco_id}  
+    </select>
+    
+    <!-- Crear usuario plataforma -->
+    <insert id="createSosMat" useGeneratedKeys="true" keyProperty="sos_mat_id" keyColumn="sos_mat_id"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_mat">
+        INSERT INTO gm_sos_mat
+        (sos_mat_id, cco_id, sos_mat_mes, sos_mat_year, sos_mat_val, 
+        sos_mat_obj, sos_mat_es_apa, sos_mat_pla_acc, sos_mat_res, 
+        sos_mat_fec_lim, sos_mat_ava, gm_sos_mat_cod_ind, usu_cre)
+        VALUES
+        (#{sos_mat_id}, #{cco_id}, #{sos_mat_mes}, #{sos_mat_year}, #{sos_mat_val}, 
+        #{sos_mat_obj}, #{sos_mat_es_apa}, #{sos_mat_pla_acc}, #{sos_mat_res}, 
+        #{sos_mat_fec_lim}, #{sos_mat_ava}, #{gm_sos_mat_cod_ind}, #{usu_cre})
+    </insert>
+    
+    <!-- modificar datos del usuario plataforma -->
+    <update id="editSosMat" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_mat">
+        UPDATE gm_sos_mat SET 
+        cco_id = #{cco_id}, 
+        sos_mat_mes = #{sos_mat_mes}, 
+        sos_mat_year = #{sos_mat_year}, 
+        sos_mat_val = #{sos_mat_val}, 
+        sos_mat_obj = #{sos_mat_obj}, 
+        sos_mat_es_apa = #{sos_mat_es_apa}, 
+        sos_mat_pla_acc = #{sos_mat_pla_acc}, 
+        sos_mat_res = #{sos_mat_res}, 
+        sos_mat_fec_lim = #{sos_mat_fec_lim}, 
+        sos_mat_ava = #{sos_mat_ava}, 
+        gm_sos_mat_cod_ind = #{gm_sos_mat_cod_ind},
+        usu_mod = #{usu_mod}
+        WHERE sos_mat_id = #{sos_mat_id}  
+    </update>
+    
+</mapper>

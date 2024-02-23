@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_data_scada">
+    
+    <select id="reportTC" statementType="CALLABLE" parameterType="com.grupomovil.entity.scada.DataScada" 
+            resultType="com.grupomovil.entity.scada.DataScada">
+        {CALL GET_SCADATA_TC(
+            #{gm_dat}
+        )}
+    </select>
+    
+    <select id="reportTE" statementType="CALLABLE" parameterType="com.grupomovil.entity.scada.DataScada" 
+            resultType="com.grupomovil.entity.scada.DataScada">
+        {CALL GET_SCADATA_TE(
+            #{gm_dat}
+        )}
+    </select>
+    
+    <select id="reportTP" statementType="CALLABLE" parameterType="com.grupomovil.entity.scada.DataScada" 
+            resultType="com.grupomovil.entity.scada.DataScada">
+        {CALL GET_SCADATA_TP(
+            #{gm_dat}
+        )}
+    </select>
+</mapper>

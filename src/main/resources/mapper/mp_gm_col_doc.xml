@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_col_doc">
+
+    <select id="selectColdoc" parameterType="com.grupomovil.entity.EBGm_col_doc"
+            resultType="com.grupomovil.entity.EBGm_col_doc">
+        
+        SELECT * FROM gm_col_doc;
+        
+    </select>
+    
+    <select id="selectColdocByCompany" parameterType="com.grupomovil.entity.EBGm_col_doc"
+            resultType="com.grupomovil.entity.EBGm_col_doc">
+        SELECT * FROM gm_col_doc 
+        WHERE com_id = #{com_id}  
+    </select>
+    
+    <insert id="createGmColdoc" useGeneratedKeys="true" keyProperty="col_doc_id" keyColumn="col_doc_id"
+            parameterType="com.grupomovil.entity.EBGm_col_doc">
+        
+        insert into gm_col_doc
+        (col_doc_id, com_id, col_ide, col_doc_typ, col_doc_num, col_doc_dat_exp, col_doc_dat_ven, col_doc_dat_con, usu_cre)
+        values
+        (#{col_doc_id}, #{com_id}, #{col_ide}, #{col_doc_typ}, #{col_doc_num}, #{col_doc_dat_exp}, #{col_doc_dat_ven}, #{col_doc_dat_con},#{usu_cre})
+        
+    </insert>
+    
+    <update id="editGmColdoc" parameterType="com.grupomovil.entity.EBGm_col_doc">
+        UPDATE gm_col_doc SET 
+        col_ide = #{col_ide},
+        col_cod = #{col_cod},
+        col_doc_typ = #{col_doc_typ},
+        col_doc_num = #{col_doc_num},
+        col_doc_dat_exp = #{col_doc_dat_exp},
+        col_doc_dat_ven = #{col_doc_dat_ven},
+        col_doc_dat_con = #{col_doc_dat_con},
+        usu_mod = #{usu_mod}
+        WHERE col_doc_id = #{col_doc_id}  
+    </update>
+    
+</mapper>

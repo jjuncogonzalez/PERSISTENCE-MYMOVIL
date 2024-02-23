@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_com">
+
+    <select id="selectCompany" parameterType="com.grupomovil.entity.EBGm_com"
+            resultType="com.grupomovil.entity.EBGm_com">
+        SELECT * FROM gm_com;
+    </select>
+    
+    <!-- Trae el nombre de la compañía dado su id -->
+    <select id="selectCompanyNameById" parameterType="int"
+            resultType="String">
+        SELECT com_des FROM gm_com where com_id=#{com_id};     
+    </select>
+    
+    <insert id="createCompany" useGeneratedKeys="true" keyProperty="com_id" keyColumn="com_id"
+               parameterType="com.grupomovil.entity.EBGm_com">
+        insert into gm_com
+        (com_id, com_des, com_ini, com_sta, usu_cre)
+        values
+        (#{com_id}, #{com_des}, #{com_ini}, #{com_sta}, #{usu_cre})
+    </insert>
+    
+    <update id="editCompany" parameterType="com.grupomovil.entity.EBGm_com">
+        UPDATE gm_com SET 
+        com_sta = #{com_sta},
+        com_des = #{com_des},
+        com_ini = #{com_ini},
+        usu_mod = #{usu_mod}
+        WHERE com_id = #{com_id}  
+    </update>
+    
+</mapper>

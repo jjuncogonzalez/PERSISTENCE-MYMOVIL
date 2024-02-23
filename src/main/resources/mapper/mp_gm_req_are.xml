@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_are">
+    
+    <select id="selectRequestsArea" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="com.grupomovil.entity.EBGm_req_are">
+        SELECT * FROM selectRequest
+        <where>
+            <if test="initialRequests == 1">
+                AND req_are_dat >= #{dateRequest}
+            </if>   
+            <if test="com_id != null and com_id != 0">
+                AND com_id = #{com_id}
+            </if>
+            <if test="initialHistory == 1">
+                AND col_id = #{col_id}
+            </if>
+            AND req_are_sta_id != 5
+        </where>
+        ORDER BY req_are_id DESC
+    </select>
+    
+    <select id="selectRequestsAreaWs" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="com.grupomovil.entity.EBGm_req_are">
+        SELECT * FROM selectRequest
+        <where>
+            col_cod = #{col_cod}
+            <if test="req_are_sta_id == 1">
+                AND req_are_sta_id IN (1,4)
+            </if>   
+            <if test="req_are_sta_id == 2">
+                AND req_are_sta_id = 2
+            </if>
+            <if test="req_are_sta_id == 3">
+                AND req_are_sta_id = 3
+            </if>
+        </where>
+        ORDER BY dat_cre DESC LIMIT 4;
+    </select>
+    
+    <select id="selectRequestsAreCountTypeColaborator" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="int">
+        SELECT count(*) FROM gm_req_are 
+        WHERE month(req_are_dat) = #{month}
+        AND YEAR(req_are_dat) = #{year}
+        AND col_id = #{col_id}
+        AND req_are_typ_id = #{req_are_typ_id}
+        AND req_are_sta_id = 2;
+    </select>
+    
+    <select id="selectRequestsAreCountType" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="int">
+        SELECT n_req_max FROM gm_req_are_typ WHERE req_are_typ_id = #{req_are_typ_id};
+    </select>
+    
+    <select id="selectRequestsAreaCount" parameterType="int"
+                resultType="int">
+        SELECT count(*) FROM selectRequest
+        WHERE req_are_sta_id = #{value};
+    </select>
+    
+    <!-- registros por identificador de configuración de solicitudes -->
+    <select id="selectReqByReqConId" parameterType="int"
+                resultType="com.grupomovil.entity.EBGm_req_are">
+        SELECT * FROM gm_req_are WHERE req_are_con_id = #{req_are_con_id};
+    </select>
+    
+    <select id="selectRequestsAreaTypeWs" parameterType="com.grupomovil.entity.EBGm_req_are_typ"
+            resultType="com.grupomovil.entity.EBGm_req_are_typ">
+        SELECT * FROM gm_req_are_typ WHERE com_id = #{com_id} AND req_col = 1;
+    </select>
+    
+    <select id="selectRequestsAreaByColAndTyp" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="com.grupomovil.entity.EBGm_req_are">
+        SELECT * FROM gm_req_are where col_id = #{col_id} AND req_are_typ_id = #{req_are_typ_id};
+    </select> 
+     
+    <!-- traer registros de los colaboradores a los que se les ha asignado una solicitud de área -->
+    <select id="selectAsignedCol" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_col">
+        SELECT * FROM gm_col c  
+            JOIN gm_req_are d ON c.col_id = d.col_id
+            WHERE req_are_con_id = #{value}; 
+    </select>
+    
+    <!-- traer registros de solicitudes por rango de fechas dado identificador del colaborador -->
+    <select id="selectAsignedColByDateRange" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="com.grupomovil.entity.EBGm_req_are">
+        SELECT * FROM gm_req_are where col_id = #{col_id} 
+            AND req_are_typ_id = #{req_are_typ_id} 
+            AND req_are_dat between #{req_are_dat} 
+            AND #{req_are_dat_end} ;
+    </select>
+    
+    <!-- traer registros de solicitudes dado identificador del colaborador e identificador de la configuración -->
+    <select id="selectReqAreByColAndAreCon" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="com.grupomovil.entity.EBGm_req_are">
+        SELECT * FROM gm_req_are 
+        WHERE col_id = #{col_id} AND req_are_con_id = #{req_are_con_id};
+    </select>
+    
+    <select id="selectgmReqRea" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_req_are_rea">
+        SELECT  r.req_are_rea_id, r.req_are_typ_id, m.req_are_rea_nam
+        FROM gm_req_are_rel_typ_rea r
+        JOIN gm_req_are_rea m ON r.req_are_rea_id = m.req_are_rea_id
+        WHERE r.req_are_typ_id = #{req_are_typ_id};
+    </select>
+    
+    <!-- Busca el registro que coincide con los campos dados -->
+    <select id="finReqAre" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="com.grupomovil.entity.EBGm_req_are">
+        SELECT * FROM gm_req_are r
+        LEFT JOIN gm_col c ON r.col_id = c.col_id
+        WHERE c.col_cod = #{col_cod} 
+        AND req_are_dat = #{req_are_dat}
+        AND req_are_dat_end = #{req_are_dat_end} 
+        AND req_are_typ_id = #{req_are_typ_id}
+        AND req_are_rea_id = #{req_are_rea_id}
+    </select>
+    
+    <!-- Busca registros que coincidan con los campos dados y que adicionalmente
+         sean solicitudes aprobadas -->
+    <select id="finOverlapReqAre" parameterType="com.grupomovil.entity.EBGm_req_are"
+            resultType="com.grupomovil.entity.EBGm_req_are">
+        SELECT * FROM gm_req_are r
+        LEFT JOIN gm_col c ON r.col_id = c.col_id
+        WHERE c.col_cod = #{col_cod} 
+        AND #{req_are_dat} BETWEEN req_are_dat AND req_are_dat_end
+        AND #{req_are_dat_end} BETWEEN req_are_dat AND req_are_dat_end
+        AND req_are_sta_id = 2 
+    </select>
+    
+    <insert id="createRequestsArea" useGeneratedKeys="true" keyProperty="req_are_id" keyColumn="req_are_id"
+            parameterType="com.grupomovil.entity.EBGm_req_are">
+        INSERT INTO gm_req_are
+        (req_are_id, req_are_cod, req_are_sta_id, req_are_con_id, req_are_hou_sta, 
+         req_are_hou_end, req_are_dat, req_are_dat_end, col_id, com_id,
+         cco_id, req_rel_are_typ_rea_id, req_are_rea_id, req_are_typ_id, req_are_obs, 
+         req_are_att, req_are_req, req_are_bre_zon, req_are_vie, usu_cre)
+        values
+        (#{req_are_id}, #{req_are_cod}, #{req_are_sta_id}, #{req_are_con_id}, #{req_are_hou_sta}, 
+         #{req_are_hou_end}, #{req_are_dat}, #{req_are_dat_end}, #{col_id}, #{com_id}, #{cco_id,}, 
+         #{req_rel_are_typ_rea_id}, #{req_are_rea_id},#{req_are_typ_id}, #{req_are_obs}, #{req_are_att}, 
+         #{req_are_req}, #{req_are_bre_zon}, #{req_are_vie}, #{usu_cre})
+    </insert>
+    
+    <update id="editGuidRequestsArea" parameterType="com.grupomovil.entity.EBGm_req_are"> 
+        UPDATE gm_req_are SET 
+        req_are_cod = #{req_are_cod}
+        WHERE req_are_id = #{req_are_id}  
+    </update> 
+    
+    <update id="editStaRequestArea" parameterType="com.grupomovil.entity.EBGm_req_are"> 
+        UPDATE gm_req_are SET 
+        req_are_sta_id = #{req_are_sta_id},
+        usu_mod = #{usu_mod}
+        WHERE req_are_id = #{req_are_id}  
+    </update> 
+    
+    <!-- cambiar el estado del campo referente a solicitud enviada -->
+    <update id="editSendRequestsArea" parameterType="com.grupomovil.entity.EBGm_req_are"> 
+        UPDATE gm_req_are SET 
+        req_sen = #{req_sen},
+        usu_mod = #{usu_mod}
+        WHERE req_are_id = #{req_are_id}  
+    </update> 
+    
+    <update id="editStatusRequestsArea" parameterType="com.grupomovil.entity.EBGm_req_are">
+        UPDATE gm_req_are SET 
+        req_are_sta_id = #{req_are_sta_id},
+        usu_mod = #{usu_mod}
+        WHERE req_are_id = #{req_are_id}  
+    </update>
+    
+    <!-- Eliminar un registro dado el identificador de la tabla -->
+    <delete id="deleteReqAre" parameterType="com.grupomovil.entity.EBGm_req_are">
+        DELETE FROM gm_req_are WHERE col_id = #{col_id} AND req_rel_are_typ_rea_id = #{req_rel_are_typ_rea_id}
+    </delete>
+    
+</mapper>

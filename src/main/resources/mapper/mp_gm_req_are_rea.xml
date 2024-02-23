@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_are_rea">
+
+    <select id="selectReqAreRea" parameterType="com.grupomovil.entity.EBGm_req_are_rea"
+            resultType="com.grupomovil.entity.EBGm_req_are_rea">
+        SELECT * FROM gm_req_are_rea;
+    </select>
+    
+    <!-- Buscar motivo de solicitud por compañía -->
+    <select id="selectReqAreReaByComId" parameterType="com.grupomovil.entity.EBGm_req_are_rea"
+            resultType="com.grupomovil.entity.EBGm_req_are_rea">
+        SELECT * FROM gm_req_are_rea WHERE com_id = #{com_id};
+    </select>
+    
+    <!-- trae registro que coincide con el identificador -->
+    <select id="selectReqAreReaById" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_req_are_rea">
+        SELECT * FROM gm_req_are_rea WHERE req_are_rea_id = #{req_are_rea_id};
+    </select>
+    
+    <!-- Buscar motivo de solicitud por área -->
+    <select id="selectReqAreReaByCcoId" parameterType="com.grupomovil.entity.EBGm_req_are_rea"
+            resultType="com.grupomovil.entity.EBGm_req_are_rea">
+        SELECT * FROM gm_req_are_rea WHERE cco_id = #{cco_id};
+    </select>
+    
+    <!-- trae el ID del tipo de solicitud que coincide con el motivo de solicitud dado -->
+    <select id="selectReqTypWithThisReqAreRea" parameterType="com.grupomovil.entity.EBGm_req_are_rea" 
+            resultType="int">
+        SELECT req_are_typ_id FROM gm_req_are_rel_typ_rea WHERE req_are_rea_id = #{req_are_rea_id};     
+    </select>
+    
+    <!-- Buscar Motivo Solicitud por nombre -->
+    <select id="selectReqAreReaByName" parameterType="com.grupomovil.entity.EBGm_req_are_rea"
+            resultType="com.grupomovil.entity.EBGm_req_are_rea">
+        SELECT * FROM gm_req_are_rea WHERE req_rea_nam = #{req_rea_nam};
+    </select>
+    
+    <!-- Buscar Motivo Solicitud por nombre y área de la compañía -->
+    <select id="selectReqAreReaByNameCco" parameterType="com.grupomovil.entity.EBGm_req_are_rea"
+            resultType="com.grupomovil.entity.EBGm_req_are_rea">
+        SELECT * FROM gm_req_are_rea WHERE req_rea_nam = #{req_rea_nam} AND cco_id = #{cco_id};
+    </select>
+    
+    <insert id="createReqAreRea" useGeneratedKeys="true" keyProperty="req_are_rea_id" keyColumn="req_are_rea_id"
+               parameterType="com.grupomovil.entity.EBGm_req_are_rea">
+        INSERT INTO gm_req_are_rea
+        (req_are_rea_id, cco_id, req_rea_nam, req_rea_pri, req_rea_sta, com_id, usu_cre)
+        VALUES
+        (#{req_are_rea_id}, #{cco_id}, #{req_rea_nam}, #{req_rea_pri}, #{req_rea_sta}, #{com_id}, #{usu_cre})
+    </insert>
+    
+    <update id="editReqAreRea" parameterType="com.grupomovil.entity.EBGm_req_are_rea">
+        UPDATE gm_req_are_rea SET 
+        req_rea_nam = #{req_rea_nam}, 
+        req_rea_pri = #{req_rea_pri}, 
+        req_rea_sta = #{req_rea_sta},
+        cco_id = #{cco_id}, 
+        com_id = #{com_id}, 
+        usu_mod = #{usu_mod}
+        WHERE req_are_rea_id = #{req_are_rea_id}  
+    </update>
+   
+    <!-- Eliminar un registro dado el identificador de la tabla -->
+    <delete id="deleteReqAreRea" parameterType="com.grupomovil.entity.EBGm_req_are_rea">
+        DELETE FROM gm_req_are_rea WHERE req_are_rea_id = #{req_are_rea_id}
+    </delete>
+    
+</mapper>

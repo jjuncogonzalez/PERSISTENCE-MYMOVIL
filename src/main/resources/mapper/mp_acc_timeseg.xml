@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_acc_timeseg">
+    
+    <insert id="createAccTimeSeg" useGeneratedKeys="true" parameterType="com.grupomovil.entity.biometricos.EBAccTimeseg">
+        insert into acc_timeseg
+        (id, create_time, op_version, name, remark,
+        business_id, update_time, updater_code, updater_id, updater_name,
+        creater_code, creater_id, creater_name, 
+        friday_end1, friday_end2, friday_end3, friday_start1, friday_start2, friday_start3,
+        holidaytype1_end1, holidaytype1_end2, holidaytype1_end3, holidaytype1_start1, holidaytype1_start2, holidaytype1_start3,
+        holidaytype2_end1, holidaytype2_end2, holidaytype2_end3, holidaytype2_start1, holidaytype2_start2, holidaytype2_start3,
+        holidaytype3_end1, holidaytype3_end2, holidaytype3_end3, holidaytype3_start1, holidaytype3_start2, holidaytype3_start3,
+        monday_end1, monday_end2, monday_end3, monday_start1, monday_start2, monday_start3,
+        saturday_end1, saturday_end2, saturday_end3, saturday_start1, saturday_start2, saturday_start3,
+        sunday_end1, sunday_end2, sunday_end3, sunday_start1, sunday_start2, sunday_start3,
+        thursday_end1, thursday_end2, thursday_end3, thursday_start1, thursday_start2, thursday_start3,
+        tuesday_end1, tuesday_end2, tuesday_end3, tuesday_start1, tuesday_start2, tuesday_start3,
+        wednesday_end1, wednesday_end2, wednesday_end3, wednesday_start1, wednesday_start2, wednesday_start3)
+        values
+        (#{id}, #{create_time}, #{op_version}, #{name}, #{remark}, 
+        (select top(1) business_id from acc_timeseg order by business_id desc)+1,  #{update_time}, #{updater_code}, #{updater_id}, #{updater_name},
+        #{creater_code}, #{creater_id}, #{creater_name}, 
+        #{friday_end1}, #{friday_end2}, #{friday_end3}, #{friday_start1}, #{friday_start2}, #{friday_start3},
+        #{holidaytype1_end1}, #{holidaytype1_end2}, #{holidaytype1_end3}, #{holidaytype1_start1}, #{holidaytype1_start2}, #{holidaytype1_start3},
+        #{holidaytype2_end1}, #{holidaytype2_end2}, #{holidaytype2_end3}, #{holidaytype2_start1}, #{holidaytype2_start2}, #{holidaytype2_start3},
+        #{holidaytype3_end1}, #{holidaytype3_end2}, #{holidaytype3_end3}, #{holidaytype3_start1}, #{holidaytype3_start2}, #{holidaytype3_start3},
+        #{monday_end1}, #{monday_end2}, #{monday_end3}, #{monday_start1}, #{monday_start2}, #{monday_start3},
+        #{saturday_end1}, #{saturday_end2}, #{saturday_end3}, #{saturday_start1}, #{saturday_start2}, #{saturday_start3},
+        #{sunday_end1}, #{sunday_end2}, #{sunday_end3}, #{sunday_start1}, #{sunday_start2}, #{sunday_start3},
+        #{thursday_end1}, #{thursday_end2}, #{thursday_end3}, #{thursday_start1}, #{thursday_start2}, #{thursday_start3},
+        #{tuesday_end1}, #{tuesday_end2}, #{tuesday_end3}, #{tuesday_start1}, #{tuesday_start2}, #{tuesday_start3},
+        #{wednesday_end1}, #{wednesday_end2}, #{wednesday_end3}, #{wednesday_start1}, #{wednesday_start2}, #{wednesday_start3})
+    </insert>
+   
+</mapper>

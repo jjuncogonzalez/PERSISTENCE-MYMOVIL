@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_cco_sos_mat">
+
+    <select id="selectCcoSosMat" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_cco_sos_mat"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_cco_sos_mat">
+        SELECT * FROM gm_cco_sos_mat;
+    </select>
+    
+    <!-- Trae el registro que coincide con el identificador -->
+    <select id="selectReqUbiByName" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_cco_sos_mat"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_cco_sos_mat">
+        SELECT ubi_nam FROM gm_cco_sos_mat WHERE cco_sos_mat_id = #{cco_sos_mat_id};     
+    </select>
+    
+    <!-- Trae los registros de la tabla dado el CCO -->
+    <select id="selectCcoSosMatByCco" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_cco_sos_mat"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_cco_sos_mat">
+        SELECT * FROM gm_cco_sos_mat
+        <where>
+            <if test="cco_id != 0">
+                AND  cco_id = #{cco_id}; 
+            </if>   
+        </where>
+   
+    </select>
+    
+    <insert id="createCcoSosMat" useGeneratedKeys="true" keyProperty="cco_sos_mat_id" keyColumn="cco_sos_mat_id"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_cco_sos_mat">
+        INSERT INTO gm_cco_sos_mat
+        cco_sos_mat_id, gm_sos_mat_cod_ind, gm_sos_mat_ind_log, cco_id, usu_cre)
+        VALUES
+        (#{cco_sos_mat_id}, #{gm_sos_mat_cod_ind}, #{gm_sos_mat_ind_log}, #{cco_id}, #{usu_cre})
+    </insert>
+    
+</mapper>

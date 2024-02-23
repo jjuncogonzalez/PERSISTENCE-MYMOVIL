@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_obj">
+    <!--consultar toda la información de la tabla objetivos sostenibilidad, 
+    los filtros se aplican de acuerdo a la información que contenga el objeto EBGm_sos_obj -->
+    <select id="selectSosObj" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_obj"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_obj">
+        SELECT * FROM gm_sos_obj
+        <where>
+            <!-- identificador único de la tabla -->
+            <if test="id_obj != 0">
+                id_obj = #{id_obj}
+            </if>
+            <!-- descripción del objetivo -->
+            <if test="des_obj != null and des_obj != ''">
+                AND des_obj = #{des_obj}
+            </if>
+            <!-- llave foranea a la tabla de estrategia-->
+            <if test="id_est_obj != 0">
+                AND id_est_obj = #{id_est_obj}
+            </if>
+            <!-- llave foranea a la tabla de estados -->
+            <if test="id_estado_obj != 0">
+                AND id_estado_obj = #{id_estado_obj}
+            </if>
+        </where>     
+    </select>
+     
+    <insert id="createSosObj" useGeneratedKeys="true" keyProperty="id_obj" keyColumn="id_obj"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_obj">
+        INSERT INTO gm_sos_obj
+        (des_obj, id_est_obj, id_estado_obj, use_cre)
+        values
+        (#{des_obj}, #{id_est_obj}, #{id_estado_obj}, #{use_cre})
+    </insert>
+    
+    <update id="editSosObj" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_obj"> 
+        UPDATE gm_sos_obj SET 
+        des_obj = #{des_obj}, 
+        id_est_obj = #{id_est_obj}, 
+        id_estado_obj = #{id_estado_obj},
+        use_mod = #{use_mod}
+        WHERE id_obj = #{id_obj}
+    </update>  
+</mapper>    

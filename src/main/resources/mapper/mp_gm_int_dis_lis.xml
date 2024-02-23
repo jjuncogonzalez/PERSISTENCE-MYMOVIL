@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_int_dis_lis">
+
+    <select id="selectDistributionList" parameterType="com.grupomovil.entity.EBGm_int_dis_lis"
+        resultType="com.grupomovil.entity.EBGm_int_dis_lis">
+        SELECT * FROM gm_int_dis_lis;
+    </select>  
+    
+    <!-- CONSULTA que trae: id, nombre de grupos de distribución y cargos-->
+    <select id="selectGroPostNames" parameterType="com.grupomovil.entity.EBGm_int_dis_lis"
+        resultType="com.grupomovil.entity.EBGm_int_dis_lis">
+        SELECT dis_lis_id, i.dis_gro_id as dis_gro_id, c.col_pos_id as col_pos_id, i.dis_gro_nam as dis_gro_nam, c.col_pos_des as col_pos_nam FROM gm_int_dis_lis d  
+            JOIN gm_col_pos c ON d.col_pos_id = c.col_pos_id
+            JOIN gm_int_dis_gro i ON d.dis_gro_id = i.dis_gro_id;
+    </select>  
+    
+    <!-- Trae las listas de distribución que coinciden con el ID del grupo de distribución y el ID del cargo -->
+    <select id="findGroPosId" parameterType="com.grupomovil.entity.EBGm_int_dis_lis"
+        resultType="com.grupomovil.entity.EBGm_int_dis_lis">
+        SELECT * FROM gm_int_dis_lis WHERE dis_gro_id = #{dis_gro_id} AND col_pos_id = #{col_pos_id};
+    </select> 
+    
+    <insert id="createDistributionList" useGeneratedKeys="true" keyProperty="dis_lis_id" keyColumn="dis_lis_id"
+            parameterType="com.grupomovil.entity.EBGm_int_dis_lis">
+        insert into gm_int_dis_lis
+        (dis_lis_id, dis_gro_id, col_pos_id, usu_cre)
+        values
+        (#{dis_lis_id}, #{dis_gro_id}, #{col_pos_id}, #{usu_cre})
+    </insert>
+    
+    <update id="editDistributionList" parameterType="com.grupomovil.entity.EBGm_int_dis_lis">
+        UPDATE gm_int_dis_lis SET 
+        dis_gro_id=#{dis_gro_id}, col_pos_id=#{col_pos_id}, dat_mod=#{dat_mod}, usu_mod=#{usu_mod}
+        WHERE dis_lis_id = #{dis_lis_id}  
+    </update>
+      
+</mapper>

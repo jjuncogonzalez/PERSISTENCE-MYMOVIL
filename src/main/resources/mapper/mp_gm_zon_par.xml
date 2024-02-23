@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_zon_par">
+    
+    <select id="listDetailZoneParametrization" parameterType="com.grupomovil.entity.EBGm_zon_par"
+        resultType="com.grupomovil.entity.EBGm_zon_par">
+        SELECT
+            gm_zp.`gm_zon_id`,
+            gm_zp.`gm_var_id`,
+            gm_zp.`gm_var_ran_id`,
+            gm_z.`gm_zon_nam`,
+            gm_z.`gm_zon_des`,
+            gm_z.`gm_zon_sta`,
+            gm_z.`gm_zon_typ_id`,
+            gm_p.`gm_pol_lat`,
+            gm_p.`gm_pol_lon`,
+            gm_p.`gm_pol_rad`,
+            gm_v.`gm_var_nam`,
+            gm_vr.`gm_var_ran_nam`,
+            gm_vr.`gm_var_ran_sim`,
+            gm_zp.`gm_zon_par_val`
+        FROM 
+            `gm_zone_parametrization` gm_zp
+            INNER JOIN `gm_zone` gm_z ON gm_z.`gm_zon_id`=gm_zp.`gm_zon_id`
+            INNER JOIN `gm_polygon` gm_p ON gm_p.`gm_zon_id`=gm_z.`gm_zon_id`
+            INNER JOIN `gm_variable` gm_v ON gm_v.`gm_var_id`=gm_zp.`gm_var_id`
+            INNER JOIN `gm_variable_range` gm_vr ON gm_vr.`gm_var_ran_id`=gm_zp.`gm_var_ran_id`
+        WHERE 
+            gm_zp.`gm_zon_id`=#{gm_zon_id};
+    </select>
+    
+</mapper>

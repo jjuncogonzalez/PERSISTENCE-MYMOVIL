@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_act">
+    <!--consultar toda la información de la tabla actividad sostenibilidad, 
+    los filtros se aplican de acuerdo a la información que contenga el objeto EBGm_sos_act -->
+    <select id="selectSosAct" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_act"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_act">
+        SELECT * FROM gm_sos_act
+        <where>
+            <!-- identificador único de la tabla -->
+            <if test="id_act != 0">
+                id_act = #{id_act}
+            </if>
+            <!-- nombre de la actividad -->
+            <if test="nom_act != null and nom_act != ''">
+                AND nom_act = #{nom_act}
+            </if>
+        </where>     
+    </select>
+     
+    <insert id="createSosAct" useGeneratedKeys="true" keyProperty="id_act" keyColumn="id_act"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_act">
+        INSERT INTO gm_sos_act
+        (nom_act, use_cre)
+        values
+        (#{nom_act}, #{use_cre})
+    </insert>
+    
+    <update id="editSosAct" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_act"> 
+        UPDATE gm_sos_act SET 
+        nom_act = #{nom_act},
+        use_mod = #{use_mod}
+        WHERE id_act = #{id_act}
+    </update>  
+</mapper>    

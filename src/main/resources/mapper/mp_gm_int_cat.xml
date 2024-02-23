@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_int_cat">
+
+    <select id="selectAllCategory" parameterType="com.grupomovil.entity.EBGm_int_cat"
+            resultType="com.grupomovil.entity.EBGm_int_cat">
+        SELECT * FROM gm_int_cat;     
+    </select>
+    
+    <!-- Trae los registros de las categorias que no tienen estado 1 en la columna cat_del-->
+    <select id="selectCategory" parameterType="com.grupomovil.entity.EBGm_int_cat"
+            resultType="com.grupomovil.entity.EBGm_int_cat">
+        SELECT * FROM gm_int_cat WHERE cat_del=0;     
+    </select>
+    
+    <!-- Buscar Categoría por nombre -->
+    <select id="selectCategoryByName" parameterType="com.grupomovil.entity.EBGm_int_cat"
+            resultType="com.grupomovil.entity.EBGm_int_cat">
+        SELECT * FROM gm_int_cat WHERE cat_nam = #{cat_nam};
+    </select>
+    
+    <!-- Trae el nombre de la categoria dado su id -->
+    <select id="selectCatNameById" parameterType="int"
+            resultType="String">
+        SELECT cat_nam FROM gm_int_cat where cat_id=#{cat_id};     
+    </select>
+    
+    <!-- trae el ID de las noticias que tienen asociado el id de la categoria -->
+    <select id="selectNewsWithThisCategory" parameterType="com.grupomovil.entity.EBGm_int_cat" 
+            resultType="int">
+        SELECT news_id FROM gm_int_news WHERE cat_id = #{cat_id};     
+    </select>
+    
+    <!-- trae el ID de los banner que tienen asociado el id de la categoria -->
+    <select id="selectBannerWithThisCategory" parameterType="com.grupomovil.entity.EBGm_int_cat" 
+            resultType="int">
+        SELECT ban_id FROM gm_int_ban WHERE cat_id = #{cat_id};     
+    </select>
+    
+    <insert id="createCategory" useGeneratedKeys="true" keyProperty="cat_id" keyColumn="cat_id"
+               parameterType="com.grupomovil.entity.EBGm_int_cat">
+        insert into gm_int_cat
+        (cat_nam, usu_cre, dat_cre)
+        values
+        (#{cat_nam}, #{usu_cre}, #{dat_cre})
+    </insert>
+    
+    <update id="editCategory" parameterType="com.grupomovil.entity.EBGm_int_cat">
+        UPDATE gm_int_cat SET 
+        cat_nam=#{cat_nam}, dat_mod=#{dat_mod}, usu_mod=#{usu_mod}
+        WHERE cat_id = #{cat_id}  
+    </update>
+    
+    <update id="deleteCategory" parameterType="com.grupomovil.entity.EBGm_int_cat">
+        UPDATE gm_int_cat SET 
+        cat_del=#{cat_del}, dat_mod=#{dat_mod}, usu_mod=#{usu_mod}
+        WHERE cat_id = #{cat_id}  
+    </update>
+    
+</mapper>

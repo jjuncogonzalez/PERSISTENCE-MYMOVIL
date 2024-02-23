@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sos_var">
+    <!--consultar toda la información de la tabla seguimiento indicadores de sostenibilidad, 
+    los filtros se aplican de acuerdo a la información que contenga el objeto EBGm_sos_var -->
+    <select id="selectSosVar" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_var"
+            resultType="com.grupomovil.entity.sostenibilidad.EBGm_sos_var">
+        SELECT * FROM gm_sos_var
+        <where>            
+            <!-- identificador único de la tabla -->
+            <if test="id_var != 0">
+                id_var = #{id_var}
+            </if>
+            <!-- FK a la tabla de indicadores -->
+            <if test="id_ind != 0">
+                AND id_ind = #{id_ind}
+            </if>
+            <!-- nombre de la variable -->
+            <if test="nom_var1 != null and nom_var1 != ''">
+                AND nom_var1 = #{nom_var1}
+            </if>
+            <!-- nombre de la variable -->
+            <if test="nom_var2 != null and nom_var2 != ''">
+                AND nom_var2 = #{nom_var2}
+            </if>
+            <!-- nombre de la variable -->
+            <if test="nom_var3 != null and nom_var3 != ''">
+                AND nom_var3 = #{nom_var3}
+            </if>
+            <!-- nombre de la variable -->
+            <if test="nom_var4 != null and nom_var4 != ''">
+                AND nom_var4 = #{nom_var4}
+            </if>
+            <!-- nombre de la variable -->
+            <if test="nom_var5 != null and nom_var5 != ''">
+                AND nom_var5 = #{nom_var5}
+            </if>
+            <!-- nombre de la variable -->
+            <if test="nom_var6 != null and nom_var6 != ''">
+                AND nom_var6 = #{nom_var6}
+            </if>
+        </where>     
+    </select>
+     
+    <insert id="createSosVar" useGeneratedKeys="true" keyProperty="id_var" keyColumn="id_var"
+            parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_var">    
+        INSERT INTO gm_sos_var
+        (id_ind, nom_var1, ena_var1, nom_var2, ena_var2, nom_var3, ena_var3, nom_var4, ena_var4, nom_var5, ena_var5, nom_var6, ena_var6, use_cre)
+        values
+        (#{id_ind}, #{nom_var1}, #{ena_var1}, #{nom_var2}, #{ena_var2}, #{nom_var3}, #{ena_var3}, #{nom_var4}, #{ena_var4}, #{nom_var5}, #{ena_var5}, #{nom_var6}, #{ena_var6}, #{use_cre})
+    </insert>
+    
+    <update id="editSosVar" parameterType="com.grupomovil.entity.sostenibilidad.EBGm_sos_var"> 
+        UPDATE gm_sos_var SET 
+        id_ind = #{id_ind}, 
+        nom_var1 = #{nom_var1}, 
+        ena_var1 = #{ena_var1}, 
+        nom_var2 = #{nom_var2}, 
+        ena_var2 = #{ena_var2}, 
+        nom_var3 = #{nom_var3}, 
+        ena_var3 = #{ena_var3}, 
+        nom_var4 = #{nom_var4}, 
+        ena_var4 = #{ena_var4}, 
+        nom_var5 = #{nom_var5}, 
+        ena_var5 = #{ena_var5}, 
+        nom_var6 = #{nom_var6}, 
+        ena_var6 = #{ena_var6},
+        use_mod = #{use_mod}
+        WHERE id_var = #{id_var}
+    </update>  
+</mapper>    
+

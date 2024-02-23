@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_col">
+
+    <select id="selectKactusColaborator" parameterType="com.grupomovil.entity.EBGm_col"
+            resultType="com.grupomovil.entity.EBGm_col">    
+        SELECT * FROM gm_col;
+    </select>
+    
+    <select id="selectColById" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_col">    
+        SELECT * FROM gm_col WHERE col_id = #{col_id};
+    </select>
+    
+    <select id="selectColByCompany" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_col">    
+        SELECT * FROM gm_col WHERE com_id = #{com_id};
+    </select>
+ 
+    <select id="selectdataColaborator" parameterType="com.grupomovil.entity.EBGm_col"
+            resultType="com.grupomovil.entity.EBGm_col">    
+        SELECT c.col_nam,c.col_sur,c.col_cod,c.col_ide,c.col_tel,c.col_ema FROM gm_col c
+        WHERE c.cco_id = 86 AND c.col_cod = #{col_cod} 
+    </select>
+    
+
+        <select id="selectdataColaboratorParking" parameterType="com.grupomovil.entity.EBGm_col"
+            resultType="com.grupomovil.entity.EBGm_col">    
+        SELECT c.col_nam,c.col_sur,c.col_cod,c.col_ide,c.col_tel,c.col_ema FROM gm_col c
+        WHERE  c.col_ide = #{col_ide} 
+    </select>
+    
+
+    <!-- Traer registro dada la identificación -->
+    <select id="selectdataColaboratorIden" parameterType="com.grupomovil.entity.EBGm_col"
+                resultType="com.grupomovil.entity.EBGm_col">    
+        SELECT * FROM gm_col WHERE col_ide = #{col_ide};
+    </select>
+    
+    <!-- Traer registro dado el codigo-->
+    <select id="selectColaboratorByCod" parameterType="com.grupomovil.entity.EBGm_col"
+                resultType="com.grupomovil.entity.EBGm_col">    
+        SELECT * FROM gm_col WHERE col_cod = #{col_cod};
+    </select>
+    
+    <!-- Traer registro dado el codigo o la identificación -->
+    <select id="selectColaboratorByCodOrIden" parameterType="String"
+                resultType="com.grupomovil.entity.EBGm_col">    
+        SELECT * FROM gm_col 
+        WHERE col_cod = #{value} OR col_ide = #{value};
+    </select>
+    
+    <select id="selectdataColaboratorHome" parameterType="com.grupomovil.entity.EBGm_col_hom"
+            resultType="com.grupomovil.entity.EBGm_col_hom">    
+        SELECT c.col_nam,c.col_sur,c.col_cod,c.col_ide,c.col_tel,c.col_ema ,c.col_bir,us.con_id,us.con_nom, us.con_tel,us.col_dir,us.col_tel2 FROM gm_col c
+        left JOIN gm_con_eme_emp us ON c.col_ide = us.col_id
+        WHERE   c.col_cod= #{col_cod} 
+    </select>
+
+    <insert id="insertColaboratorHome" useGeneratedKeys="true" keyProperty="con_id" keyColumn="con_id" parameterType="com.grupomovil.entity.EBGm_col_hom"> 
+        INSERT INTO gm_con_eme_emp 
+        (con_id, col_id,con_nom, con_tel,col_dir,col_tel2)
+        VALUES
+        (null,#{col_id}, #{con_nom}, #{con_tel}, #{col_dir}, #{col_tel2})
+    </insert>
+    <select id="selectUserColByCompany" parameterType="com.grupomovil.entity.EBGm_col"
+            resultType="com.grupomovil.entity.EBGm_col">
+        SELECT c.*, p.col_pos_des FROM gm_col c 
+        INNER JOIN gm_col_pos p ON p.col_pos_id = c.col_pos_id
+        WHERE c.com_id = #{com_id}  
+    </select>
+    
+    <!-- traer registros de colaboradores según el área a la que pertenezcan -->
+    <select id="selectUserByCcoId" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_col">
+        SELECT * FROM gm_col WHERE cco_id = #{cco_id};
+    </select>
+    
+    <select id="selectCodeByIdentification" parameterType="com.grupomovil.entity.ws.EBWs_Login"
+            resultType="String">
+        SELECT col_cod FROM gm_col WHERE col_ide = #{use_com_use} AND com_id = #{com_id};
+    </select>    
+    
+    <select id="selectCodeByColId" parameterType="com.grupomovil.entity.EBGm_col"
+            resultType="com.grupomovil.entity.EBGm_col">
+        SELECT us.col_id, us.use_com_id, col.com_id FROM gm_col col
+        INNER JOIN gm_use_com us ON col.col_id = us.col_id
+        WHERE col.col_cod = #{col_cod} LIMIT 1;
+    </select>    
+
+
+    <!-- -->
+    <select id="selectColNameById" parameterType="com.grupomovil.entity.EBGm_col"
+            resultType="String">    
+        SELECT CONCAT(col_nam, ' ', col_sur) fullName FROM gm_col WHERE col_id = #{col_id};
+    </select>
+    
+    <insert id="createGmCol" useGeneratedKeys="true" keyProperty="col_id" keyColumn="col_id"
+            parameterType="com.grupomovil.entity.EBGm_col">
+        INSERT INTO gm_col
+        (col_id, col_ide, col_doc_typ_id, col_cod, col_nam, col_sur, col_bir, col_gen_id, 
+        col_pos_id, col_tel, col_ema, col_int, col_sta, com_id, cco_id, usu_cre)
+        VALUES
+        (#{col_id}, #{col_ide}, #{col_doc_typ_id}, #{col_cod}, #{col_nam}, #{col_sur}, 
+        #{col_bir}, #{col_gen_id}, #{col_pos_id}, #{col_tel}, #{col_ema}, #{col_int}, 
+        #{col_sta}, #{com_id}, #{cco_id}, #{usu_cre})
+    </insert>
+    
+    <update id="editGmCol" parameterType="com.grupomovil.entity.EBGm_col">
+        UPDATE gm_col SET 
+        col_ide = #{col_ide},
+        col_doc_typ_id = #{col_doc_typ_id},
+        col_cod = #{col_cod},
+        col_nam = #{col_nam},
+        col_sur = #{col_sur},
+        col_bir = #{col_bir},
+        col_gen_id = #{col_gen_id},
+        col_pos_id = #{col_pos_id},
+        col_tel = #{col_tel},
+        col_ema = #{col_ema},
+        col_int = #{col_int},
+        col_sta = #{col_sta},
+        com_id = #{com_id},
+        cco_id = #{cco_id},
+        usu_mod = #{usu_mod}
+        WHERE col_id = #{col_id}  
+    </update>
+    <update id="updateColaboratorHome" parameterType="com.grupomovil.entity.EBGm_col_hom">
+        UPDATE gm_con_eme_emp SET 
+        col_id = #{col_id},
+        con_nom = #{con_nom},
+        con_tel = #{con_tel},
+        col_dir = #{col_dir},
+        col_tel2 = #{col_tel2}
+      
+        WHERE con_id = #{con_id}  AND col_id = #{col_id}
+    </update>
+    
+   
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_geo_rigel">
+    
+    <select id="getProgramation" parameterType="com.grupomovil.entity.EBGm_geo_rigel"
+        resultType="com.grupomovil.entity.EBGm_geo_rigel">
+        SELECT * 
+        FROM servicios_vehi
+        WHERE fecha=#{ev_date}
+        AND TIME_TO_SEC(#{hour}) between TIME_TO_SEC(time_origin) and TIME_TO_SEC(time_destiny)
+        AND codigo=#{vehicle};
+    </select>
+    
+</mapper>

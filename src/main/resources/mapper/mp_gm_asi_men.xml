@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_asi_men">
+    
+    <select id="selectAsignationMenu" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men;
+    </select> 
+    
+    <!--trae el registro que coincide con la llave use_pla_id & men_id -->
+    <select id="selectAsignationMenuByUserPlaIdANDMenId" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE use_pla_id = #{use_pla_id} AND men_id = #{men_id};
+    </select> 
+    
+    <!-- traer los menús a los que puede acceder un usuario-->
+    <select id="selectAsignationMenuByUser" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE use_pla_id = #{use_pla_id};
+    </select>
+    
+    <!--traer los usuario que pueden acceder a un menú especifico--> 
+    <select id="selectUserAccessByMenu" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE men_id = #{men_id};
+    </select>
+    
+    <!-- traer un registro dado el id de la asignación menú-->
+    <select id="selectAsignationMenuById" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE asi_men_id = #{asi_men_id};
+    </select>
+    
+    <!-- traer registros de usuarios con todos los accesos CRUD habilitados-->
+    <select id="selectAsignationMenuAllPermits" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE (opt_cre = '1' AND opt_upd = '1' AND opt_del = '1' AND opt_vie = '1');
+    </select>
+
+    <!-- traer registros de usuarios sin acceso s CRUD-->
+    <select id="selectAsignationMenuNotPermits" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE (opt_cre = '0' AND opt_upd = '0' AND opt_del = '0' AND opt_vie = '0');
+    </select>
+    
+    <!-- traer registros de usuarios únicamente con acceso CREATE habilitado -->
+    <select id="selectAsignationMenuOnlyCreate" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE (opt_cre = '1' AND opt_upd = '0' AND opt_del = '0' AND opt_vie = '0');
+    </select>
+    
+    <!-- traer registros de usuarios únicamente con acceso UPDATE habilitado -->
+    <select id="selectAsignationMenuOnlyUpdate" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE (opt_cre = '0' AND opt_upd = '1' AND opt_del = '0' AND opt_vie = '0');
+    </select>
+    
+    <!-- traer registros de usuarios únicamente con acceso DELETE habilitado -->
+    <select id="selectAsignationMenuOnlyDelete" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE (opt_cre = '0' AND opt_upd = '0' AND opt_del = '1' AND opt_vie = '0');
+    </select>
+    
+    <!-- traer registros de usuarios únicamente con acceso VIEW habilitado -->
+    <select id="selectAsignationMenuOnlyView" parameterType="com.grupomovil.entity.EBGm_asi_men"
+            resultType="com.grupomovil.entity.EBGm_asi_men">
+        SELECT * FROM gm_asi_men WHERE (opt_cre = '0' AND opt_upd = '0' AND opt_del = '0' AND opt_vie = '1');
+    </select>
+    
+    <insert id="createAsignationMenu" useGeneratedKeys="true" keyProperty="asi_men_id" 
+            keyColumn="asi_men_id" parameterType="com.grupomovil.entity.EBGm_asi_men">
+        INSERT INTO gm_asi_men
+        (usu_cre, use_pla_id, men_id, opt_cre, opt_upd, opt_del, opt_vie)
+        VALUES
+        (#{usu_cre}, #{use_pla_id}, #{men_id}, #{opt_cre}, #{opt_upd}, 
+            #{opt_del}, #{opt_vie})
+    </insert>
+    
+    <update id="editAsignationMenu" parameterType="com.grupomovil.entity.EBGm_asi_men">
+        UPDATE gm_asi_men SET 
+        use_pla_id = #{use_pla_id},
+        men_id = #{men_id},
+        opt_cre = #{opt_cre},
+        opt_upd = #{opt_upd},
+        opt_del = #{opt_del},
+        opt_vie = #{opt_vie}
+        WHERE asi_men_id = #{asi_men_id}  
+    </update>
+    
+    <update id="editAccessAsignationMenu" parameterType="com.grupomovil.entity.EBGm_asi_men">
+        UPDATE gm_asi_men SET 
+        opt_cre = #{opt_cre},
+        opt_upd = #{opt_upd},
+        opt_del = #{opt_del},
+        opt_vie = #{opt_vie}
+        WHERE use_pla_id = #{use_pla_id} AND men_id = #{men_id}  
+    </update>
+    
+    <!-- Eliminar un registro dado el identificador de la tabla -->
+    <delete id="deleteAsignationMenu" parameterType="com.grupomovil.entity.EBGm_asi_men">
+        DELETE FROM gm_asi_men WHERE asi_men_id = #{asi_men_id}
+    </delete>
+    
+</mapper>

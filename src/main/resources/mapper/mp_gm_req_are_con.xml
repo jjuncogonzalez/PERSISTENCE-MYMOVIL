@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_req_are_con">
+
+    <select id="selectReqAreCon" parameterType="com.grupomovil.entity.EBGm_req_are_con"
+            resultType="com.grupomovil.entity.EBGm_req_are_con">
+        SELECT * FROM gm_req_are_con;
+    </select>
+    
+    <!-- Trae un registro de acuerdo al identificador dado -->
+    <select id="selectReqAreConById" parameterType="int"
+            resultType="com.grupomovil.entity.EBGm_req_are_con">
+        SELECT * FROM gm_req_are_con WHERE req_are_con_id = #{req_are_con_id};     
+    </select>  
+    
+    <!-- Trae un registro de acuerdo a la compañía -->
+    <select id="selectReqAreConByComId" parameterType="com.grupomovil.entity.EBGm_req_are_con"
+            resultType="com.grupomovil.entity.EBGm_req_are_con">
+        SELECT * FROM gm_req_are_con WHERE com_id=#{com_id};     
+    </select>
+    
+    <!-- Trae un registro de acuerdo al área -->
+    <select id="selectReqAreConByCcoId" parameterType="com.grupomovil.entity.EBGm_req_are_con"
+            resultType="com.grupomovil.entity.EBGm_req_are_con">
+        SELECT * FROM gm_req_are_con WHERE cco_id=#{cco_id};     
+    </select>
+    
+    <!-- Listado de solicitudes no aprobadas -->
+    <select id="selectReqAreConByCcoIdNOAprob" parameterType="com.grupomovil.entity.EBGm_req_are_con"
+            resultType="com.grupomovil.entity.EBGm_req_are_con">
+        SELECT * FROM gm_req_are_con WHERE cco_id=#{cco_id} AND req_sta_id != 2;     
+    </select>
+    
+    <!-- Listado solicitudes pendientes -->
+    <select id="selectReqAreConByCcoIdPend" parameterType="com.grupomovil.entity.EBGm_req_are_con"
+            resultType="com.grupomovil.entity.EBGm_req_are_con">
+        SELECT * FROM gm_req_are_con WHERE cco_id=#{cco_id} AND req_sta_id = 4;     
+    </select>
+    
+    <!-- Trae un registro de acuerdo al nombre de la configuración -->
+    <select id="selectReqAreConByName" parameterType="com.grupomovil.entity.EBGm_req_are_con"
+            resultType="com.grupomovil.entity.EBGm_req_are_con">
+        SELECT * FROM gm_req_are_con WHERE req_are_con_nam = #{req_are_con_nam} AND ubi_nam = #{ubi_nam};     
+    </select>
+    
+    <!-- Trae un registro de acuerdo al nombre (para carga masiva)-->
+    <select id="selectReqAreConMasByName" parameterType="com.grupomovil.entity.EBGm_req_are_con"
+            resultType="com.grupomovil.entity.EBGm_req_are_con">
+        SELECT * FROM gm_req_are_con WHERE req_are_con_nam=#{req_are_con_nam};     
+    </select>
+    
+    <insert id="createReqAreCon" useGeneratedKeys="true" keyProperty="req_are_con_id" keyColumn="req_are_con_id"
+               parameterType="com.grupomovil.entity.EBGm_req_are_con">
+        INSERT INTO gm_req_are_con
+        (req_are_con_id, com_id, cco_id, ubi_nam, req_con_day, req_con_hou_sta, 
+         req_con_hou_end, req_con_num_day, n_max_col, dat_req_sta, dat_req_end, 
+         req_con_req_mou, rel_are_typ_rea_id, req_sta_id, req_con_req_col, req_are_mul,
+         usu_cre, req_are_con_nam, req_tur, req_cap, req_jou)
+        VALUES
+        (#{req_are_con_id}, #{com_id}, #{cco_id}, #{ubi_nam}, #{req_con_day}, #{req_con_hou_sta}, 
+         #{req_con_hou_end}, #{req_con_num_day}, #{n_max_col}, #{dat_req_sta}, #{dat_req_end}, 
+         #{req_con_req_mou}, #{rel_are_typ_rea_id}, #{req_sta_id}, #{req_con_req_col}, 
+         #{req_are_mul}, #{usu_cre}, #{req_are_con_nam}, #{req_tur}, #{req_cap}, #{req_jou})
+    </insert>
+    
+    <update id="editReqAreCon" parameterType="com.grupomovil.entity.EBGm_req_are_con">
+        UPDATE gm_req_are_con SET 
+            cco_id = #{cco_id},
+            ubi_nam = #{ubi_nam},
+            req_con_day = #{req_con_day}, 
+            n_max_col = #{n_max_col},
+            dat_req_sta = #{dat_req_sta},
+            dat_req_end = #{dat_req_end},
+            req_con_hou_sta = #{req_con_hou_sta}, 
+            req_con_hou_end = #{req_con_hou_end}, 
+            req_con_num_day = #{req_con_num_day}, 
+            n_max_col = #{n_max_col},
+            req_con_req_mou = #{req_con_req_mou}, 
+            req_con_req_col = #{req_con_req_col},
+            usu_mod = #{usu_mod},
+            req_are_con_nam = #{req_are_con_nam},
+            req_sta_id = #{req_sta_id},
+            req_tur = #{req_tur}, 
+            req_tur = #{req_cap}, 
+            req_jou = #{req_jou}
+        WHERE com_id = #{com_id}  
+    </update>
+    
+    <update id="setearEstado" parameterType="com.grupomovil.entity.EBGm_req_are_con">
+        UPDATE gm_req_are_con SET
+            usu_mod = #{usu_mod},
+            req_sta_id =#{req_sta_id}
+        WHERE req_are_con_id = #{req_are_con_id}  
+    </update>
+</mapper>

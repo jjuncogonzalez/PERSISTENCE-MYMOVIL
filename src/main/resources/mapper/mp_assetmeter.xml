@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_assetmeter">
+
+    <select id="selectAssetmeter" parameterType="com.grupomovil.entity.EBAssetmeter"
+            resultType="com.grupomovil.entity.EBAssetmeter">
+        SELECT
+        asmn.assetnum as placa,
+        ass.grn_transcode as codVehicle,
+        asm.lastreadingdate as readDate,
+        asm.lastreading as kilometer
+        FROM
+        (
+        SELECT
+        assetmeter.assetnum as assetnum,
+        Max(assetmeter.assetmeterid) as assetmeterid
+        FROM assetmeter
+        where assetmeter.active = 1
+        and metername = 'ODOMKMS'
+        and lastreadingdate IS NOT NULL
+        GROUP BY
+        assetmeter.assetnum
+        ) asmn
+        LEFT JOIN assetmeter as asm ON asmn.assetmeterid = asm.assetmeterid
+        LEFT JOIN asset as ass on  asmn.assetnum = ass.assetnum
+    </select>
+    
+   
+</mapper>

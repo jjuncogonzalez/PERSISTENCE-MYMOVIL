@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_kactus">
+    
+    <select id="selectKactusUnique" parameterType="com.grupomovil.entity.biometricos.MAXPERSONQuery"
+            resultType="com.grupomovil.entity.biometricos.MAXPERSONQuery">
+        SELECT cod_empl AS pin
+        ,cod_inte AS personPwd
+        ,nom_empl AS name
+        ,ape_empl AS lastName
+        ,fec_naci AS birthday
+        ,tel_movi AS mobilePhone
+        ,sex_empl AS gender
+        ,box_mail AS email
+        ,cod_ccos AS cco
+        ,fec_cont AS hireDate
+        FROM Empleados_Rigel WHERE ind_acti = 'A' AND cod_empl = #{cod_empl}
+    </select>
+    
+    
+    <select id="selectKactusAll" parameterType="com.grupomovil.entity.biometricos.MAXPERSONQuery"
+            resultType="com.grupomovil.entity.biometricos.MAXPERSONQuery">
+        SELECT cod_empl AS pin
+        ,cod_inte AS personPwd
+        ,nom_empl AS name
+        ,ape_empl AS lastName
+        ,fec_naci AS birthday
+        ,tel_movi AS mobilePhone
+        ,sex_empl AS gender
+        ,box_mail AS email
+        ,cod_ccos AS cco
+        ,fec_cont AS hireDate
+        FROM Empleados_Rigel 
+        <where>
+            <if test="aContrValidator == true">
+                aContr BETWEEN (#{startDate}) AND (#{endDate})
+            </if>
+            <if test="aContrValidator == false">
+                fec_venc BETWEEN (#{startDate}) AND (#{endDate})
+            </if>
+            <if test="aContrValidator == true">
+                AND ind_acti = 'A'
+            </if>
+            <if test="aContrValidator == false">
+                AND ind_acti = 'I'
+            </if>
+            AND cod_empl = '1016712395'
+        </where>
+    </select>
+   
+</mapper>

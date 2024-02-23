@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_rigel">
+    
+    <select id="selectEmpleados" parameterType="com.grupomovil.entity.EBEmpleados"
+            resultType="com.grupomovil.entity.EBEmpleados">
+        SELECT cod_empl AS identificacion, nom_empl AS nombres, ape_empl AS apellidos
+        FROM Empleados_Rigel WHERE ind_acti = 'A'
+    </select>
+
+    
+</mapper>
