@@ -317,6 +317,7 @@
         <!--Vacaciones-->
         <mapper resource="mapper/mp_gm_his_cap.xml"/>
         <mapper resource="mapper/mp_gm_his_cap_tip.xml"/>
+        <mapper resource="mapper/mp_gm_sergreen.xml"/>
     </mappers>
     
 </configuration>

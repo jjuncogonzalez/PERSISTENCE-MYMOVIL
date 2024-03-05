@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mp_gm_sergreen">
+
+    <select id="selectGmsergreen" parameterType="com.grupomovil.entity.EBGm_sergreen"
+            resultType="com.grupomovil.entity.EBGm_sergreen">
+        SELECT
+        vw_empl_rige.cod_empl AS dato_docu_nume
+        , vw_empl_rige.nom_empl AS dato_empl_nomb
+        , vw_empl_rige.ape_empl AS dato_empl_apel
+        , vw_empl_rige.cargo AS dato_empl_carg
+        , vw_empl_rige.nom_ccos AS dato_cent_cost
+        , vw_empl_rige.box_mail AS dato_empl_corr
+        , vw_empl_rige.sex_empl AS dato_empl_gene
+        , CONVERT(varchar,vw_empl_rige.fec_naci,23) AS dato_fech_inic
+        , CONVERT(varchar,vw_empl_rige.fec_cont,23) AS dato_fech_cont
+        FROM Empleados_niveles AS vw_empl_rige 
+        WHERE vw_empl_rige.ind_acti = 'A'
+        AND vw_empl_rige.cod_empl = #{dato_docu_nume};
+    </select>
+    
+    <select id="selectGmActiveUsers" parameterType="com.grupomovil.entity.EBGm_sergreen"
+            resultType="com.grupomovil.entity.EBGm_sergreen">
+        SELECT
+        vw_empl_rige.cod_empl AS dato_docu_nume
+        , vw_empl_rige.nom_empl AS dato_empl_nomb
+        , vw_empl_rige.ape_empl AS dato_empl_apel
+        , vw_empl_rige.cargo AS dato_empl_carg
+        , vw_empl_rige.nom_ccos AS dato_cent_cost
+        , vw_empl_rige.box_mail AS dato_empl_corr
+        , vw_empl_rige.sex_empl AS dato_empl_gene
+        , CONVERT(varchar,vw_empl_rige.fec_naci,23) AS dato_fech_inic
+        , CONVERT(varchar,vw_empl_rige.fec_cont,23) AS dato_fech_cont
+        FROM Empleados_niveles AS vw_empl_rige 
+        WHERE vw_empl_rige.ind_acti = 'A'
+    </select>
+</mapper>

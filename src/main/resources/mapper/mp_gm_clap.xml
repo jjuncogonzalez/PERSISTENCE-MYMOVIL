@@ -9,11 +9,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             resultType="com.grupomovil.entity.EBGm_clap">
    
         SELECT  vw_empl_rige.nom_empl AS firstname, vw_empl_rige.ape_empl AS lastname, vw_empl_rige.box_mail AS email,
-        vw_empl_rige.cod_empl AS personalId, tb_carg_clap.direccion AS direccion, TRIM(vw_empl_rige.nom_empr) AS empresa, tb_carg_clap.subdireccion AS subdireccion,
-        tb_carg_clap.coordinacion AS coordinacion, tb_carg_clap.gestion AS gestion, tb_carg_clap.cargo AS cargo
-        FROM Empleados_Rigel AS vw_empl_rige
-        INNER JOIN  MY_CLAP AS tb_carg_clap ON vw_empl_rige.nom_carg = tb_carg_clap.cargo 
-        AND vw_empl_rige.nom_ccos = tb_carg_clap.nom_ccosto
+        vw_empl_rige.cod_empl AS personalId, trim(vw_empl_rige.direccion) AS direccion, TRIM(vw_empl_rige.nom_empr) AS empresa, trim(vw_empl_rige.subdireccion) AS subdireccion,
+        trim(vw_empl_rige.coordinacion) AS coordinacion, trim(vw_empl_rige.gestion) AS gestion, vw_empl_rige.cargo AS cargo
+        FROM Empleados_niveles AS vw_empl_rige
         WHERE vw_empl_rige.ind_acti = 'A'
         AND vw_empl_rige.cod_empl = #{personalId}
         AND year(vw_empl_rige.fec_naci) = #{yearNac};
@@ -24,11 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             resultType="com.grupomovil.entity.EBGm_clap">
    
         SELECT  vw_empl_rige.nom_empl AS firstname, vw_empl_rige.ape_empl AS lastname, vw_empl_rige.box_mail AS email,
-        vw_empl_rige.cod_empl AS personalId, tb_carg_clap.direccion AS direccion, TRIM(vw_empl_rige.nom_empr) AS empresa, tb_carg_clap.subdireccion AS subdireccion,
-        tb_carg_clap.coordinacion AS coordinacion, tb_carg_clap.gestion AS gestion, tb_carg_clap.cargo AS cargo
-        FROM Empleados_Rigel AS vw_empl_rige
-        INNER JOIN  MY_CLAP AS tb_carg_clap ON vw_empl_rige.nom_carg = tb_carg_clap.cargo 
-        AND vw_empl_rige.nom_ccos = tb_carg_clap.nom_ccosto
+        vw_empl_rige.cod_empl AS personalId, vw_empl_rige.direccion AS direccion, TRIM(vw_empl_rige.nom_empr) AS empresa, vw_empl_rige.subdireccion AS subdireccion,
+        vw_empl_rige.coordinacion AS coordinacion, vw_empl_rige.gestion AS gestion, vw_empl_rige.cargo AS cargo
+        FROM Empleados_niveles AS vw_empl_rige
         WHERE vw_empl_rige.ind_acti = 'A'
         
     </select>
